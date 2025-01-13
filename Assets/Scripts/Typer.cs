@@ -6,14 +6,23 @@ public class Typer : MonoBehaviour
 {
     public WordBank wordBank = null;
     public TextMeshProUGUI wordOutput = null;
+    public TextMeshProUGUI outputLine = null;
 
     private string remainingWord = string.Empty;
     private string currentWord = string.Empty;
+    private string currentLine = string.Empty;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         SetCurrentWord();
+        SetCurrentLine();
+    }
+
+    private void SetCurrentLine()
+    {
+        currentLine = wordBank.GetLine();
+        outputLine.text = currentLine;
     }
 
     private void SetCurrentWord()
@@ -55,6 +64,7 @@ public class Typer : MonoBehaviour
             if (IsWordComplete())
             {
                 SetCurrentWord();
+                SetCurrentLine();
             }
         }
     }

@@ -17,7 +17,7 @@ public class WordBank : MonoBehaviour
     };
 
     private Queue<(string word, bool isFirstWord)> wordQueue = new Queue<(string, bool)>();
-    private int currentLineIndex = 0;
+    private int currentLineIndex = -1;
 
     private void Awake()
     {
@@ -43,8 +43,8 @@ public class WordBank : MonoBehaviour
         {
             var (nextWord, isFirstWord) = wordQueue.Dequeue();
 
-            // Update currentLineIndex only when the first word of the next line is dequeued
-            if (isFirstWord && wordQueue.Count > 0)
+            // Increment the line index only if this is the first word of the next line
+            if (isFirstWord)
             {
                 currentLineIndex++;
             }
