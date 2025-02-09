@@ -5,15 +5,11 @@ public class WordBank : MonoBehaviour
 {
     private List<string> originalLines = new List<string>()
     {
-        "Darkness beyond blackest pitch",
-        "Deeper than the deepest night",
-        "Lord as vast as the largest ocean",
-        "Colder than the coldest ice",
-        "King of Darkness who shines like gold upon the Sea of Chaos",
-        "I call upon thee and swear myself to thee",
-        "I stand ready to bear the strength you give me",
-        "Let the fools who stand before me be destroyed",
-        "By the power you and I possess"
+        "witness the cross of the lord flee away ye hostiles",
+        "may thy mercy o lord rest upon us for we have hope",
+        "the lion of the tribe of judah the root of david hath conquered",
+        "we cast you out every unclean spirit every satanic power and onslaught",
+        "cursed dragon we adjure you may the lord be with you and with thy spirit amen"
     };
 
     private Queue<(string word, bool isFirstWord)> wordQueue = new Queue<(string, bool)>();
