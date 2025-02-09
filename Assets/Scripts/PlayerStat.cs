@@ -3,148 +3,78 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PlayerStat : MonoBehaviour
+public class PlayerStats : MonoBehaviour
 {
-    public static PlayerStat playerStat;
+    public static PlayerStats playerStats;
 
-    //public GameObject player;
-    public TextMeshProUGUI zoneText;
-    public Slider zoneSlider;
-    public TextMeshProUGUI healthText;
-    public Slider healthSlider;
+    public GameObject Player;
+    public GameObject PlayerHealthBar;
+    public Slider PlayerHealthSlider;
+    public TextMeshProUGUI HealthText;
 
-    public float zoneValue;
-    public float maxZone;
-    public float healthValue;
+    public TextMeshProUGUI TypingLine;
+
+    public float health;
     public float maxHealth;
-    public float zoneLost;
-    public float healthLost;
-    public float zoneGain;
-    public float healthGain;
 
-    void Awake()
+    private void Awake()
     {
-        if (playerStat != null)
+        if(playerStats != null)
         {
-            Destroy(playerStat);
+            Destroy(playerStats);
         }
         else
         {
-            playerStat = this;
+            playerStats = this;
         }
         DontDestroyOnLoad(this);
     }
 
-    void Start()
+    private void Start()
     {
-        zoneValue = maxZone / 2;
-        zoneSlider.value = 0.5f;
-        zoneText.text = Mathf.Ceil(zoneValue).ToString() + " / " + Mathf.Ceil(maxZone).ToString();
-
-        healthValue = maxHealth;
-        healthSlider.value = 1f;
-        healthText.text = Mathf.Ceil(healthValue).ToString() + " / " + Mathf.Ceil(maxHealth).ToString();
+        health = maxHealth;
+        PlayerHealthSlider.value = CalculateHealthPercentage();
     }
 
-    private void Update() //for testing
+    public void DealDamage(float damage)
     {
-        if (Input.GetMouseButtonDown(0)) { //left click
-            HitEnemy();
-        }
-        else if(Input.GetMouseButtonDown(1)) { //right click
-            BeingDamaged(); 
-        }
+        health -= damage;
+        CheckDeath();
+        PlayerHealthSlider.value = CalculateHealthPercentage();
     }
 
-    public void BeingDamaged()
+    public void HealCharacter(float heal)
     {
-        zoneValue -= zoneLost;
-        SetZoneUI();
-
-        healthValue -= healthLost;
-        SetHealthUI();
+        health += heal;
+        CheckOverheal();
+        PlayerHealthSlider.value = CalculateHealthPercentage();
     }
 
-    public void HitEnemy()
+    private void CheckOverheal()
     {
-        zoneValue += zoneGain;
-        SetZoneUI();
-
-        healthValue += healthGain;
-        SetHealthUI();
-    }
-
-    private void SetZoneUI()
-    {
-        CheckOverZone();
-        UpdateZoneProgress(); //Update color of the zone bar
-        zoneSlider.value = CalculateZonePercentage();
-        zoneText.text = Mathf.Ceil(zoneValue).ToString() + " / " + Mathf.Ceil(maxZone).ToString();
-    }
-
-    private void SetHealthUI()
-    {
-        CheckOverHeal();
-        healthSlider.value = CalculateHealthPercentage();
-        healthText.text = Mathf.Ceil(healthValue).ToString() + " / " + Mathf.Ceil(maxHealth).ToString();
-    }
-
-    private void CheckOverZone()
-    {
-        if(zoneValue > maxZone)
+        if(health > maxHealth)
         {
-            zoneValue = maxZone;
-            zoneSlider.value = 1f;
-        }
-        else if(zoneValue < 0)
-        {
-            zoneValue = 0;
-            zoneSlider.value = 0f;
+            health = maxHealth;
         }
     }
 
-    private void CheckOverHeal()
+    private void CheckDeath()
     {
-        if (healthValue > maxHealth)
+        if(health <= 0)
         {
-            healthValue = maxHealth;
-            healthSlider.value = 1f;
+            if(health < 0)
+            {
+                health = 0;
+            }
+            Destroy(TypingLine.gameObject);
+            Destroy(Player); //dead
         }
-        else if (healthValue < 0)
-        {
-            healthValue = 0;
-            healthSlider.value = 0f;
-        }
-    }
-
-    private void UpdateZoneProgress()
-    {
-        Image fillColor = zoneSlider.fillRect.GetComponent<Image>();
-        if (zoneValue >= 90)
-        {
-            fillColor.color = Color.red;
-        }
-        else if (zoneValue >= 70)
-        {
-            fillColor.color = Color.yellow;
-        }
-        else if (zoneValue >= 30)
-        {
-            fillColor.color = Color.green;
-        }
-        else
-        {
-            fillColor.color = new Color(0, 0, 0.5f);
-        }
-    }
-
-    private float CalculateZonePercentage()
-    {
-        return zoneValue / maxZone;
+        Debug.Log("Current health: " + health);
     }
 
     private float CalculateHealthPercentage()
     {
-        return healthValue / maxHealth;
+        HealthText.text = Mathf.RoundToInt(health) + "/" + Mathf.RoundToInt(maxHealth); //update health text
+        return (health / maxHealth);
     }
 }

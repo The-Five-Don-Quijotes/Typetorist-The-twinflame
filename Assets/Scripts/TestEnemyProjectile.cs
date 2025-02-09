@@ -9,6 +9,10 @@ public class TestEnemyProjectile : MonoBehaviour
     {
         if (!collision.CompareTag("Enemy")) // Avoid destroying when hitting enemies
         {
+            if (collision.CompareTag("Player"))
+            {
+                PlayerStats.playerStats.DealDamage(damage);
+            }
             Destroy(gameObject);
         }
     }

@@ -7,6 +7,8 @@ public class Typer : MonoBehaviour
     public WordBank wordBank = null;
     public TextMeshProUGUI wordOutput = null;
     public TextMeshProUGUI outputLine = null;
+    public GameObject Enemy;
+    public float damage;
 
     private string remainingWord = string.Empty;
     private string currentWord = string.Empty;
@@ -21,8 +23,19 @@ public class Typer : MonoBehaviour
 
     private void SetCurrentLine()
     {
-        currentLine = wordBank.GetLine();
-        outputLine.text = currentLine;
+        string line = wordBank.GetLine();
+        if(line != string.Empty)
+        {
+            if(line.CompareTo(currentLine) != 0 )
+            {
+                currentLine = line;
+                outputLine.text = currentLine;
+                if(Enemy != null && wordBank.currentLineIndex != 0) //if enemy is not death and the line is not the first line
+                {
+                    Enemy.GetComponent<EnemyReceiveDamage>().DealDamage(damage); //deal damage when finish a senetence
+                }
+            }
+        }
     }
 
     private void SetCurrentWord()

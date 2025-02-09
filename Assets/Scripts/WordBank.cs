@@ -13,7 +13,7 @@ public class WordBank : MonoBehaviour
     };
 
     private Queue<(string word, bool isFirstWord)> wordQueue = new Queue<(string, bool)>();
-    private int currentLineIndex = -1;
+    public int currentLineIndex = -1;
 
     private void Awake()
     {
