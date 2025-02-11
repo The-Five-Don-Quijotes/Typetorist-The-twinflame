@@ -10,8 +10,8 @@ public class PlayerStats : MonoBehaviour
     public GameObject Player;
 
     public GameObject Book;
-    public float minRadius; //The radius which the book is dropped
-    public float maxRadius;
+    public float minRadius ; //The radius which the book is dropped
+    public float maxRadius ;
     public TextMeshProUGUI TypingLine;
     public TextMeshProUGUI TypingText;
     private float bookDropTime = -1f;
@@ -93,17 +93,16 @@ public class PlayerStats : MonoBehaviour
 
     private Vector3 GetRandomPositionAroundPlayer()
     {
-        Vector2 randomOffset;
-        do
-        {
-            randomOffset = Random.insideUnitCircle * maxRadius; // Get a random point
-        }
-        while (randomOffset.magnitude < minRadius); // Re-roll if inside minRadius
+        Vector2 randomDirection = Random.insideUnitCircle.normalized; 
+        float randomDistance = Random.Range(minRadius, maxRadius * 1.5f); 
+
+        Vector2 randomOffset = randomDirection * randomDistance;
 
         return new Vector3(Player.transform.position.x + randomOffset.x,
                            Player.transform.position.y,
                            1);
     }
+
 
     public void DisplayHeart()
     {
@@ -130,6 +129,4 @@ public class PlayerStats : MonoBehaviour
             bookDropTime = -1f; // Reset to avoid continuous resetting
         }
     }
-
-
 }
