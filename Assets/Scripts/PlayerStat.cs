@@ -12,7 +12,11 @@ public class PlayerStats : MonoBehaviour
     public Slider PlayerHealthSlider;
     public TextMeshProUGUI HealthText;
 
+    public GameObject Book;
+    public float minRadius; //The radius which the book is dropped
+    public float maxRadius;
     public TextMeshProUGUI TypingLine;
+    public TextMeshProUGUI TypingText;
 
     public float health;
     public float maxHealth;
@@ -38,9 +42,20 @@ public class PlayerStats : MonoBehaviour
 
     public void DealDamage(float damage)
     {
-        health -= damage;
-        CheckDeath();
-        PlayerHealthSlider.value = CalculateHealthPercentage();
+        // Check if a Book instance exists in the scene
+        if (GameObject.FindWithTag("Book") == null) // Check if a book exists
+        {
+            Vector3 spawnPosition = GetRandomPositionAroundPlayer();
+            TypingText.gameObject.SetActive(false); //Hide the Typer when the book is dropped
+            Instantiate(Book, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            // If the Book already exists, deal damage to the player
+            health -= damage;
+            CheckDeath();
+            PlayerHealthSlider.value = CalculateHealthPercentage();
+        }
     }
 
     public void HealCharacter(float heal)
@@ -69,12 +84,29 @@ public class PlayerStats : MonoBehaviour
             Destroy(TypingLine.gameObject);
             Destroy(Player); //dead
         }
-        Debug.Log("Current health: " + health);
     }
 
     private float CalculateHealthPercentage()
     {
         HealthText.text = Mathf.RoundToInt(health) + "/" + Mathf.RoundToInt(maxHealth); //update health text
         return (health / maxHealth);
+    }
+    private Vector3 GetRandomPositionAroundPlayer()
+    {
+        Vector2 randomOffset;
+        do
+        {
+            randomOffset = Random.insideUnitCircle * maxRadius; // Get a random point
+        }
+        while (randomOffset.magnitude < minRadius); // Re-roll if inside minRadius
+
+        return new Vector3(Player.transform.position.x + randomOffset.x,
+                           Player.transform.position.y,
+                           1);
+    }
+
+    public void ShowTyper()
+    {
+        TypingText.gameObject.SetActive(true);
     }
 }

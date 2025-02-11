@@ -7,12 +7,9 @@ public class TestEnemyProjectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Enemy")) // Avoid destroying when hitting enemies
+        if (collision.CompareTag("Player"))
         {
-            if (collision.CompareTag("Player"))
-            {
-                PlayerStats.playerStats.DealDamage(damage);
-            }
+            PlayerStats.playerStats.DealDamage(damage);
             Destroy(gameObject);
         }
     }

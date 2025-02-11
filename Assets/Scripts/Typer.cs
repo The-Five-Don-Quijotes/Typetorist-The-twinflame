@@ -97,4 +97,8 @@ public class Typer : MonoBehaviour
     {
         return remainingWord.Length == 0;
     }
+    public void ResetWord() //reset the current word typing progress
+    {
+        SetRemainingWord(currentWord);
+    }
 }
