@@ -8,9 +8,6 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats playerStats;
 
     public GameObject Player;
-    public GameObject PlayerHealthBar;
-    public Slider PlayerHealthSlider;
-    public TextMeshProUGUI HealthText;
 
     public GameObject Book;
     public float minRadius; //The radius which the book is dropped
@@ -18,8 +15,11 @@ public class PlayerStats : MonoBehaviour
     public TextMeshProUGUI TypingLine;
     public TextMeshProUGUI TypingText;
 
-    public float health;
-    public float maxHealth;
+    public int health;
+    public int maxHealth;
+    public Image[] hearts;
+    public Sprite fullHeart;
+    public Sprite emptyHeart;
 
     private void Awake()
     {
@@ -37,10 +37,10 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         health = maxHealth;
-        PlayerHealthSlider.value = CalculateHealthPercentage();
+        DisplayHeart();
     }
 
-    public void DealDamage(float damage)
+    public void DealDamage(int damage)
     {
         // Check if a Book instance exists in the scene
         if (GameObject.FindWithTag("Book") == null) // Check if a book exists
@@ -54,15 +54,15 @@ public class PlayerStats : MonoBehaviour
             // If the Book already exists, deal damage to the player
             health -= damage;
             CheckDeath();
-            PlayerHealthSlider.value = CalculateHealthPercentage();
+            DisplayHeart();
         }
     }
 
-    public void HealCharacter(float heal)
+    public void HealCharacter(int heal)
     {
         health += heal;
         CheckOverheal();
-        PlayerHealthSlider.value = CalculateHealthPercentage();
+        DisplayHeart();
     }
 
     private void CheckOverheal()
@@ -86,11 +86,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private float CalculateHealthPercentage()
-    {
-        HealthText.text = Mathf.RoundToInt(health) + "/" + Mathf.RoundToInt(maxHealth); //update health text
-        return (health / maxHealth);
-    }
     private Vector3 GetRandomPositionAroundPlayer()
     {
         Vector2 randomOffset;
@@ -103,6 +98,18 @@ public class PlayerStats : MonoBehaviour
         return new Vector3(Player.transform.position.x + randomOffset.x,
                            Player.transform.position.y,
                            1);
+    }
+
+    public void DisplayHeart()
+    {
+        foreach (Image img in hearts)
+        {
+            img.sprite = emptyHeart;
+        }
+        for(int i = 0; i < health; i++)
+        {
+            hearts[i].sprite = fullHeart;
+        }
     }
 
     public void ShowTyper()

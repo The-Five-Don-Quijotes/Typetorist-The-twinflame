@@ -6,8 +6,8 @@ public class EnemyShooting : MonoBehaviour
 {
     public GameObject projectile;
     public Transform player;
-    public float minDamage;
-    public float maxDamage;
+    public int minDamage;
+    public int maxDamage;
     public float projectileForce;
     public float cooldown;
 
