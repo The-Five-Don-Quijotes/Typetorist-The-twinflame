@@ -14,6 +14,9 @@ public class PlayerStats : MonoBehaviour
     public float maxRadius;
     public TextMeshProUGUI TypingLine;
     public TextMeshProUGUI TypingText;
+    private float bookDropTime = -1f;
+    public float TimeToRecollect = 5f;
+    public Typer typer;
 
     public int health;
     public int maxHealth;
@@ -36,6 +39,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
+        typer = FindFirstObjectByType<Typer>();
         health = maxHealth;
         DisplayHeart();
     }
@@ -48,6 +52,7 @@ public class PlayerStats : MonoBehaviour
             Vector3 spawnPosition = GetRandomPositionAroundPlayer();
             TypingText.gameObject.SetActive(false); //Hide the Typer when the book is dropped
             Instantiate(Book, spawnPosition, Quaternion.identity);
+            bookDropTime = Time.time;
         }
         else
         {
@@ -116,4 +121,15 @@ public class PlayerStats : MonoBehaviour
     {
         TypingText.gameObject.SetActive(true);
     }
+
+    private void Update()
+    {
+        if (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect)
+        {
+            typer.ResetLine();
+            bookDropTime = -1f; // Reset to avoid continuous resetting
+        }
+    }
+
+
 }

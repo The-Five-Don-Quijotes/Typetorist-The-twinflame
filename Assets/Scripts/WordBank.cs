@@ -22,6 +22,7 @@ public class WordBank : MonoBehaviour
 
     private void PopulateWordQueue()
     {
+        wordQueue.Clear();
         foreach (string line in originalLines)
         {
             string[] words = line.Split(' '); // Split the line into words
@@ -66,4 +67,33 @@ public class WordBank : MonoBehaviour
         Debug.LogWarning("No more lines available.");
         return string.Empty;
     }
+
+    public void ResetToFirstWordOfCurrentLine()
+    {
+        if (currentLineIndex >= 0 && currentLineIndex < originalLines.Count)
+        {
+            Queue<(string word, bool isFirstWord)> newQueue = new Queue<(string, bool)>();
+            string currentLine = originalLines[currentLineIndex];
+            string[] words = currentLine.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                newQueue.Enqueue((words[i].ToLower(), false));
+            }
+            for (int i = currentLineIndex + 1; i < originalLines.Count; i++)
+            {
+                string[] lineWords = originalLines[i].Split(' ');
+                for (int j = 0; j < lineWords.Length; j++)
+                {
+                    newQueue.Enqueue((lineWords[j].ToLower(), j == 0));
+                }
+            }
+            wordQueue = newQueue;
+            Debug.Log("Reset to first word of current line: " + currentLine);
+        }
+        else
+        {
+            Debug.LogWarning("Cannot reset: currentLineIndex is invalid.");
+        }
+    }
+
 }
