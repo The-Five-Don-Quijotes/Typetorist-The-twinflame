@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerStats : MonoBehaviour
     private float bookDropTime = -1f;
     public float TimeToRecollect = 5f;
     public Typer typer;
+    private Vector3 respawnPosition;
 
     public int health;
     public int maxHealth;
@@ -58,6 +60,12 @@ public class PlayerStats : MonoBehaviour
         {
             // If the Book already exists, deal damage to the player
             health -= damage;
+            if (health > 0)
+            {
+                respawnPosition = transform.position;
+                Player.gameObject.SetActive(false);
+                Invoke("Respawn", 0.5f);
+            }
             CheckDeath();
             DisplayHeart();
         }
@@ -89,6 +97,22 @@ public class PlayerStats : MonoBehaviour
             Destroy(TypingLine.gameObject);
             Destroy(Player); //dead
         }
+    }
+
+    private void Respawn()
+    {
+        // Reactivate the player
+        Player.gameObject.SetActive(true);
+
+        // Make the player temporarily invulnerable
+        StartCoroutine(TemporaryInvulnerability(5f));
+    }
+
+    private IEnumerator TemporaryInvulnerability(float duration)
+    {
+        Player.GetComponent<Collider2D>().enabled = false;
+        yield return new WaitForSeconds(duration);
+        Player.GetComponent<Collider2D>().enabled = true;
     }
 
     private Vector3 GetRandomPositionAroundPlayer()
