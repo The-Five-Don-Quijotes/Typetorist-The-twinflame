@@ -3,7 +3,14 @@ guid: 96db2b5905fe6e644960cd815a94ae2e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Player: {instanceID: 0}
+  - Book: {instanceID: 0}
+  - TypingLine: {instanceID: 0}
+  - TypingText: {instanceID: 0}
+  - typer: {instanceID: 0}
+  - fullHeart: {instanceID: 0}
+  - emptyHeart: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

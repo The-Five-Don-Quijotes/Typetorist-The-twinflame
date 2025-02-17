@@ -1465,6 +1465,8 @@ MonoBehaviour:
   maxRadius: 3
   TypingLine: {fileID: 228019068}
   TypingText: {fileID: 716984811}
+  TimeToRecollect: 5
+  typer: {fileID: 0}
   health: 3
   maxHealth: 3
   hearts:
