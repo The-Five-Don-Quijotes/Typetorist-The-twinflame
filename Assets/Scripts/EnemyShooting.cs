@@ -26,6 +26,11 @@ public class EnemyShooting : MonoBehaviour
             Vector2 targetPos = player.position;
             Vector2 direction = (targetPos - myPos).normalized;
             spell.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileForce;
+
+            // Rotate the bullet to face the direction it's moving
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180;
+            spell.transform.rotation = Quaternion.Euler(0, 0, angle);
+
             spell.GetComponent<TestEnemyProjectile>().damage = Random.Range(minDamage, maxDamage);
             StartCoroutine(ShootPlayer());
         }
