@@ -20,6 +20,7 @@ public class EnemyShooting : MonoBehaviour
 
     IEnumerator ShootPlayer()
     {
+        //animator.ResetTrigger("Attack");
         yield return new WaitForSeconds(cooldown);
         // Flip the enemy to face the player
         if (player.position.x > transform.position.x)
