@@ -8,16 +8,19 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     public GameObject bossHealthBar;
     public Slider healthSlider;
+    private Animator animator;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         bossHealthBar.SetActive(true);
         health = maxHealth;
         healthSlider.value = CalculateHealthPercentage();
     }
 
     public void DealDamage(float damage)
-    {   
+    {
+        animator.SetTrigger("isHurt");
         health -= damage;
         CheckDeath();
         healthSlider.value = CalculateHealthPercentage();
@@ -43,6 +46,7 @@ public class EnemyReceiveDamage : MonoBehaviour
     {
         if(health <= 0)
         {
+            animator.SetTrigger("isDeath");
             Destroy(gameObject);
             bossHealthBar.SetActive(false); //hide health bar when death
         }

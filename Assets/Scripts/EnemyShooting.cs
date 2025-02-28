@@ -10,17 +10,31 @@ public class EnemyShooting : MonoBehaviour
     public int maxDamage;
     public float projectileForce;
     public float cooldown;
+    private Animator animator;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         StartCoroutine(ShootPlayer());
     }
 
     IEnumerator ShootPlayer()
     {
         yield return new WaitForSeconds(cooldown);
+        // Flip the enemy to face the player
+        if (player.position.x > transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
         if (player != null) 
         {
+            // Play the attack animation
+            animator.SetTrigger("Attack");
+
             GameObject spell = Instantiate(projectile, transform.position, Quaternion.identity);
             Vector2 myPos = transform.position;
             Vector2 targetPos = player.position;
