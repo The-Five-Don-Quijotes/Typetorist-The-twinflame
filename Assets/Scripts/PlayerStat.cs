@@ -53,8 +53,8 @@ public class PlayerStats : MonoBehaviour
         {
             Vector3 spawnPosition = GetRandomPositionAroundPlayer();
             TypingText.gameObject.SetActive(false); //Hide the Typer when the book is dropped
-            Instantiate(Book, spawnPosition, Quaternion.identity);
             bookDropTime = Time.time;
+            Instantiate(Book, spawnPosition, Quaternion.identity);
         }
         else
         {
@@ -165,7 +165,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        if (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect)
+        if (GameObject.FindWithTag("Book") != null && (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect))
         {
             typer.ResetLine();
             bookDropTime = -1f; // Reset to avoid continuous resetting
