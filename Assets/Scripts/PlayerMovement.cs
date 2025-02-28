@@ -1,21 +1,29 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float dashRange;
     public float speed;
+    public float dashDuration = 0.2f; 
     private Vector2 direction;
     private Animator animator;
+    private bool isDashing;
+    private Collider2D playerCollider;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        playerCollider = GetComponent<Collider2D>();
     }
 
     void Update()
     {
-        TakeInput();
-        Move();
+        if (!isDashing) 
+        {
+            TakeInput();
+            Move();
+        }
     }
 
     private void Move()
@@ -45,15 +53,37 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
             direction += Vector2.right;
 
-        // Normalize direction to maintain uniform speed in diagonal movement
         if (direction.magnitude > 1)
             direction = direction.normalized;
 
         // Handle Dash
-        if (Input.GetKeyDown(KeyCode.Space) && direction != Vector2.zero)
+        if (Input.GetKeyDown(KeyCode.Space) && direction != Vector2.zero && !isDashing)
         {
-            transform.Translate(direction * dashRange);
+            StartCoroutine(Dash());
         }
+    }
+
+    private IEnumerator Dash()
+    {
+        isDashing = true;
+        playerCollider.enabled = false; 
+        animator.SetBool("isDashing", true); 
+
+        Vector3 dashTarget = transform.position + (Vector3)(direction * dashRange);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < dashDuration)
+        {
+            transform.position = Vector3.Lerp(transform.position, dashTarget, elapsedTime / dashDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = dashTarget; 
+        animator.SetBool("isDashing", false); 
+        playerCollider.enabled = true; 
+
+        isDashing = false;
     }
 
     private void SetAnimatorMovement(Vector2 direction)
