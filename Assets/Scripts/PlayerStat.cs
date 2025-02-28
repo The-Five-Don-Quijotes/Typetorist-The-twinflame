@@ -25,6 +25,7 @@ public class PlayerStats : MonoBehaviour
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -44,6 +45,7 @@ public class PlayerStats : MonoBehaviour
         typer = FindFirstObjectByType<Typer>();
         health = maxHealth;
         DisplayHeart();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void DealDamage(int damage)
@@ -94,6 +96,7 @@ public class PlayerStats : MonoBehaviour
             {
                 health = 0;
             }
+            audioSource.Play();
             Destroy(TypingLine.gameObject);
             Destroy(Player); //dead
         }
