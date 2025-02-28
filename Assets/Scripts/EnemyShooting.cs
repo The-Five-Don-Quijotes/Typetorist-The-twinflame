@@ -20,7 +20,6 @@ public class EnemyShooting : MonoBehaviour
 
     IEnumerator ShootPlayer()
     {
-        //animator.ResetTrigger("Attack");
         yield return new WaitForSeconds(cooldown);
         // Flip the enemy to face the player
         if (player.position.x > transform.position.x)
@@ -47,7 +46,10 @@ public class EnemyShooting : MonoBehaviour
             spell.transform.rotation = Quaternion.Euler(0, 0, angle);
 
             spell.GetComponent<TestEnemyProjectile>().damage = Random.Range(minDamage, maxDamage);
-            StartCoroutine(ShootPlayer());
+            if (!animator.GetBool("isDeath"))
+            {
+                StartCoroutine(ShootPlayer()); // Stop the coroutine if isDeath is triggered
+            }
         }
     }
 }

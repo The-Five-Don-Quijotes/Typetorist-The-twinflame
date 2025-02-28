@@ -912,7 +912,7 @@ MonoBehaviour:
   wordOutput: {fileID: 716984811}
   outputLine: {fileID: 228019068}
   Enemy: {fileID: 4070568224111047370}
-  damage: 50
+  damage: 100
 --- !u!114 &664790459 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9052353282091294800, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
@@ -2154,7 +2154,7 @@ PrefabInstance:
     - target: {fileID: 7022600115579415181, guid: 64f14366ca72b044eb1c46f92aa593e8, type: 3}
       propertyPath: deathSound
       value: 
-      objectReference: {fileID: 8300000, guid: aafede287e1f965498185dbd73cacf83, type: 3}
+      objectReference: {fileID: 8300000, guid: ecba8293758642745866eb144fe217d9, type: 3}
     - target: {fileID: 7022600115579415181, guid: 64f14366ca72b044eb1c46f92aa593e8, type: 3}
       propertyPath: healthSlider
       value: 
