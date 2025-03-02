@@ -21,35 +21,42 @@ public class EnemyShooting : MonoBehaviour
     IEnumerator ShootPlayer()
     {
         yield return new WaitForSeconds(cooldown);
-        // Flip the enemy to face the player
-        if (player.position.x > transform.position.x)
+        if (GetComponent<EnemyReceiveDamage>().health <= GetComponent<EnemyReceiveDamage>().maxHealth / 2)
         {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
+            yield break;
         }
         else
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
-        if (player != null) 
-        {
-            // Play the attack animation
-            animator.SetTrigger("Attack");
-
-            GameObject spell = Instantiate(projectile, transform.position, Quaternion.identity);
-            Vector2 myPos = transform.position;
-            Vector2 targetPos = player.position;
-            Vector2 direction = (targetPos - myPos).normalized;
-            spell.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileForce;
-
-            // Rotate the bullet to face the direction it's moving
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180;
-            spell.transform.rotation = Quaternion.Euler(0, 0, angle);
-
-            spell.GetComponent<TestEnemyProjectile>().damage = Random.Range(minDamage, maxDamage);
-            if (!animator.GetBool("isDeath"))
+            // Flip the enemy to face the player
+            if (player.position.x > transform.position.x)
             {
-                StartCoroutine(ShootPlayer()); // Stop the coroutine if isDeath is triggered
+                transform.rotation = Quaternion.Euler(0, 180, 0);
             }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            if (player != null)
+            {
+                // Play the attack animation
+                animator.SetTrigger("Attack");
+
+                GameObject spell = Instantiate(projectile, transform.position, Quaternion.identity);
+                Vector2 myPos = transform.position;
+                Vector2 targetPos = player.position;
+                Vector2 direction = (targetPos - myPos).normalized;
+                spell.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileForce;
+
+                // Rotate the bullet to face the direction it's moving
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180;
+                spell.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+                spell.GetComponent<TestEnemyProjectile>().damage = Random.Range(minDamage, maxDamage);
+            }
+        }
+        if (!animator.GetBool("isDeath"))
+        {
+            StartCoroutine(ShootPlayer()); // Stop the coroutine if isDeath is triggered
         }
     }
 }

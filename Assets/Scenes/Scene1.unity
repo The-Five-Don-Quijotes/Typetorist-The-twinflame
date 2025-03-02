@@ -912,7 +912,7 @@ MonoBehaviour:
   wordOutput: {fileID: 716984811}
   outputLine: {fileID: 228019068}
   Enemy: {fileID: 4070568224111047370}
-  damage: 100
+  damage: 50
 --- !u!114 &664790459 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9052353282091294800, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
@@ -2148,6 +2148,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5266765307575802516, guid: ecca132157974cf499d95387e4c2cc09, type: 3}
     - target: {fileID: 7022600115579415181, guid: 64f14366ca72b044eb1c46f92aa593e8, type: 3}
+      propertyPath: health
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7022600115579415181, guid: 64f14366ca72b044eb1c46f92aa593e8, type: 3}
       propertyPath: hurtSound
       value: 
       objectReference: {fileID: 8300000, guid: 9d2848f3a956bb842910a53f209664e2, type: 3}
@@ -2163,6 +2167,10 @@ PrefabInstance:
       propertyPath: bossHealthBar
       value: 
       objectReference: {fileID: 1073092676}
+    - target: {fileID: 7022600115579415181, guid: 64f14366ca72b044eb1c46f92aa593e8, type: 3}
+      propertyPath: phase2ShootingDuration
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

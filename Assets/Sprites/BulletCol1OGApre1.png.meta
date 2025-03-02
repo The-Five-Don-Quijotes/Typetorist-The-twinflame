@@ -1,0 +1,1508 @@
+fileFormatVersion: 2
+guid: 8e7e318227e95b44bbccc8c38795496e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3418459172328701245
+    second: BulletCol1OGApre1_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 153
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04a43257102dc7c4db19c4b8b833aaa3
+      internalID: 243114043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_1
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 152
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3de242ac2a2fa04fa36db6332ef8fb6
+      internalID: -561002469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_2
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 152
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58577a911872cd241bf703ecebd25cb9
+      internalID: 1250367619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_3
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 152
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e297ca3d576f39647b5422baf6459d8b
+      internalID: -1533277857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_4
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 152
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ffd482e4a21c854ea0a8bbe899ec0c6
+      internalID: 260442481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_5
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 136
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e194ed8d1946adf46a99f21de8f410fc
+      internalID: -1448443737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_17
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 136
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51d9f093f1e60554ea56695123f7c1cb
+      internalID: -363464054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_18
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 136
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 073616715ee076647870383444c53e45
+      internalID: 1970606874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_19
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 120
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea840c91f55ab36468d29ef6ae66fcb0
+      internalID: 1793952573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_21
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 120
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c37791c6c0f35384aa969f309d1908f7
+      internalID: 1092661371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_22
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 120
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64a188e2c0999c94b818e5da1832bb4d
+      internalID: -1197033252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_34
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 120
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 024f45f9f9ea7c34aa89a55ba9bfecd3
+      internalID: 1501742431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_35
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 120
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc617cf7418978f44a9a1b2db093055c
+      internalID: 1436495698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_36
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 153
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb8713508c4b130418ffabeb1ded4be1
+      internalID: -448325485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_37
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 120
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6406ebe662da56b4b8eb6da04cee20cf
+      internalID: -1486263965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_38
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 79
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de27ed5f52bea744f97005ba983bdcd2
+      internalID: -1480032562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_41
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 136
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72681ee0e22a02745833c26703a86d8f
+      internalID: -1923624844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_60
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 79
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45a1749b205d21e4f9ff5bc5df86b4b6
+      internalID: 267583648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_61
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 79
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0b56e365d8dbd34683d869ec3bd8c5b
+      internalID: -867905739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_62
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 79
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb50797869d0bb5418d853c8091b85f0
+      internalID: 747903956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_63
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 42
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a03f53bd7b7bcdc47937540867b2fd89
+      internalID: 838780440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_64
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 42
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 062659d7995a20849a101a2d34888c68
+      internalID: 135629279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_65
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 18
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b1dad93911287346964e7a8b2ba5ba0
+      internalID: -984444377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_77
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 18
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 721eaba9ce5b7ad4bb0ebf259e9b7dfe
+      internalID: -1837751111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_78
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 18
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f05142601e3d514b924734c41c1ed17
+      internalID: 41912387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_79
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 18
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78311b2fd7d7efe448f17361184f6321
+      internalID: -1835107101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_80
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 20
+        width: 17
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94437146b73540e488d43cabe732b823
+      internalID: 755511576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_81
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 152
+        width: 19
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84746b3780ae119418eac72ea3c3e5a6
+      internalID: 859818903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_82
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 153
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a13ffcfaffa5945b934411d55e8874
+      internalID: -1900347068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_94
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 133
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23aac4a624ef988418a4fac15f0f2377
+      internalID: 2043247584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_95
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 117
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a130c6edf7543854e9153d4e726b5e24
+      internalID: -1608707380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_96
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 91
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c5defef7a7237a439539e539d5356c6
+      internalID: -880503525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_97
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 133
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91e8ef587ef6a6f42ba1d10b9936133b
+      internalID: 311347953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_98
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 153
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4b94d75091402746af1e97c1d81173c
+      internalID: -341783050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_99
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 153
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a99c885b72f038346a5badf329ccfd7f
+      internalID: 1163979897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_111
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 133
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76932a1ee4ed5184a8ac65951633d760
+      internalID: 1183115998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_112
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 133
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a19ca9074d69fb4a96790ca784cef0b
+      internalID: -500932768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_113
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 117
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cee655e4167f7749b69edd42aed6db2
+      internalID: 2131641107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_114
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 90
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d6e80cfb2b8e1c46813cc94d3062ea4
+      internalID: -220940136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_115
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 92
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f967a66939290847a89d30727f9ee8d
+      internalID: -1480697872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_116
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 91
+        width: 17
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97a9ca09e93b6284ea206d1fa6535391
+      internalID: 950689399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_128
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 116
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc7b6218a93228c4a95493c7bc39d3bc
+      internalID: -696548830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_129
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 117
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e533f730fba9e544872f6b6c9bb020d
+      internalID: -985199162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_130
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 92
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ff673ebbece8d04f9e6f3e9df00fb01
+      internalID: -408138499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_131
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 71
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6aa93261a9fe2d145b757df647a66d2e
+      internalID: 1584401257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_132
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 70
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54abee14ba95c80408a56dde6d2a27e9
+      internalID: 297829228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_133
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 71
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fe136d19d958f841adb03704af47ad4
+      internalID: 271997617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_144
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 79
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8aeec2ffcaea3548b3a90b6e5631697
+      internalID: 725355968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_145
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 153
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d03f24255a2540e42a7e83675edb010b
+      internalID: -1222863293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_146
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 134
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f89c24522e02a6444815bb0f3fa1af4a
+      internalID: -1985373978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_147
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 117
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dc2f746791a2ac4893b7e91d12060cc
+      internalID: -1898243751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_148
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 31
+        width: 41
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06e4021a2791c46439cbc4b85c23755d
+      internalID: 160698848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_149
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 72
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2af7083660d4b9c44b7e5abdbd423940
+      internalID: -380723069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BulletCol1OGApre1_150
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 71
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4452a6a1769d3a64cab7ecda1889f0fb
+      internalID: 1962765854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 49909f873f1548a49aef128f32927887
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      BulletCol1OGApre1_0: 243114043
+      BulletCol1OGApre1_1: -561002469
+      BulletCol1OGApre1_10: -1216731016
+      BulletCol1OGApre1_100: 1443801874
+      BulletCol1OGApre1_101: 1942148663
+      BulletCol1OGApre1_102: 1445278377
+      BulletCol1OGApre1_103: 1040542482
+      BulletCol1OGApre1_104: -1806851990
+      BulletCol1OGApre1_105: -752651512
+      BulletCol1OGApre1_106: 1082733647
+      BulletCol1OGApre1_107: -35076511
+      BulletCol1OGApre1_108: 167293054
+      BulletCol1OGApre1_109: -10105775
+      BulletCol1OGApre1_11: -1270308281
+      BulletCol1OGApre1_110: 1677864067
+      BulletCol1OGApre1_111: 1183115998
+      BulletCol1OGApre1_112: -500932768
+      BulletCol1OGApre1_113: 2131641107
+      BulletCol1OGApre1_114: -220940136
+      BulletCol1OGApre1_115: -1480697872
+      BulletCol1OGApre1_116: 950689399
+      BulletCol1OGApre1_117: -554020765
+      BulletCol1OGApre1_118: -1392926625
+      BulletCol1OGApre1_119: -998921554
+      BulletCol1OGApre1_12: 660690144
+      BulletCol1OGApre1_120: -826611961
+      BulletCol1OGApre1_121: -1976176633
+      BulletCol1OGApre1_122: 372371786
+      BulletCol1OGApre1_123: 608347896
+      BulletCol1OGApre1_124: -365590531
+      BulletCol1OGApre1_125: 1081910297
+      BulletCol1OGApre1_126: -1836543606
+      BulletCol1OGApre1_127: 1133439899
+      BulletCol1OGApre1_128: -696548830
+      BulletCol1OGApre1_129: -985199162
+      BulletCol1OGApre1_13: -2123821457
+      BulletCol1OGApre1_130: -408138499
+      BulletCol1OGApre1_131: 1584401257
+      BulletCol1OGApre1_132: 297829228
+      BulletCol1OGApre1_133: 271997617
+      BulletCol1OGApre1_134: -1000602940
+      BulletCol1OGApre1_135: 1624007989
+      BulletCol1OGApre1_136: -1773614824
+      BulletCol1OGApre1_137: -752146473
+      BulletCol1OGApre1_138: -62491599
+      BulletCol1OGApre1_139: -404540311
+      BulletCol1OGApre1_14: -288593939
+      BulletCol1OGApre1_140: -954856959
+      BulletCol1OGApre1_141: 2007638131
+      BulletCol1OGApre1_142: -1041980456
+      BulletCol1OGApre1_143: -815485811
+      BulletCol1OGApre1_144: 725355968
+      BulletCol1OGApre1_145: -1222863293
+      BulletCol1OGApre1_146: -1985373978
+      BulletCol1OGApre1_147: -1898243751
+      BulletCol1OGApre1_148: 160698848
+      BulletCol1OGApre1_149: -380723069
+      BulletCol1OGApre1_15: 2061784519
+      BulletCol1OGApre1_150: 1962765854
+      BulletCol1OGApre1_151: -1896817231
+      BulletCol1OGApre1_152: -1640419427
+      BulletCol1OGApre1_153: -1995057177
+      BulletCol1OGApre1_154: 1274977784
+      BulletCol1OGApre1_155: 1348866656
+      BulletCol1OGApre1_156: 1359765171
+      BulletCol1OGApre1_157: 483568631
+      BulletCol1OGApre1_158: -110258296
+      BulletCol1OGApre1_159: 720372055
+      BulletCol1OGApre1_16: -1188185100
+      BulletCol1OGApre1_160: -398064006
+      BulletCol1OGApre1_161: 1811797422
+      BulletCol1OGApre1_162: -1526390706
+      BulletCol1OGApre1_163: -1406906226
+      BulletCol1OGApre1_164: 973363640
+      BulletCol1OGApre1_165: -148355440
+      BulletCol1OGApre1_166: 1080523099
+      BulletCol1OGApre1_167: 1065049126
+      BulletCol1OGApre1_168: -1419886244
+      BulletCol1OGApre1_169: 1386598171
+      BulletCol1OGApre1_17: -363464054
+      BulletCol1OGApre1_170: -1259279271
+      BulletCol1OGApre1_171: -1413352261
+      BulletCol1OGApre1_172: -691778922
+      BulletCol1OGApre1_173: -419616935
+      BulletCol1OGApre1_174: -1908950851
+      BulletCol1OGApre1_175: 2042129591
+      BulletCol1OGApre1_176: 1088173658
+      BulletCol1OGApre1_177: -2083085615
+      BulletCol1OGApre1_178: -1142529157
+      BulletCol1OGApre1_179: -1236603161
+      BulletCol1OGApre1_18: 1970606874
+      BulletCol1OGApre1_180: 1522871857
+      BulletCol1OGApre1_181: -1438457993
+      BulletCol1OGApre1_182: -752146911
+      BulletCol1OGApre1_183: -1742617202
+      BulletCol1OGApre1_184: -792157018
+      BulletCol1OGApre1_185: -468019164
+      BulletCol1OGApre1_186: -140488315
+      BulletCol1OGApre1_19: 1793952573
+      BulletCol1OGApre1_2: 1250367619
+      BulletCol1OGApre1_20: 1447248951
+      BulletCol1OGApre1_21: 1092661371
+      BulletCol1OGApre1_22: -1197033252
+      BulletCol1OGApre1_23: 216296817
+      BulletCol1OGApre1_24: 1803451411
+      BulletCol1OGApre1_25: 35161467
+      BulletCol1OGApre1_26: 273856528
+      BulletCol1OGApre1_27: -1138174666
+      BulletCol1OGApre1_28: -1801272594
+      BulletCol1OGApre1_29: -876434633
+      BulletCol1OGApre1_3: -1533277857
+      BulletCol1OGApre1_30: -1212361910
+      BulletCol1OGApre1_31: -549833759
+      BulletCol1OGApre1_32: -849459142
+      BulletCol1OGApre1_33: 1377330279
+      BulletCol1OGApre1_34: 1501742431
+      BulletCol1OGApre1_35: 1436495698
+      BulletCol1OGApre1_36: -448325485
+      BulletCol1OGApre1_37: -1486263965
+      BulletCol1OGApre1_38: -1480032562
+      BulletCol1OGApre1_39: -820436197
+      BulletCol1OGApre1_4: 260442481
+      BulletCol1OGApre1_40: 1949904094
+      BulletCol1OGApre1_41: -1923624844
+      BulletCol1OGApre1_42: -618227765
+      BulletCol1OGApre1_43: 1304512065
+      BulletCol1OGApre1_44: -1454534744
+      BulletCol1OGApre1_45: 382291724
+      BulletCol1OGApre1_46: -641001279
+      BulletCol1OGApre1_47: -709898481
+      BulletCol1OGApre1_48: 795158179
+      BulletCol1OGApre1_49: -1012591782
+      BulletCol1OGApre1_5: -1448443737
+      BulletCol1OGApre1_50: -290348846
+      BulletCol1OGApre1_51: 1722357430
+      BulletCol1OGApre1_52: 39766885
+      BulletCol1OGApre1_53: 1097365165
+      BulletCol1OGApre1_54: -417804954
+      BulletCol1OGApre1_55: -1132967060
+      BulletCol1OGApre1_56: 1216383097
+      BulletCol1OGApre1_57: -276789655
+      BulletCol1OGApre1_58: -966627202
+      BulletCol1OGApre1_59: 132908474
+      BulletCol1OGApre1_6: -243535048
+      BulletCol1OGApre1_60: 267583648
+      BulletCol1OGApre1_61: -867905739
+      BulletCol1OGApre1_62: 747903956
+      BulletCol1OGApre1_63: 838780440
+      BulletCol1OGApre1_64: 135629279
+      BulletCol1OGApre1_65: -984444377
+      BulletCol1OGApre1_66: -251912392
+      BulletCol1OGApre1_67: -2044244003
+      BulletCol1OGApre1_68: 942612531
+      BulletCol1OGApre1_69: -596532654
+      BulletCol1OGApre1_7: 2009560107
+      BulletCol1OGApre1_70: -719534946
+      BulletCol1OGApre1_71: -1837094861
+      BulletCol1OGApre1_72: 1385128671
+      BulletCol1OGApre1_73: 617804401
+      BulletCol1OGApre1_74: -247053581
+      BulletCol1OGApre1_75: 646562168
+      BulletCol1OGApre1_76: 432808178
+      BulletCol1OGApre1_77: -1837751111
+      BulletCol1OGApre1_78: 41912387
+      BulletCol1OGApre1_79: -1835107101
+      BulletCol1OGApre1_8: 337987171
+      BulletCol1OGApre1_80: 755511576
+      BulletCol1OGApre1_81: 859818903
+      BulletCol1OGApre1_82: -1900347068
+      BulletCol1OGApre1_83: 469612423
+      BulletCol1OGApre1_84: 1450570707
+      BulletCol1OGApre1_85: -894040363
+      BulletCol1OGApre1_86: 1163947238
+      BulletCol1OGApre1_87: -2075000926
+      BulletCol1OGApre1_88: -1604921125
+      BulletCol1OGApre1_89: 1659234147
+      BulletCol1OGApre1_9: -920530491
+      BulletCol1OGApre1_90: -452442066
+      BulletCol1OGApre1_91: 1548826090
+      BulletCol1OGApre1_92: -1955017444
+      BulletCol1OGApre1_93: -202738395
+      BulletCol1OGApre1_94: 2043247584
+      BulletCol1OGApre1_95: -1608707380
+      BulletCol1OGApre1_96: -880503525
+      BulletCol1OGApre1_97: 311347953
+      BulletCol1OGApre1_98: -341783050
+      BulletCol1OGApre1_99: 1163979897
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

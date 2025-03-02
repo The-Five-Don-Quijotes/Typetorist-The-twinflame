@@ -14,6 +14,7 @@ public class EnemyReceiveDamage : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip hurtSound;
     public AudioClip deathSound;
+    public float phase2ShootingDuration;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -29,6 +30,10 @@ public class EnemyReceiveDamage : MonoBehaviour
         audioSource.PlayOneShot(hurtSound);
         health -= damage;
         CheckDeath();
+        if (!animator.GetBool("isShooting"))
+        {
+            CheckHalfHealth();
+        }
         healthSlider.value = CalculateHealthPercentage();
     }
 
@@ -63,6 +68,28 @@ public class EnemyReceiveDamage : MonoBehaviour
     {
         yield return new WaitForSeconds(6); // Wait for the death animation to finish
         Destroy(gameObject);
+    }
+
+    private void CheckHalfHealth()
+    {
+        if (health <= maxHealth / 2)
+        {
+            StartShooting();
+        }
+    }
+
+    void StartShooting()
+    {
+        animator.SetTrigger("StartShooting");
+        animator.SetBool("isShooting", true);
+
+        // Stay in shooting for x seconds, then go back to idle
+        Invoke(nameof(StopShooting), phase2ShootingDuration);
+    }
+
+    void StopShooting()
+    {
+        animator.SetBool("isShooting", false);
     }
 
     private float CalculateHealthPercentage()
