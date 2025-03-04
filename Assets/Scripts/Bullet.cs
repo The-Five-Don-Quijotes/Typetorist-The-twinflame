@@ -5,19 +5,23 @@ public class Bullet : MonoBehaviour
     public float bulletLife;
     public float rotation;
     public float speed;
+    public float waveAmplitude = 1f; // How big the wave is
+    public float waveFrequency = 1f; // How fast the wave oscillates
+
+    private enum MovementType { Straight, SineWave, CosineWave }
+    [SerializeField] private MovementType movementType;
 
     private Vector2 spawnPoint;
     private float timer;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         spawnPoint = new Vector2(transform.position.x, transform.position.y);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(timer > bulletLife)
+        if (timer > bulletLife)
         {
             Destroy(gameObject);
         }
@@ -29,6 +33,17 @@ public class Bullet : MonoBehaviour
     {
         float x = timer * speed * transform.right.x;
         float y = timer * speed * transform.right.y;
+
+        switch (movementType)
+        {
+            case MovementType.SineWave:
+                y += Mathf.Sin(timer * waveFrequency) * waveAmplitude;
+                break;
+            case MovementType.CosineWave:
+                y += Mathf.Cos(timer * waveFrequency) * waveAmplitude;
+                break;
+        }
+
         return new Vector2(x + spawnPoint.x, y + spawnPoint.y);
     }
 }

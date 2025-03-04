@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyShooting : MonoBehaviour
 {
+    public GameObject bulletA; // Sine wave bullet
+    public GameObject bulletB; // Cosine wave bullet
     public GameObject projectile;
     public Transform player;
     public int minDamage;
@@ -16,16 +18,13 @@ public class EnemyShooting : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         StartCoroutine(ShootPlayer());
+        StartCoroutine(Phase2ShootPlayer());
     }
 
     IEnumerator ShootPlayer()
     {
         yield return new WaitForSeconds(cooldown);
-        if (GetComponent<EnemyReceiveDamage>().health <= GetComponent<EnemyReceiveDamage>().maxHealth / 2)
-        {
-            yield break;
-        }
-        else
+        if (GetComponent<EnemyReceiveDamage>().health > GetComponent<EnemyReceiveDamage>().maxHealth / 2)
         {
             // Flip the enemy to face the player
             if (player.position.x > transform.position.x)
@@ -58,5 +57,52 @@ public class EnemyShooting : MonoBehaviour
         {
             StartCoroutine(ShootPlayer()); // Stop the coroutine if isDeath is triggered
         }
+    }
+
+    IEnumerator Phase2ShootPlayer()
+    {
+        yield return new WaitForSeconds(cooldown);
+
+        if (GetComponent<EnemyReceiveDamage>().health <= GetComponent<EnemyReceiveDamage>().maxHealth / 2)
+        {
+            // Face the player
+            if (player.position.x > transform.position.x)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+
+            if (player != null)
+            {
+                // Shoot Bullet A (Sine wave)
+                GameObject spellA = Instantiate(bulletA, transform.position, Quaternion.identity);
+                SetupBullet(spellA, player.position, projectileForce, true);
+
+                // Shoot Bullet B (Cosine wave)
+                GameObject spellB = Instantiate(bulletB, transform.position, Quaternion.identity);
+                SetupBullet(spellB, player.position, projectileForce, false);
+            }
+        }
+
+        if (!animator.GetBool("isDeath"))
+        {
+            StartCoroutine(Phase2ShootPlayer());
+        }
+    }
+
+    void SetupBullet(GameObject bullet, Vector2 targetPos, float force, bool isSineWave)
+    {
+        Vector2 myPos = transform.position;
+        Vector2 direction = (targetPos - myPos).normalized;
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * force;
+
+        BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
+        bulletMovement.isSineWave = isSineWave;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180;
+        bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
