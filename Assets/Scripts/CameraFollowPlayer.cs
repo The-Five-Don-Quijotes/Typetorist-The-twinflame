@@ -6,7 +6,7 @@ public class CameraFollowPlayer : MonoBehaviour
     public float smoothing;
     public Vector3 offset;
 
-    void FixedUpdate()
+    void Update()
     {
         if(player != null)
         {
