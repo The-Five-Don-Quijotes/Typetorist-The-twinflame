@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = dashTarget; 
-        animator.SetBool("isDashing", false); 
+        //animator.SetBool("isDashing", false); 
         playerCollider.enabled = true; 
 
         isDashing = false;

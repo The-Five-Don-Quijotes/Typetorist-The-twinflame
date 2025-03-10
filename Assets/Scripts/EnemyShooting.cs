@@ -23,7 +23,9 @@ public class EnemyShooting : MonoBehaviour
 
     IEnumerator ShootPlayer()
     {
-        yield return new WaitForSeconds(cooldown);
+        if(player != null)
+        {
+            yield return new WaitForSeconds(cooldown);
         if (GetComponent<EnemyReceiveDamage>().health > GetComponent<EnemyReceiveDamage>().maxHealth / 2)
         {
             // Flip the enemy to face the player
@@ -57,47 +59,65 @@ public class EnemyShooting : MonoBehaviour
         {
             StartCoroutine(ShootPlayer()); // Stop the coroutine if isDeath is triggered
         }
+        }
     }
 
     IEnumerator Phase2ShootPlayer()
     {
-        yield return new WaitForSeconds(cooldown);
-
-        if (GetComponent<EnemyReceiveDamage>().health <= GetComponent<EnemyReceiveDamage>().maxHealth / 2)
+        if(player != null)
         {
-            // Face the player
-            if (player.position.x > transform.position.x)
+            yield return new WaitForSeconds(cooldown);
+
+            if (GetComponent<EnemyReceiveDamage>().health <= GetComponent<EnemyReceiveDamage>().maxHealth / 2)
             {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
-            else
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                cooldown = 0.1f;
+                // Face the player
+                if (player.position.x > transform.position.x)
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+
+                if (player != null)
+                {
+                    // Shoot Bullet A (Sine wave)
+                    GameObject spellA = Instantiate(bulletA, transform.position, Quaternion.identity);
+                    SetupBullet(spellA, true, false);
+
+                    // Shoot Bullet B (Cosine wave)
+                    GameObject spellB = Instantiate(bulletB, transform.position, Quaternion.identity);
+                    SetupBullet(spellB, false, false);
+
+                    // Shoot Bullet C (Sine wave)
+                    GameObject spellC = Instantiate(bulletA, transform.position, Quaternion.identity);
+                    SetupBullet(spellC, true, true);
+
+                    // Shoot Bullet D (Cosine wave)
+                    GameObject spellD = Instantiate(bulletB, transform.position, Quaternion.identity);
+                    SetupBullet(spellD, false, true);
+                }
             }
 
-            if (player != null)
+            if (!animator.GetBool("isDeath"))
             {
-                // Shoot Bullet A (Sine wave)
-                GameObject spellA = Instantiate(bulletA, transform.position, Quaternion.identity);
-                SetupBullet(spellA, player.position, projectileForce, true);
-
-                // Shoot Bullet B (Cosine wave)
-                GameObject spellB = Instantiate(bulletB, transform.position, Quaternion.identity);
-                SetupBullet(spellB, player.position, projectileForce, false);
+                StartCoroutine(Phase2ShootPlayer());
             }
-        }
-
-        if (!animator.GetBool("isDeath"))
-        {
-            StartCoroutine(Phase2ShootPlayer());
         }
     }
 
-    void SetupBullet(GameObject bullet, Vector2 targetPos, float force, bool isSineWave)
+    void SetupBullet(GameObject bullet, bool isSineWave, bool isOposite)
     {
         Vector2 myPos = transform.position;
+        Vector2 targetPos = player.position;
         Vector2 direction = (targetPos - myPos).normalized;
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * force;
+        if(isOposite)
+        {
+            direction = -direction;
+        }
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileForce;
 
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
         bulletMovement.isSineWave = isSineWave;

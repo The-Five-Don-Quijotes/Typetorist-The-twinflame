@@ -113,26 +113,29 @@ public class PlayerStats : MonoBehaviour
 
     private IEnumerator TemporaryInvulnerability(float duration)
     {
-        Player.GetComponent<Collider2D>().enabled = false;
-        SpriteRenderer spriteRenderer = Player.GetComponent<SpriteRenderer>();
-
-        float elapsedTime = 0f;
-        bool isVisible = true;
-        float blinkInterval = 0.2f; 
-
-        while (elapsedTime < duration)
+        if(Player != null)
         {
-            isVisible = !isVisible;
-            spriteRenderer.enabled = isVisible;
-            yield return new WaitForSeconds(blinkInterval);
-            elapsedTime += blinkInterval;
-            Book.GetComponent<Collider2D>().enabled = false;
-        }
+            Player.GetComponent<Collider2D>().enabled = false;
+            SpriteRenderer spriteRenderer = Player.GetComponent<SpriteRenderer>();
 
-        // Ensure the player is visible and re-enable the collider
-        spriteRenderer.enabled = true;
-        Player.GetComponent<Collider2D>().enabled = true;
-        Book.GetComponent<Collider2D>().enabled = true;
+            float elapsedTime = 0f;
+            bool isVisible = true;
+            float blinkInterval = 0.2f;
+
+            while (elapsedTime < duration)
+            {
+                isVisible = !isVisible;
+                spriteRenderer.enabled = isVisible;
+                yield return new WaitForSeconds(blinkInterval);
+                elapsedTime += blinkInterval;
+                Book.GetComponent<Collider2D>().enabled = false;
+            }
+
+            // Ensure the player is visible and re-enable the collider
+            spriteRenderer.enabled = true;
+            Player.GetComponent<Collider2D>().enabled = true;
+            Book.GetComponent<Collider2D>().enabled = true;
+        }
     }
 
 

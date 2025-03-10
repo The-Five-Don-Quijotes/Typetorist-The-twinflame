@@ -16,17 +16,28 @@ public class BaelorisMovement : MonoBehaviour
 
     void Update()
     {
-        moveTimer -= Time.deltaTime;
-
-        if (moveTimer <= 0)
+        if(player != null)
         {
-            PickNewTargetPosition();
-        }
+            if (GetComponent<EnemyReceiveDamage>().health > GetComponent<EnemyReceiveDamage>().maxHealth / 2)
+            {
+                moveTimer -= Time.deltaTime;
 
-        MoveTowardsTarget();
-        if(transform.position == targetPosition)
-        {
-            //GetComponent<Animator>().SetBool("isFlying", false);
+                if (moveTimer <= 0)
+                {
+                    PickNewTargetPosition();
+                }
+
+                MoveTowardsTarget();
+                if (transform.position == targetPosition)
+                {
+                    //GetComponent<Animator>().SetBool("isFlying", false);
+                }
+            }
+            else
+            {
+                transform.position = new (0, 0, 0);
+            }
+             
         }
     }
 

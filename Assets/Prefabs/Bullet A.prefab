@@ -139,8 +139,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  amplitude: 1
-  frequency: 2
+  amplitude: 4
+  frequency: 13
   isSineWave: 1
 --- !u!50 &1592297406757338192
 Rigidbody2D:
