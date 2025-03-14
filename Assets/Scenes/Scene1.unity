@@ -13348,8 +13348,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
-      propertyPath: Enemy
+    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: dashRange
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: footCollider
       value: 
       objectReference: {fileID: 9117325888665593276}
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}

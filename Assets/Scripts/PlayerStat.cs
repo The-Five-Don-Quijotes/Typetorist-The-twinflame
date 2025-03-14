@@ -9,6 +9,7 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats playerStats;
 
     public GameObject Player;
+    public GameObject Boss;
 
     public GameObject Book;
     public float minRadius ; //The radius which the book is dropped
@@ -16,7 +17,9 @@ public class PlayerStats : MonoBehaviour
     public TextMeshProUGUI TypingLine;
     public TextMeshProUGUI TypingText;
     private float bookDropTime = -1f;
-    public float TimeToRecollect = 5f;
+    public float TimeToRecollect = 3f;
+    public float minDistanceFromPlayer = 3f;
+    public float safeDistanceFromBoss = 4f;
     public Typer typer;
     private Vector3 respawnPosition;
 
@@ -48,7 +51,7 @@ public class PlayerStats : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void DealDamage(int damage)
+    public void DealDamage(int damage) 
     {
         // Check if a Book instance exists in the scene
         if (GameObject.FindWithTag("Book") == null) // Check if a book exists
@@ -109,6 +112,8 @@ public class PlayerStats : MonoBehaviour
 
         // Make the player temporarily invulnerable
         StartCoroutine(TemporaryInvulnerability(5f));
+
+        StartCoroutine(EnableBookColliderAfterDelay(3f));
     }
 
     private IEnumerator TemporaryInvulnerability(float duration)
@@ -128,27 +133,70 @@ public class PlayerStats : MonoBehaviour
                 spriteRenderer.enabled = isVisible;
                 yield return new WaitForSeconds(blinkInterval);
                 elapsedTime += blinkInterval;
-                Book.GetComponent<Collider2D>().enabled = false;
             }
 
             // Ensure the player is visible and re-enable the collider
             spriteRenderer.enabled = true;
             Player.GetComponent<Collider2D>().enabled = true;
-            Book.GetComponent<Collider2D>().enabled = true;
+        }
+    }
+
+    private IEnumerator EnableBookColliderAfterDelay(float delay)
+    {
+        if (Book != null)
+        {
+            Book.GetComponent<Collider2D>().enabled = false; 
+            yield return new WaitForSeconds(delay); 
+            Book.GetComponent<Collider2D>().enabled = true; 
         }
     }
 
 
     private Vector3 GetRandomPositionAroundPlayer()
     {
-        Vector2 randomDirection = Random.insideUnitCircle.normalized; 
-        float randomDistance = Random.Range(minRadius, maxRadius * 1.5f); 
+        Vector3 spawnPosition;
+        int maxAttempts = 10;
 
-        Vector2 randomOffset = randomDirection * randomDistance;
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            Vector2 randomDirection = Random.insideUnitCircle.normalized;
+            float randomDistance = Random.Range(minRadius * 1.5f, maxRadius * 1.5f); 
 
-        return new Vector3(Player.transform.position.x + randomOffset.x,
-                           Player.transform.position.y,
-                           1);
+            Vector2 randomOffset = randomDirection * randomDistance;
+            spawnPosition = new Vector3(Player.transform.position.x + randomOffset.x,
+                                        Player.transform.position.y + randomOffset.y, 
+                                        1);
+
+            if (IsPositionValid(spawnPosition))
+            {
+                return spawnPosition;
+            }
+        }
+
+        return Player.transform.position + new Vector3(minDistanceFromPlayer, minDistanceFromPlayer, 1);
+    }
+
+    private bool IsPositionValid(Vector3 position)
+    {
+        float mapMinX = -10f, mapMaxX = 10f;
+        float mapMinY = -5f, mapMaxY = 5f;
+
+        if (position.x < mapMinX || position.x > mapMaxX || position.y < mapMinY || position.y > mapMaxY)
+        {
+            return false;
+        }
+
+        if (Vector3.Distance(position, Boss.transform.position) < 3f)
+        {
+            return false;
+        }
+
+        if (Vector3.Distance(position, Player.transform.position) < 2f)
+        {
+            return false;
+        }
+
+        return true;
     }
 
 
