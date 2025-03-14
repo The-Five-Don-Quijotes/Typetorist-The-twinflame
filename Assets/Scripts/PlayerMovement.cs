@@ -4,6 +4,8 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour
 {
     public float dashRange;
+    public float dashCooldown = 2f;
+    private float lastDashTime;
     public float speed;
     public float dashDuration = 0.2f; 
     private Vector2 direction;
@@ -57,8 +59,9 @@ public class PlayerMovement : MonoBehaviour
             direction = direction.normalized;
 
         // Handle Dash
-        if (Input.GetKeyDown(KeyCode.Space) && direction != Vector2.zero && !isDashing)
+        if (Input.GetKeyDown(KeyCode.Space) && direction != Vector2.zero && !isDashing && Time.time >= lastDashTime + dashCooldown)
         {
+            lastDashTime = Time.time;
             StartCoroutine(Dash());
         }
     }
