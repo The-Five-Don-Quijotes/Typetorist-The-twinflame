@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +21,19 @@ public class EnemyReceiveDamage : MonoBehaviour
         health = maxHealth;
         healthSlider.value = CalculateHealthPercentage();
         audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        DebugInput();
+    }
+
+    private void DebugInput()
+    {
+        if (Input.GetKey(KeyCode.Alpha1) && !animator.GetBool("isHurt"))
+        {
+            DealDamage(25);
+        }
     }
 
     public void DealDamage(float damage)

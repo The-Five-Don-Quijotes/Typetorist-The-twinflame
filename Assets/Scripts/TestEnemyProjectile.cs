@@ -12,5 +12,9 @@ public class TestEnemyProjectile : MonoBehaviour
             PlayerStats.playerStats.DealDamage(damage);
             Destroy(gameObject);
         }
+        if (collision.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
