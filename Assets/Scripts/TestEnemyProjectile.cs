@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TestEnemyProjectile : MonoBehaviour
 {
-    public int damage;
+    public int damage = 1;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
