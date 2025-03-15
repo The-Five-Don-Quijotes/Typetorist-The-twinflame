@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isDashing = true;
         playerCollider.enabled = false; 
-        animator.SetBool("isDashing", true); 
+        //animator.SetBool("isDashing", true); 
 
         Vector3 dashTarget = transform.position + (Vector3)(direction * dashRange);
         float elapsedTime = 0f;
