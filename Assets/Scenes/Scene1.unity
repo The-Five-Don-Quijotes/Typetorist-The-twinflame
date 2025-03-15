@@ -153,9 +153,9 @@ RectTransform:
   - {fileID: 33856231}
   m_Father: {fileID: 497129729}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -697.18, y: 251.54}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -272.18, y: 68.53999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15804808
@@ -293,8 +293,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0006485, y: 54.049988}
-  m_SizeDelta: {x: 645.38, y: 51.191}
+  m_AnchoredPosition: {x: 0.0000076308, y: 35.428}
+  m_SizeDelta: {x: 645.38, y: 26.2231}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &115454409
 MonoBehaviour:
@@ -343,8 +343,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -501,10 +501,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 497129729}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -232.00208}
-  m_SizeDelta: {x: 880.4, y: 71.1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 53.997925}
+  m_SizeDelta: {x: 880.4, y: 71.100006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &228019068
 MonoBehaviour:
@@ -2622,10 +2622,10 @@ RectTransform:
   - {fileID: 115454407}
   m_Father: {fileID: 497129729}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 228}
-  m_SizeDelta: {x: 616.02, y: 59.24}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -51.5}
+  m_SizeDelta: {x: 616.02, y: 44.6333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1073092678
 MonoBehaviour:
@@ -3652,12 +3652,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 639294681}
+  Boss: {fileID: 0}
   Book: {fileID: 3610254563372908901, guid: 879b485624040ff4090ccbf03b8b0b51, type: 3}
   minRadius: 2
   maxRadius: 3
   TypingLine: {fileID: 228019068}
   TypingText: {fileID: 716984811}
   TimeToRecollect: 5
+  minDistanceFromPlayer: 3
+  safeDistanceFromBoss: 4
   typer: {fileID: 0}
   health: 3
   maxHealth: 3
@@ -13348,16 +13351,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
-      propertyPath: speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
-      propertyPath: dashRange
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
-      propertyPath: footCollider
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: Enemy
       value: 
@@ -13370,6 +13363,18 @@ PrefabInstance:
       propertyPath: outputLine
       value: 
       objectReference: {fileID: 228019068}
+    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: dashRange
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: footCollider
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
