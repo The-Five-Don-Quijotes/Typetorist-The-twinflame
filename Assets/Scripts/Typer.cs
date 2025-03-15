@@ -13,6 +13,7 @@ public class Typer : MonoBehaviour
     private string remainingWord = string.Empty;
     private string currentWord = string.Empty;
     private string currentLine = string.Empty;
+    private int currentIndex = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -70,16 +71,29 @@ public class Typer : MonoBehaviour
 
     private void EnterLetter(string typedLetter)
     {
-        if (IsCorrectLetter(typedLetter)) 
+        if (currentIndex < currentWord.Length && typedLetter == currentWord[currentIndex].ToString())
         {
-            RemoveLetter();
+            currentIndex++;
+            UpdateRemainingWord();
 
-            if (IsWordComplete())
+            if (currentIndex == currentWord.Length)
             {
                 SetCurrentWord();
                 SetCurrentLine();
+                currentIndex = 0;
             }
         }
+        else if (currentIndex > 0)
+        {
+            currentIndex--;
+            UpdateRemainingWord();
+        }
+    }
+
+    private void UpdateRemainingWord()
+    {
+        remainingWord = currentWord.Substring(currentIndex);
+        wordOutput.text = remainingWord;
     }
 
     private bool IsCorrectLetter(string letter)
