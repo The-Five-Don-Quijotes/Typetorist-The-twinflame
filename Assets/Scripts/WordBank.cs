@@ -6,8 +6,7 @@ public class WordBank : MonoBehaviour
     private List<string> originalLines = new List<string>()
     {
         "witness the cross of the lord",
-        "flee away ye hostiles",
-        "may thy mercy o lord",
+        "flee away ye hostiles may thy mercy o lord",
         "rest upon us for we have hope",
         "the lion of the tribe of judah",
         "the root of david hath conquered",
