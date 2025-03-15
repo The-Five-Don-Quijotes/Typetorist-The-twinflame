@@ -67,7 +67,7 @@ public class PlayerStats : MonoBehaviour
         // Check if a Book instance exists in the scene
         if (GameObject.FindWithTag("Book") == null) // Check if a book exists
         {
-            Vector3 spawnPosition = GetRandomPositionAroundPlayer();
+            Vector3 spawnPosition = Player.transform.position;
             TypingText.gameObject.SetActive(false); //Hide the Typer when the book is dropped
             bookDropTime = Time.time;
             spawnedBook = Instantiate(Book, spawnPosition, Quaternion.identity);
@@ -75,7 +75,7 @@ public class PlayerStats : MonoBehaviour
 
             if (bookScript != null)
             {
-                bookScript.StartBookMovement(spawnPosition);
+                bookScript.StartBookMovement(spawnPosition, GetRandomPositionAroundPlayer());
             }
         }
         else
