@@ -12,6 +12,7 @@ public class PlayerStats : MonoBehaviour
     public GameObject Boss;
 
     public GameObject Book;
+    public GameObject spawnedBook;
     public float minRadius ; //The radius which the book is dropped
     public float maxRadius ;
     public TextMeshProUGUI TypingLine;
@@ -59,11 +60,17 @@ public class PlayerStats : MonoBehaviour
             Vector3 spawnPosition = GetRandomPositionAroundPlayer();
             TypingText.gameObject.SetActive(false); //Hide the Typer when the book is dropped
             bookDropTime = Time.time;
-            Instantiate(Book, spawnPosition, Quaternion.identity);
+            spawnedBook = Instantiate(Book, spawnPosition, Quaternion.identity);
+            BookMovement bookScript = spawnedBook.GetComponent<BookMovement>();
+
+            if (bookScript != null)
+            {
+                bookScript.StartBookMovement(spawnPosition);
+            }
         }
         else
         {
-            // If the Book already exists, deal damage to the player
+            // If the Book already exists, deal damage to the playerQF
             health -= damage;
             if (health > 0)
             {
@@ -160,44 +167,66 @@ public class PlayerStats : MonoBehaviour
         for (int i = 0; i < maxAttempts; i++)
         {
             Vector2 randomDirection = Random.insideUnitCircle.normalized;
-            float randomDistance = Random.Range(minRadius * 1.5f, maxRadius * 1.5f); 
-
+            float randomDistance = Random.Range(minRadius * 1.5f, maxRadius * 1.5f);
             Vector2 randomOffset = randomDirection * randomDistance;
+
             spawnPosition = new Vector3(Player.transform.position.x + randomOffset.x,
-                                        Player.transform.position.y + randomOffset.y, 
+                                        Player.transform.position.y + randomOffset.y,
                                         1);
 
-            if (IsPositionValid(spawnPosition))
+            if (IsPositionValid(spawnPosition, minDistanceFromPlayer, safeDistanceFromBoss))
             {
                 return spawnPosition;
             }
         }
 
-        return Player.transform.position + new Vector3(minDistanceFromPlayer, minDistanceFromPlayer, 1);
+        return GetFallbackSpawnPosition();
     }
 
-    private bool IsPositionValid(Vector3 position)
+    private bool IsPositionValid(Vector3 position, float minPlayerDist, float minBossDist)
     {
-        float mapMinX = -10f, mapMaxX = 10f;
-        float mapMinY = -5f, mapMaxY = 5f;
+        float mapMinX = -15.32f, mapMaxX = 14.68f;
+        float mapMinY = -14.4f, mapMaxY = 9.6f;
 
         if (position.x < mapMinX || position.x > mapMaxX || position.y < mapMinY || position.y > mapMaxY)
         {
             return false;
         }
 
-        if (Vector3.Distance(position, Boss.transform.position) < 3f)
+        if (Vector3.Distance(position, Player.transform.position) < minPlayerDist)
         {
             return false;
         }
 
-        if (Vector3.Distance(position, Player.transform.position) < 2f)
+        if (Vector3.Distance(position, Boss.transform.position) < minBossDist)
         {
             return false;
         }
 
         return true;
     }
+
+    private Vector3 GetFallbackSpawnPosition()
+    {
+        float bookMargin = 3f;
+        float mapMinX = -15.32f + bookMargin, mapMaxX = 14.68f - bookMargin;
+        float mapMinY = -14.4f + bookMargin, mapMaxY = 9.6f - bookMargin;
+
+        for (int i = 0; i < 10; i++) 
+        {
+            float randomX = Random.Range(mapMinX, mapMaxX);
+            float randomY = Random.Range(mapMinY, mapMaxY);
+            Vector3 fallbackPosition = new Vector3(randomX, randomY, 1);
+
+            if (IsPositionValid(fallbackPosition, 3f, 3f))
+            {
+                return fallbackPosition;
+            }
+        }
+
+        return new Vector3(0, 0, 1); 
+    }
+
 
 
     public void DisplayHeart()
