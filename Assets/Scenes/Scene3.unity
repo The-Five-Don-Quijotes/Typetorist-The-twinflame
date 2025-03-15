@@ -3425,15 +3425,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 639294681}
-  Boss: {fileID: 1995745187}
   Book: {fileID: 3610254563372908901, guid: 879b485624040ff4090ccbf03b8b0b51, type: 3}
   minRadius: 2
   maxRadius: 3
   TypingLine: {fileID: 228019068}
   TypingText: {fileID: 716984811}
   TimeToRecollect: 5
-  minDistanceFromPlayer: 3
-  safeDistanceFromBoss: 4
   typer: {fileID: 0}
   health: 3
   maxHealth: 3
@@ -13173,14 +13170,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7181855075233093852, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
-      propertyPath: m_BodyType
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: Enemy
       value: 
-      objectReference: {fileID: 1995745187}
+      objectReference: {fileID: 0}
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: wordBank
       value: 

@@ -33,10 +33,7 @@ public class ZhavokAttack : MonoBehaviour
     {
         if (player != null)
         {
-            if (!animator.GetBool("isSummoning"))
-            {
-                DoAttack();
-            }
+            DoAttack();
 
             //Attack again
             yield return new WaitForSeconds(cooldown);
@@ -85,9 +82,7 @@ public class ZhavokAttack : MonoBehaviour
 
             SpawnBullet(baseAngle); // Middle bullet
             SpawnBullet(baseAngle + bulletAngleOffset); // Top bullet
-            SpawnBullet(baseAngle + bulletAngleOffset / 2); // Top bullet
             SpawnBullet(baseAngle - bulletAngleOffset); // Bottom bullet
-            SpawnBullet(baseAngle - bulletAngleOffset / 2); // Bottom bullet
         }
     }
 

@@ -8,7 +8,7 @@ public class ZhavokMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     public float teleportDistanceThreshold = 10f; // Distance at which boss teleports
-    public float closeRangeDistance = 3f; // Distance where boss picks a random position
+    public float closeRangeDistance = 5f; // Distance where boss picks a random position
     public float moveSpeed = 5f;
     public float teleportCooldown = 5f;
     public float movementPauseDuration = 1.5f; // New: Pause between moves
@@ -36,7 +36,7 @@ public class ZhavokMovement : MonoBehaviour
         {
             StartCoroutine(TeleportToPlayer());
         }
-        else if (distanceToPlayer > closeRangeDistance && !isMoving)
+        else if (distanceToPlayer <= closeRangeDistance && !isMoving)
         {
             StartCoroutine(MoveToRandomPositionNearPlayer());
         }
@@ -63,7 +63,7 @@ public class ZhavokMovement : MonoBehaviour
     {
         isMoving = true;
 
-        Vector2 randomOffset = Random.insideUnitCircle * closeRangeDistance;
+        Vector2 randomOffset = Random.insideUnitCircle * 3f;
         currentTarget = (Vector2)player.position + randomOffset;
 
         yield return new WaitForSeconds(movementPauseDuration); // Pause between moves
