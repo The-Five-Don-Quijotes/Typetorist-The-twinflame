@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,11 @@ public class Typer : MonoBehaviour
     private string currentWord = string.Empty;
     private string currentLine = string.Empty;
     private int currentIndex = 0;
+
+    public GameObject dotPrefab;
+    public GameObject player;
+    public int dotCount = 15;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -78,6 +84,7 @@ public class Typer : MonoBehaviour
 
             if (currentIndex == currentWord.Length)
             {
+                SpawnDotsEffect();
                 SetCurrentWord();
                 SetCurrentLine();
                 currentIndex = 0;
@@ -118,4 +125,36 @@ public class Typer : MonoBehaviour
         currentWord = wordBank.GetWord();
         SetRemainingWord(currentWord);
     }
+
+    private void SpawnDotsEffect()
+    {
+        if (dotPrefab == null || player == null) return;
+
+        for (int i = 0; i < dotCount; i++)
+        {
+            GameObject dot = Instantiate(dotPrefab, wordOutput.transform.position, Quaternion.identity);
+        }
+    }
+
+
+    private IEnumerator MoveDotToPlayer(GameObject dot)
+    {
+        float duration = 0.5f; // Duration of movement
+        float elapsedTime = 0f;
+        Vector3 startPosition = dot.transform.position;
+
+        // Generate random position around player
+        Vector3 targetPosition = player.transform.position + (Vector3)(Random.insideUnitCircle * 1.5f);
+
+        while (elapsedTime < duration)
+        {
+            dot.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        dot.transform.position = targetPosition;
+        Destroy(dot, 0.5f); // Destroy after reaching the target
+    }
+
 }

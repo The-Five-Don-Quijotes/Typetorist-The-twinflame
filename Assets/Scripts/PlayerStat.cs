@@ -52,7 +52,7 @@ public class PlayerStats : MonoBehaviour
         DisplayHeart();
         audioSource = GetComponent<AudioSource>();
 
-        isGodMode = false;
+        isGodMode = true;
     }
 
     public void DealDamage(int damage)
