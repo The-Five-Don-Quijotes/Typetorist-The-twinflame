@@ -14,6 +14,7 @@ public class EnemyReceiveDamage : MonoBehaviour
     public AudioClip hurtSound;
     public AudioClip deathSound;
     public float phase2ShootingDuration;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -67,19 +68,35 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     private void CheckDeath()
     {
-        if(health <= 0)
+        if (health <= 0)
         {
             animator.SetTrigger("isDeath");
             audioSource.PlayOneShot(deathSound);
-            StartCoroutine(HandleDeath());
-            bossHealthBar.SetActive(false); //hide health bar when death
+            float deathAnimDuration = GetAnimationClipLength("death"); // Get exact animation length
+            Debug.Log(deathAnimDuration);
+            StartCoroutine(HandleDeath(deathAnimDuration));
+            bossHealthBar.SetActive(false); // Hide health bar when death
         }
     }
 
-    private IEnumerator HandleDeath()
+    private IEnumerator HandleDeath(float duration)
     {
-        yield return new WaitForSeconds(6); // Wait for the death animation to finish
+        yield return new WaitForSeconds(duration*10); // Wait for the actual death animation to finish
         Destroy(gameObject);
+    }
+
+    private float GetAnimationClipLength(string clipName)
+    {
+        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
+        foreach (AnimationClip clip in ac.animationClips)
+        {
+            if (clip.name == clipName)
+            {
+                return clip.length;
+            }
+        }
+        Debug.LogWarning($"Animation clip '{clipName}' not found!");
+        return 0f; // Default if not found
     }
 
     private void CheckHalfHealth()

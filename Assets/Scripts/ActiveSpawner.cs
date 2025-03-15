@@ -27,6 +27,20 @@ public class ActiveSpawner : MonoBehaviour
                 Spawner2.SetActive(true);
                 Spawner3.SetActive(true);
             }
+            if (bossHealth == 50 || bossHealth == 0)
+            {
+                Spawner.SetActive(false);
+                Spawner1.SetActive(false);
+                Spawner2.SetActive(false);
+                Spawner3.SetActive(false);
+            }
+            else
+            {
+                Spawner.SetActive(true);
+                Spawner1.SetActive(true);
+                Spawner2.SetActive(true);
+                Spawner3.SetActive(true);
+            }
         }
         else
         {
