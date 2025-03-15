@@ -31,6 +31,8 @@ public class PlayerStats : MonoBehaviour
     public Sprite emptyHeart;
     private AudioSource audioSource;
 
+    public bool isGodMode = false;
+
     private void Awake()
     {
         if(playerStats != null)
@@ -50,10 +52,18 @@ public class PlayerStats : MonoBehaviour
         health = maxHealth;
         DisplayHeart();
         audioSource = GetComponent<AudioSource>();
+
+        isGodMode = false;
     }
 
     public void DealDamage(int damage) 
     {
+        if (isGodMode)
+        {
+            Debug.Log("God Mode is ON! No damage taken.");
+            return; // Player is invincible
+        }
+
         // Check if a Book instance exists in the scene
         if (GameObject.FindWithTag("Book") == null) // Check if a book exists
         {
