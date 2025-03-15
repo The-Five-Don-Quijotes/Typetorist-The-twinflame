@@ -125,4 +125,13 @@ public class EnemyShooting : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180;
         bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Furniture"))
+        {
+            Destroy(collision.gameObject);
+            //Destroy(gameObject);
+        }
+    }
 }

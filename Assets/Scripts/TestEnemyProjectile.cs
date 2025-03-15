@@ -16,5 +16,10 @@ public class TestEnemyProjectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+          if (collision.CompareTag("Furniture"))
+        {
+            Debug.Log("Projectile hit Furniture!");
+            Destroy(gameObject);
+        }
     }
 }
