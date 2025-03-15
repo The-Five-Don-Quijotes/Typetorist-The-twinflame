@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8010614139315201701}
   - component: {fileID: 4191788896973083550}
   - component: {fileID: -6555047519097982108}
+  - component: {fileID: 8268843786054899889}
   m_Layer: 0
   m_Name: Book
   m_TagString: Book
@@ -97,7 +98,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3610254563372908901}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -175,3 +176,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a182ded0e2403174eb8bd32a03872deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8268843786054899889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3610254563372908901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a51b91ef5481ae47944e9a98d08664b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  jumpHeight: 3
+  jumpDuration: 0.1
+  jumpDelay: 0.5
