@@ -31,7 +31,7 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     private void DebugInput()
     {
-        if (Input.GetKey(KeyCode.Alpha1) && !animator.GetBool("isHurt"))
+        if (Input.GetKeyUp(KeyCode.Alpha1) && !animator.GetBool("isHurt"))
         {
             DealDamage(25);
         }

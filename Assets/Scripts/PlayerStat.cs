@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -54,6 +55,14 @@ public class PlayerStats : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         isGodMode = false;
+    }
+
+    private void DebugInput()
+    {
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            DealDamage(1);
+        }
     }
 
     public void DealDamage(int damage) 
@@ -258,6 +267,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        DebugInput();
         if (GameObject.FindWithTag("Book") != null && (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect))
         {
             typer.ResetLine();

@@ -589,13 +589,14 @@ GameObject:
   - component: {fileID: 459350508}
   - component: {fileID: 459350510}
   - component: {fileID: 459350509}
+  - component: {fileID: 459350511}
   m_Layer: 0
   m_Name: Zhavok
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &459350502
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -819,13 +820,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ZhavokOffset: 2
-  cooldown: 5
+  cooldown: 3
   hitboxDuration: 0.2
   melee1: {fileID: 461196883}
   melee2: {fileID: 1827825867}
   meleeBulletPrefab: {fileID: 1471225942147973259, guid: 9d3a22bdb463ecc46af8e2c65bf8aa1f, type: 3}
   bulletSpeed: 10
-  bulletAngleOffset: 30
+  bulletAngleOffset: 60
 --- !u!114 &459350508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,8 +839,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1726aca3e40556943b0b068569f29c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportDistanceThreshold: 10
-  closeRangeDistance: 5
+  teleportDistanceThreshold: 5
+  closeRangeDistance: 0.5
   moveSpeed: 5
   teleportCooldown: 5
   movementPauseDuration: 1.5
@@ -917,6 +918,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.085459545, y: 0.37588617}
   m_EdgeRadius: 0
+--- !u!114 &459350511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459350501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70885c1df9e9d344aba314600b3d5b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  summon: {fileID: 5952387582114696370, guid: 8a446391723753f4299513558bb5656c, type: 3}
+  tilemap: {fileID: 589365011}
 --- !u!1 &461196883
 GameObject:
   m_ObjectHideFlags: 0
@@ -4018,8 +4033,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 75759b2a5a006e54ab1f8ac60da14773, type: 3}
-  m_Resource: {fileID: 8300000, guid: 75759b2a5a006e54ab1f8ac60da14773, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6404c26a11f3664469c6e88f8639d905, type: 3}
+  m_Resource: {fileID: 8300000, guid: 6404c26a11f3664469c6e88f8639d905, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
@@ -4706,6 +4721,71 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &1756179853
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -887067414038403748, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: typingText
+      value: 
+      objectReference: {fileID: 716984811}
+    - target: {fileID: 1006532410442595244, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.499433
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.78242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952387582114696370, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_Name
+      value: Zhavok's Summon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8a446391723753f4299513558bb5656c, type: 3}
 --- !u!1 &1779354862
 GameObject:
   m_ObjectHideFlags: 0
@@ -13589,6 +13669,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1081382429987439186, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_fontColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081382429987439186, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081382429987439186, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081382429987439186, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081382429987439186, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 218103807
+      objectReference: {fileID: 0}
+    - target: {fileID: 1963049754142120196, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3637353554232192825, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -13630,6 +13734,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3855529193843954369, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3855529193843954369, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
@@ -13644,6 +13752,10 @@ PrefabInstance:
     - target: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181855075233093852, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_Mass
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 7181855075233093852, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_CollisionDetection
@@ -13735,3 +13847,4 @@ SceneRoots:
   - {fileID: 689152680}
   - {fileID: 1413736950}
   - {fileID: 459350503}
+  - {fileID: 1756179853}
