@@ -5,11 +5,16 @@ public class WordBank : MonoBehaviour
 {
     private List<string> originalLines = new List<string>()
     {
-        "witness the cross of the lord flee away ye hostiles",
-        "may thy mercy o lord rest upon us for we have hope",
-        "the lion of the tribe of judah the root of david hath conquered",
-        "we cast you out every unclean spirit every satanic power and onslaught",
-        "cursed dragon we adjure you may the lord be with you and with thy spirit amen"
+        "witness the cross of the lord",
+        "flee away ye hostiles may thy mercy o lord",
+        "rest upon us for we have hope",
+        "the lion of the tribe of judah",
+        "the root of david hath conquered",
+        "we cast you out every unclean spirit",
+        "every satanic power and onslaught",
+        "cursed dragon we adjure",
+        "you may the lord be with you",
+        "and with thy spirit amen"
     };
 
     private Queue<(string word, bool isFirstWord)> wordQueue = new Queue<(string, bool)>();
