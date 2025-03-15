@@ -7,12 +7,11 @@ using System.Collections;
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats playerStats;
-
+    public GameObject spawnedBook;
     public GameObject Player;
     public GameObject Boss;
 
     public GameObject Book;
-    public GameObject spawnedBook;
     public float minRadius ; //The radius which the book is dropped
     public float maxRadius ;
     public TextMeshProUGUI TypingLine;
@@ -56,31 +55,32 @@ public class PlayerStats : MonoBehaviour
         isGodMode = false;
     }
 
-    public void DealDamage(int damage) 
+    public void DealDamage(int damage)
     {
-        if (isGodMode)
-        {
-            Debug.Log("God Mode is ON! No damage taken.");
-            return; // Player is invincible
-        }
-
         // Check if a Book instance exists in the scene
-        if (GameObject.FindWithTag("Book") == null) // Check if a book exists
+        if (GameObject.FindWithTag("Book") == null)
         {
-            Vector3 spawnPosition = Player.transform.position;
-            TypingText.gameObject.SetActive(false); //Hide the Typer when the book is dropped
+            Vector3 spawnPosition = Player.transform.position + new Vector3(0, 1f, 1f);
+            TypingText.gameObject.SetActive(false); // Hide the Typer when the book is dropped
             bookDropTime = Time.time;
             spawnedBook = Instantiate(Book, spawnPosition, Quaternion.identity);
+            Collider2D bookCollider = spawnedBook.GetComponent<Collider2D>();
+            if (bookCollider != null)
+            {
+                bookCollider.enabled = false;
+                StartCoroutine(EnableBookColliderAfterDelay(bookCollider, 2.9f)); // Delay before it can be recollected
+            }
+
             BookMovement bookScript = spawnedBook.GetComponent<BookMovement>();
 
             if (bookScript != null)
             {
-                bookScript.StartBookMovement(spawnPosition, GetRandomPositionAroundPlayer());
+                bookScript.StartBookMovement(GetRandomPositionAroundPlayer());
             }
         }
         else
         {
-            // If the Book already exists, deal damage to the playerQF
+            // If the Book already exists, deal damage to the player
             health -= damage;
             if (health > 0)
             {
@@ -92,6 +92,7 @@ public class PlayerStats : MonoBehaviour
             DisplayHeart();
         }
     }
+
 
     public void HealCharacter(int heal)
     {
@@ -129,7 +130,6 @@ public class PlayerStats : MonoBehaviour
 
         // Make the player temporarily invulnerable
         StartCoroutine(TemporaryInvulnerability(5f));
-
         StartCoroutine(EnableBookColliderAfterDelay(3f));
     }
 
@@ -167,6 +167,16 @@ public class PlayerStats : MonoBehaviour
             Book.GetComponent<Collider2D>().enabled = true; 
         }
     }
+
+    private IEnumerator EnableBookColliderAfterDelay(Collider2D bookCollider, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (bookCollider != null)
+        {
+            bookCollider.enabled = true;
+        }
+    }
+
 
 
     private Vector3 GetRandomPositionAroundPlayer()

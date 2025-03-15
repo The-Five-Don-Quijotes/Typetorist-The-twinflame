@@ -1,58 +1,59 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class BookMovement : MonoBehaviour
 {
-    public float moveSpeed = 3f;   
-    public float jumpHeight = 3f;  
-    public float jumpDuration = 0f;
-    public float jumpDelay = 0.5f; 
+    public float moveSpeed = 3f;   // Speed towards target
+    public float jumpHeight = 3f;  // Height of the jump
+    public float jumpDelay = 0.5f; // Delay before the second jump
 
-    private Vector3 spawnPostion;
     private Vector3 finalPosition;
-    private bool canBeCollected = false; 
+    private bool canBeCollected = false; // Prevents instant recollection
 
-    public void StartBookMovement(Vector3 spawnedPosition, Vector3 targetPosition)
+    public void StartBookMovement(Vector3 targetPosition)
     {
-        spawnPostion = spawnedPosition;
         finalPosition = targetPosition;
-        canBeCollected = false; 
+        canBeCollected = false; // Prevent immediate collection
         StartCoroutine(DoubleJumpRoutine());
     }
 
     private IEnumerator DoubleJumpRoutine()
     {
-        Vector3 startPosition = spawnPostion;
+        Vector3 startPosition = transform.position;
 
+        // Calculate midpoint EXACTLY between start and final position
         Vector3 midPoint = (startPosition + finalPosition) / 2;
-        midPoint.y += jumpHeight; 
+        midPoint.y += jumpHeight; // Raise midpoint to create a jump effect
 
-        yield return SmoothJump(startPosition, midPoint, jumpDuration);
+        // First jump to the midpoint
+        yield return JumpToPosition(midPoint);
 
         yield return new WaitForSeconds(jumpDelay);
 
-        yield return SmoothJump(midPoint, finalPosition, jumpDuration);
+        // Second jump to the final position
+        yield return JumpToPosition(finalPosition);
 
+        // Allow collection after the second jump
         yield return new WaitForSeconds(0.3f);
         canBeCollected = true;
     }
 
-    private IEnumerator SmoothJump(Vector3 start, Vector3 target, float duration)
+    private IEnumerator JumpToPosition(Vector3 target)
     {
+        float duration = 0.5f; // Jump speed
         float elapsedTime = 0f;
+        Vector3 start = transform.position;
 
         while (elapsedTime < duration)
         {
             float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t);
-
+            t = t * t * (3f - 2f * t); // Smooth curve
             transform.position = Vector3.Lerp(start, target, t);
-
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = target; 
+        transform.position = target;
     }
 
     public bool CanBeCollected()
