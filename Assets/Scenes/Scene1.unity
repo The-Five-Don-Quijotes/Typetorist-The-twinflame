@@ -13358,6 +13358,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: footCollider
+    - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: Enemy
       value: 
       objectReference: {fileID: 9117325888665593276}
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
