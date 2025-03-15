@@ -641,7 +641,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2524005704576406056, guid: 4404cf6154ce80a4dae78dde45045788, type: 3}
+  m_Sprite: {fileID: 7405654933217791014, guid: 4404cf6154ce80a4dae78dde45045788, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -649,7 +649,7 @@ SpriteRenderer:
   m_Size: {x: 0.45, y: 0.62}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &459350503
@@ -3910,6 +3910,7 @@ MonoBehaviour:
   Player: {fileID: 639294681}
   Boss: {fileID: 459350501}
   Book: {fileID: 3610254563372908901, guid: 879b485624040ff4090ccbf03b8b0b51, type: 3}
+  spawnedBook: {fileID: 0}
   minRadius: 2
   maxRadius: 3
   TypingLine: {fileID: 228019068}
@@ -3926,6 +3927,7 @@ MonoBehaviour:
   - {fileID: 33856232}
   fullHeart: {fileID: -8842866002931225452, guid: 6df797e2c98f4fa45a51e254259f2478, type: 3}
   emptyHeart: {fileID: 1906179667584715834, guid: 9c3aeb1cd89677d4390382be88cb6f9c, type: 3}
+  isGodMode: 0
 --- !u!82 &1413736952
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4721,71 +4723,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1001 &1756179853
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -887067414038403748, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: typingText
-      value: 
-      objectReference: {fileID: 716984811}
-    - target: {fileID: 1006532410442595244, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -7.499433
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.78242
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5952387582114696370, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_Name
-      value: Zhavok's Summon
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8a446391723753f4299513558bb5656c, type: 3}
 --- !u!1 &1779354862
 GameObject:
   m_ObjectHideFlags: 0
@@ -13508,6 +13445,63 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &1887429049
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.2389708
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.38723046
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952387582114696370, guid: 8a446391723753f4299513558bb5656c, type: 3}
+      propertyPath: m_Name
+      value: Zhavok's Summon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8a446391723753f4299513558bb5656c, type: 3}
 --- !u!1 &2061552609
 GameObject:
   m_ObjectHideFlags: 0
@@ -13847,4 +13841,4 @@ SceneRoots:
   - {fileID: 689152680}
   - {fileID: 1413736950}
   - {fileID: 459350503}
-  - {fileID: 1756179853}
+  - {fileID: 1887429049}

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class Typer : MonoBehaviour
     private string currentWord = string.Empty;
     private string currentLine = string.Empty;
     private int currentIndex = 0;
+    public float appearDuration = 5;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -37,6 +39,15 @@ public class Typer : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator MakeUIAppear(float duration)
+    {
+        yield return new WaitForSeconds(duration); // Wait for the specified duration
+
+        Color tempColor = wordOutput.color; // Get the color
+        tempColor.a = 255; // Set alpha to fully visible
+        wordOutput.color = tempColor; // Apply the modified color
     }
 
     private void SetCurrentWord()
@@ -87,6 +98,10 @@ public class Typer : MonoBehaviour
         {
             currentIndex--;
             UpdateRemainingWord();
+            if(wordOutput.color.a == 0)
+            {
+                StartCoroutine(MakeUIAppear(appearDuration));
+            }
         }
     }
 
