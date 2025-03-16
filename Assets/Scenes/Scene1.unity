@@ -2804,17 +2804,26 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
   m_PrefabInstance: {fileID: 841215362383593742}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &664790459 stripped
+--- !u!114 &639294682
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9052353282091294800, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
-  m_PrefabInstance: {fileID: 1920549732968493303}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 639294681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e33cfa53e7688f4594c893d16a2b1cc, type: 3}
+  m_Script: {fileID: 11500000, guid: ee6e51480a8c54a4fa48ded9e67e0b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wordBank: {fileID: 1920549732968493306}
+  wordOutput: {fileID: 716984811}
+  outputLine: {fileID: 228019068}
+  Enemy: {fileID: 9117325888665593276}
+  damage: 10
+  dotPrefab: {fileID: 2177327532916581973, guid: f00ac3c923d45d6479d0d051b4f2241f, type: 3}
+  player: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+  dotCount: 15
 --- !u!1001 &668659748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15836,7 +15845,7 @@ PrefabInstance:
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: wordBank
       value: 
-      objectReference: {fileID: 664790459}
+      objectReference: {fileID: 0}
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: dotPrefab
       value: 
@@ -15861,10 +15870,14 @@ PrefabInstance:
       propertyPath: footCollider
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 639294682}
   m_SourcePrefab: {fileID: 100100000, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
 --- !u!1001 &1920549732968493303
 PrefabInstance:
@@ -15918,11 +15931,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
+    - {fileID: -300783868191688617, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1920549732968493305}
+    - targetCorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1920549732968493306}
   m_SourcePrefab: {fileID: 100100000, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+--- !u!1 &1920549732968493304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+  m_PrefabInstance: {fileID: 1920549732968493303}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1920549732968493305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920549732968493304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 925026921e60ee645948b48460ca8a06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1920549732968493306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920549732968493304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2100cb9991da85f4c82281a63abaeb84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalLines:
+  - a
+  - b
+  - c
+  - d
+  - x
+  - y
+  - z
+  phase2Lines:
+  - behold the ancient enemy and murderer strongly raises his head
+  - fight the lord battles with the undefeated army of the angels
+  - as once thou didst fight the first apostate and he prevailed not
+  - where the sea of peter has been settled for the light of the gentiles
+  - where the behemoth was cast out the serpent called the devil seduced the world
+  - pray the god of peace to crush satan may he no more be able to harm innocents
+    amen
+  currentLineIndex: -1
 --- !u!1001 &8617850920189605429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15931,6 +15998,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 136554176570032232, guid: 2a01e254ca80a0d4a84e37ef95aef525, type: 3}
+      propertyPath: wordBank
+      value: 
+      objectReference: {fileID: 1920549732968493306}
     - target: {fileID: 136554176570032232, guid: 2a01e254ca80a0d4a84e37ef95aef525, type: 3}
       propertyPath: healthSlider
       value: 

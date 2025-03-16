@@ -6,6 +6,7 @@ public class EnemyReceiveDamage : MonoBehaviour
 {
     public float health;
     public float maxHealth;
+    public BaelorisWordBank wordBank;
 
     public GameObject bossHealthBar;
     public Slider healthSlider;
@@ -103,6 +104,7 @@ public class EnemyReceiveDamage : MonoBehaviour
     {
         if (health <= maxHealth / 2)
         {
+            wordBank.SetNewLines(wordBank.phase2Lines);
             StartShooting();
         }
     }

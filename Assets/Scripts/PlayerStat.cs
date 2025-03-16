@@ -20,7 +20,7 @@ public class PlayerStats : MonoBehaviour
     public float TimeToRecollect = 3f;
     public float minDistanceFromPlayer = 3f;
     public float safeDistanceFromBoss = 4f;
-    public Typer typer;
+    public BaelorisTyper typer;
     private Vector3 respawnPosition;
 
     public int health;
@@ -47,7 +47,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        typer = FindFirstObjectByType<Typer>();
+        typer = FindFirstObjectByType<BaelorisTyper>();
         health = maxHealth;
         DisplayHeart();
         audioSource = GetComponent<AudioSource>();
