@@ -2820,7 +2820,7 @@ MonoBehaviour:
   wordOutput: {fileID: 716984811}
   outputLine: {fileID: 228019068}
   Enemy: {fileID: 9117325888665593276}
-  damage: 10
+  damage: 5
   dotPrefab: {fileID: 2177327532916581973, guid: f00ac3c923d45d6479d0d051b4f2241f, type: 3}
   player: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
   dotCount: 15
