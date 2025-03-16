@@ -4837,6 +4837,7 @@ MonoBehaviour:
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  mapCollider: {fileID: 589365015}
   health: 3
   maxHealth: 3
   hearts:

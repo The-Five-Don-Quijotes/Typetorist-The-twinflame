@@ -24,6 +24,9 @@ public class PlayerStats : MonoBehaviour
     public BaelorisTyper typer;
     private Vector3 respawnPosition;
     public LayerMask wallLayerMask;
+    [SerializeField] private CompositeCollider2D mapCollider;
+    private Bounds mapBounds;
+
 
 
     public int health;
@@ -54,6 +57,7 @@ public class PlayerStats : MonoBehaviour
         health = maxHealth;
         DisplayHeart();
         audioSource = GetComponent<AudioSource>();
+        mapBounds = mapCollider.bounds;
 
         isGodMode = false;
     }
@@ -215,11 +219,7 @@ public class PlayerStats : MonoBehaviour
 
     private bool IsPositionValid(Vector3 position, float minPlayerDist, float minBossDist)
     {
-        float mapMinX = -30f, mapMaxX = 30f;
-        float mapMinY = -30f, mapMaxY = 30f;
-
-
-        if (position.x < mapMinX || position.x > mapMaxX || position.y < mapMinY || position.y > mapMaxY)
+        if (!mapBounds.Contains(position))
         {
             return false;
         }
@@ -233,11 +233,10 @@ public class PlayerStats : MonoBehaviour
         {
             return false;
         }
-        Debug.Log(wallLayerMask.value);
+        Debug.Log( wallLayerMask.value);
 
-        Collider2D hit = Physics2D.OverlapCircle(new Vector2(position.x, position.y), 1f, wallLayerMask);
-
-        if (hit != null && hit.isTrigger) 
+        Collider2D hit = Physics2D.OverlapCircle(position, 1f, wallLayerMask);
+        if (hit != null)
         {
             return false;
         }
