@@ -21,9 +21,8 @@ public class BookMovement : MonoBehaviour
     {
         Vector3 startPosition = transform.position;
 
-        // Calculate midpoint EXACTLY between start and final position
         Vector3 midPoint = (startPosition + finalPosition) / 2;
-        midPoint.y += jumpHeight; // Raise midpoint to create a jump effect
+        //midPoint.y += jumpHeight; // Raise midpoint to create a jump effect
 
         // First jump to the midpoint
         yield return JumpToPosition(midPoint);
@@ -40,21 +39,31 @@ public class BookMovement : MonoBehaviour
 
     private IEnumerator JumpToPosition(Vector3 target)
     {
-        float duration = 0.5f; // Jump speed
+        float duration = 0.5f; // Time of jump
         float elapsedTime = 0f;
         Vector3 start = transform.position;
 
         while (elapsedTime < duration)
         {
             float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t); // Smooth curve
-            transform.position = Vector3.Lerp(start, target, t);
+            t = Mathf.Clamp01(t);
+
+            // Lerp X and Z
+            Vector3 currentPos = Vector3.Lerp(start, target, t);
+
+            // Parabolic Y (creates the jump arc)
+            float height = 4f; // Adjust height here
+            currentPos.y = Mathf.Lerp(start.y, target.y, t) + height * Mathf.Sin(Mathf.PI * t);
+
+            transform.position = currentPos;
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         transform.position = target;
     }
+
 
     public bool CanBeCollected()
     {
