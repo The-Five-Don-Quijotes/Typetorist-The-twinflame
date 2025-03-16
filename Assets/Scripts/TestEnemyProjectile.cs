@@ -9,7 +9,7 @@ public class TestEnemyProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            //PlayerStats.playerStats.DealDamage(damage);
+            PlayerStats.playerStats.DealDamage(damage);
             Destroy(gameObject);
         }
         if (collision.CompareTag("Wall"))

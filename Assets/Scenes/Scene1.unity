@@ -2816,11 +2816,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6e51480a8c54a4fa48ded9e67e0b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wordBank: {fileID: 1920549732968493306}
+  wordBank: {fileID: 1920549732968493308}
   wordOutput: {fileID: 716984811}
   outputLine: {fileID: 228019068}
   Enemy: {fileID: 9117325888665593276}
-  damage: 5
+  damage: 13
   dotPrefab: {fileID: 2177327532916581973, guid: f00ac3c923d45d6479d0d051b4f2241f, type: 3}
   player: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
   dotCount: 15
@@ -15939,29 +15939,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1920549732968493305}
-    - targetCorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1920549732968493306}
+      addedObject: {fileID: 1920549732968493308}
   m_SourcePrefab: {fileID: 100100000, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
 --- !u!1 &1920549732968493304 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
   m_PrefabInstance: {fileID: 1920549732968493303}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1920549732968493305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1920549732968493304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 925026921e60ee645948b48460ca8a06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1920549732968493306
+--- !u!114 &1920549732968493308
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15974,17 +15959,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalLines:
-  - a
-  - b
-  - c
-  - d
-  - x
-  - y
-  - z
+  - witness the cross of the lord flee away ye hostiles may thy mercy o lord
+  - rest upon us for we have hope the lion of the tribe of judah
+  - the root of david hath conquered we cast you out every unclean spirit
+  - every satanic power and onslaught cursed dragon we adjure
+  - you may the lord be with you and with thy spirit amen
   phase2Lines:
-  - behold the ancient enemy and murderer strongly raises his head
-  - fight the lord battles with the undefeated army of the angels
-  - as once thou didst fight the first apostate and he prevailed not
+  - 'behold the ancient enemy and murderer strongly raises his head fight the lord
+    battles '
+  - with the undefeated army of the angels as once thou didst fight the first apostate
+    and he prevailed not
   - where the sea of peter has been settled for the light of the gentiles
   - where the behemoth was cast out the serpent called the devil seduced the world
   - pray the god of peace to crush satan may he no more be able to harm innocents
@@ -16001,7 +15985,7 @@ PrefabInstance:
     - target: {fileID: 136554176570032232, guid: 2a01e254ca80a0d4a84e37ef95aef525, type: 3}
       propertyPath: wordBank
       value: 
-      objectReference: {fileID: 1920549732968493306}
+      objectReference: {fileID: 1920549732968493308}
     - target: {fileID: 136554176570032232, guid: 2a01e254ca80a0d4a84e37ef95aef525, type: 3}
       propertyPath: healthSlider
       value: 
