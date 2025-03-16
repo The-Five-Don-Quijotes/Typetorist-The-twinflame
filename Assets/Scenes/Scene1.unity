@@ -947,7 +947,7 @@ GameObject:
   - component: {fileID: 589365014}
   - component: {fileID: 589365016}
   - component: {fileID: 589365015}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4834,6 +4834,9 @@ MonoBehaviour:
   minDistanceFromPlayer: 3
   safeDistanceFromBoss: 4
   typer: {fileID: 0}
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   health: 3
   maxHealth: 3
   hearts:
@@ -15825,6 +15828,10 @@ PrefabInstance:
     - target: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_TagString

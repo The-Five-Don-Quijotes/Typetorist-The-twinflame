@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.Tilemaps;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -18,10 +19,12 @@ public class PlayerStats : MonoBehaviour
     public TextMeshProUGUI TypingText;
     private float bookDropTime = -1f;
     public float TimeToRecollect = 3f;
-    public float minDistanceFromPlayer = 3f;
-    public float safeDistanceFromBoss = 4f;
+    public float minDistanceFromPlayer = 10f;
+    public float safeDistanceFromBoss = 10f;
     public BaelorisTyper typer;
     private Vector3 respawnPosition;
+    public LayerMask wallLayerMask;
+
 
     public int health;
     public int maxHealth;
@@ -137,7 +140,11 @@ public class PlayerStats : MonoBehaviour
     {
         if(Player != null)
         {
-            Player.GetComponent<Collider2D>().enabled = false;
+            Collider2D[] colliders = Player.GetComponents<Collider2D>();
+            foreach (Collider2D col in colliders)
+            {
+                col.enabled = false;
+            }
             SpriteRenderer spriteRenderer = Player.GetComponent<SpriteRenderer>();
 
             float elapsedTime = 0f;
@@ -154,7 +161,10 @@ public class PlayerStats : MonoBehaviour
 
             // Ensure the player is visible and re-enable the collider
             spriteRenderer.enabled = true;
-            Player.GetComponent<Collider2D>().enabled = true;
+            foreach (Collider2D col in colliders)
+            {
+                col.enabled = true; 
+            }
         }
     }
 
@@ -192,7 +202,7 @@ public class PlayerStats : MonoBehaviour
 
             spawnPosition = new Vector3(Player.transform.position.x + randomOffset.x,
                                         Player.transform.position.y + randomOffset.y,
-                                        1);
+                                        0);
 
             if (IsPositionValid(spawnPosition, minDistanceFromPlayer, safeDistanceFromBoss))
             {
@@ -205,8 +215,9 @@ public class PlayerStats : MonoBehaviour
 
     private bool IsPositionValid(Vector3 position, float minPlayerDist, float minBossDist)
     {
-        float mapMinX = -15.32f, mapMaxX = 14.68f;
-        float mapMinY = -14.4f, mapMaxY = 9.6f;
+        float mapMinX = -30f, mapMaxX = 30f;
+        float mapMinY = -30f, mapMaxY = 30f;
+
 
         if (position.x < mapMinX || position.x > mapMaxX || position.y < mapMinY || position.y > mapMaxY)
         {
@@ -219,6 +230,14 @@ public class PlayerStats : MonoBehaviour
         }
 
         if (Vector3.Distance(position, Boss.transform.position) < minBossDist)
+        {
+            return false;
+        }
+        Debug.Log(wallLayerMask.value);
+
+        Collider2D hit = Physics2D.OverlapCircle(new Vector2(position.x, position.y), 1f, wallLayerMask);
+
+        if (hit != null && hit.isTrigger) 
         {
             return false;
         }
