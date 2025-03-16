@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private bool isDashing;
     private Collider2D playerCollider;
+    public bool isInvincible = false; 
+
 
     private void Start()
     {
@@ -69,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Dash()
     {
         isDashing = true;
+        isInvincible = true;
         playerCollider.enabled = false; 
         //animator.SetBool("isDashing", true); 
 
@@ -84,8 +87,9 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = dashTarget; 
         //animator.SetBool("isDashing", false); 
-        playerCollider.enabled = true; 
+        playerCollider.enabled = true;
 
+        isInvincible = false;
         isDashing = false;
     }
 
