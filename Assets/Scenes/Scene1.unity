@@ -2718,7 +2718,7 @@ GameObject:
   - component: {fileID: 1092998303}
   m_Layer: 0
   m_Name: Furniture
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3675,10 +3675,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96db2b5905fe6e644960cd815a94ae2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnedBook: {fileID: 0}
   Player: {fileID: 639294681}
   Boss: {fileID: 9117325888665593276}
   Book: {fileID: 3610254563372908901, guid: 879b485624040ff4090ccbf03b8b0b51, type: 3}
-  spawnedBook: {fileID: 0}
   minRadius: 2
   maxRadius: 3
   TypingLine: {fileID: 228019068}

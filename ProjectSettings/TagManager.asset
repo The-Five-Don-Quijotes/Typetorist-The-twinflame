@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Book
   - Wall
+  - Furniture
+  - Bullet
   layers:
   - Default
   - TransparentFX
