@@ -9,10 +9,15 @@ public class TestEnemyProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            PlayerStats.playerStats.DealDamage(damage);
-            Destroy(gameObject);
+            PlayerMovement playerMovement = collision.GetComponent<PlayerMovement>();
+            if (playerMovement != null && !playerMovement.isInvincible)
+            {
+                PlayerStats.playerStats.DealDamage(damage);
+            }
+            Destroy(gameObject); 
         }
-        if (collision.CompareTag("Wall"))
+
+        if (collision.CompareTag("Wall") || collision.CompareTag("Furniture"))
         {
             Destroy(gameObject);
         }

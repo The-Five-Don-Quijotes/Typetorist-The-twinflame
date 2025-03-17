@@ -1,11 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Typer : MonoBehaviour
+public class BaelorisTyper : MonoBehaviour
 {
-    public WordBank wordBank = null;
+    public BaelorisWordBank wordBank = null;
     public TextMeshProUGUI wordOutput = null;
     public TextMeshProUGUI outputLine = null;
     public GameObject Enemy;
@@ -15,7 +15,6 @@ public class Typer : MonoBehaviour
     private string currentWord = string.Empty;
     private string currentLine = string.Empty;
     private int currentIndex = 0;
-    public float appearDuration = 5;
 
     public GameObject dotPrefab;
     public GameObject player;
@@ -32,27 +31,18 @@ public class Typer : MonoBehaviour
     private void SetCurrentLine()
     {
         string line = wordBank.GetLine();
-        if(line != string.Empty)
+        if (line != string.Empty)
         {
-            if(line.CompareTo(currentLine) != 0 )
+            if (line.CompareTo(currentLine) != 0)
             {
                 currentLine = line;
                 outputLine.text = currentLine;
-                if(Enemy != null && wordBank.currentLineIndex != 0) //if enemy is not death and the line is not the first line
+                if (Enemy != null && wordBank.currentLineIndex != 0) //if enemy is not death and the line is not the first line
                 {
                     Enemy.GetComponent<EnemyReceiveDamage>().DealDamage(damage); //deal damage when finish a senetence
                 }
             }
         }
-    }
-
-    private IEnumerator MakeUIAppear(float duration)
-    {
-        yield return new WaitForSeconds(duration); // Wait for the specified duration
-
-        Color tempColor = wordOutput.color; // Get the color
-        tempColor.a = 255; // Set alpha to fully visible
-        wordOutput.color = tempColor; // Apply the modified color
     }
 
     private void SetCurrentWord()
@@ -78,7 +68,7 @@ public class Typer : MonoBehaviour
         if (Input.anyKeyDown)
         {
             string keyPressed = Input.inputString;
-            if(keyPressed.Length == 1)
+            if (keyPressed.Length == 1)
             {
                 EnterLetter(keyPressed);
             }
@@ -104,10 +94,6 @@ public class Typer : MonoBehaviour
         {
             currentIndex--;
             UpdateRemainingWord();
-            if(wordOutput.color.a == 0)
-            {
-                StartCoroutine(MakeUIAppear(appearDuration));
-            }
         }
     }
 

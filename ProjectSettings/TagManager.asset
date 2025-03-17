@@ -8,14 +8,16 @@ TagManager:
   - Book
   - Wall
   - Summon
+  - Furniture
+  - Bullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Wall
   - 
   - 
   - 

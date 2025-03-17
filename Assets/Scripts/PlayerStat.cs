@@ -4,26 +4,31 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.Tilemaps;
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats playerStats;
-
+    public GameObject spawnedBook;
     public GameObject Player;
     public GameObject Boss;
 
     public GameObject Book;
-    public GameObject spawnedBook;
     public float minRadius ; //The radius which the book is dropped
     public float maxRadius ;
     public TextMeshProUGUI TypingLine;
     public TextMeshProUGUI TypingText;
     private float bookDropTime = -1f;
     public float TimeToRecollect = 3f;
-    public float minDistanceFromPlayer = 3f;
-    public float safeDistanceFromBoss = 4f;
-    public Typer typer;
+    public float minDistanceFromPlayer = 10f;
+    public float safeDistanceFromBoss = 10f;
+    public BaelorisTyper typer;
     private Vector3 respawnPosition;
+    public LayerMask wallLayerMask;
+    [SerializeField] private CompositeCollider2D mapCollider;
+    private Bounds mapBounds;
+
+
 
     public int health;
     public int maxHealth;
@@ -49,10 +54,11 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        typer = FindFirstObjectByType<Typer>();
+        typer = FindFirstObjectByType<BaelorisTyper>();
         health = maxHealth;
         DisplayHeart();
         audioSource = GetComponent<AudioSource>();
+        mapBounds = mapCollider.bounds;
 
         isGodMode = false;
     }
@@ -65,31 +71,32 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void DealDamage(int damage) 
+    public void DealDamage(int damage)
     {
-        if (isGodMode)
-        {
-            Debug.Log("God Mode is ON! No damage taken.");
-            return; // Player is invincible
-        }
-
         // Check if a Book instance exists in the scene
-        if (GameObject.FindWithTag("Book") == null) // Check if a book exists
+        if (GameObject.FindWithTag("Book") == null)
         {
-            Vector3 spawnPosition = GetRandomPositionAroundPlayer();
-            TypingText.gameObject.SetActive(false); //Hide the Typer when the book is dropped
+            Vector3 spawnPosition = Player.transform.position + new Vector3(0, 1f, 1f);
+            TypingText.gameObject.SetActive(false); // Hide the Typer when the book is dropped
             bookDropTime = Time.time;
             spawnedBook = Instantiate(Book, spawnPosition, Quaternion.identity);
+            Collider2D bookCollider = spawnedBook.GetComponent<Collider2D>();
+            if (bookCollider != null)
+            {
+                bookCollider.enabled = false;
+                StartCoroutine(EnableBookColliderAfterDelay(bookCollider, 2.9f)); // Delay before it can be recollected
+            }
+
             BookMovement bookScript = spawnedBook.GetComponent<BookMovement>();
 
             if (bookScript != null)
             {
-                bookScript.StartBookMovement(spawnPosition);
+                bookScript.StartBookMovement(GetRandomPositionAroundPlayer());
             }
         }
         else
         {
-            // If the Book already exists, deal damage to the playerQF
+            // If the Book already exists, deal damage to the player
             health -= damage;
             if (health > 0)
             {
@@ -101,6 +108,7 @@ public class PlayerStats : MonoBehaviour
             DisplayHeart();
         }
     }
+
 
     public void HealCharacter(int heal)
     {
@@ -138,7 +146,6 @@ public class PlayerStats : MonoBehaviour
 
         // Make the player temporarily invulnerable
         StartCoroutine(TemporaryInvulnerability(5f));
-
         StartCoroutine(EnableBookColliderAfterDelay(3f));
     }
 
@@ -146,7 +153,11 @@ public class PlayerStats : MonoBehaviour
     {
         if(Player != null)
         {
-            Player.GetComponent<Collider2D>().enabled = false;
+            Collider2D[] colliders = Player.GetComponents<Collider2D>();
+            foreach (Collider2D col in colliders)
+            {
+                col.enabled = false;
+            }
             SpriteRenderer spriteRenderer = Player.GetComponent<SpriteRenderer>();
 
             float elapsedTime = 0f;
@@ -163,7 +174,10 @@ public class PlayerStats : MonoBehaviour
 
             // Ensure the player is visible and re-enable the collider
             spriteRenderer.enabled = true;
-            Player.GetComponent<Collider2D>().enabled = true;
+            foreach (Collider2D col in colliders)
+            {
+                col.enabled = true; 
+            }
         }
     }
 
@@ -176,6 +190,16 @@ public class PlayerStats : MonoBehaviour
             Book.GetComponent<Collider2D>().enabled = true; 
         }
     }
+
+    private IEnumerator EnableBookColliderAfterDelay(Collider2D bookCollider, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (bookCollider != null)
+        {
+            bookCollider.enabled = true;
+        }
+    }
+
 
 
     private Vector3 GetRandomPositionAroundPlayer()
@@ -191,7 +215,7 @@ public class PlayerStats : MonoBehaviour
 
             spawnPosition = new Vector3(Player.transform.position.x + randomOffset.x,
                                         Player.transform.position.y + randomOffset.y,
-                                        1);
+                                        0);
 
             if (IsPositionValid(spawnPosition, minDistanceFromPlayer, safeDistanceFromBoss))
             {
@@ -204,10 +228,7 @@ public class PlayerStats : MonoBehaviour
 
     private bool IsPositionValid(Vector3 position, float minPlayerDist, float minBossDist)
     {
-        float mapMinX = -15.32f, mapMaxX = 14.68f;
-        float mapMinY = -14.4f, mapMaxY = 9.6f;
-
-        if (position.x < mapMinX || position.x > mapMaxX || position.y < mapMinY || position.y > mapMaxY)
+        if (!mapBounds.Contains(position))
         {
             return false;
         }
@@ -218,6 +239,13 @@ public class PlayerStats : MonoBehaviour
         }
 
         if (Vector3.Distance(position, Boss.transform.position) < minBossDist)
+        {
+            return false;
+        }
+        Debug.Log( wallLayerMask.value);
+
+        Collider2D hit = Physics2D.OverlapCircle(position, 1f, wallLayerMask);
+        if (hit != null)
         {
             return false;
         }

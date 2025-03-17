@@ -12,11 +12,15 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private bool isDashing;
     private Collider2D playerCollider;
+    public bool isInvincible = false;
+    private Rigidbody2D rb;
+
 
     private void Start()
     {
         animator = GetComponent<Animator>();
         playerCollider = GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -24,6 +28,13 @@ public class PlayerMovement : MonoBehaviour
         if (!isDashing) 
         {
             TakeInput();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (!isDashing)
+        {
             Move();
         }
     }
@@ -69,25 +80,26 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Dash()
     {
         isDashing = true;
-        playerCollider.enabled = false; 
-        //animator.SetBool("isDashing", true); 
+        isInvincible = true;
 
-        Vector3 dashTarget = transform.position + (Vector3)(direction * dashRange);
+        Vector2 dashTarget = (Vector2)transform.position + direction * dashRange;
         float elapsedTime = 0f;
 
         while (elapsedTime < dashDuration)
         {
-            transform.position = Vector3.Lerp(transform.position, dashTarget, elapsedTime / dashDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            Vector2 newPosition = Vector2.Lerp(rb.position, dashTarget, elapsedTime / dashDuration);
+            rb.MovePosition(newPosition); 
+
+            elapsedTime += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate(); 
         }
 
-        transform.position = dashTarget; 
-        //animator.SetBool("isDashing", false); 
-        playerCollider.enabled = true; 
+        rb.MovePosition(dashTarget);
 
+        isInvincible = false;
         isDashing = false;
     }
+
 
     private void SetAnimatorMovement(Vector2 direction)
     {
