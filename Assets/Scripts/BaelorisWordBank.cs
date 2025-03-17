@@ -14,13 +14,13 @@ public class BaelorisWordBank : MonoBehaviour
 
 
     public List<string> phase2Lines = new List<string>
-{
-    "behold the ancient enemy and murderer strongly raises his head fight the lord battles ", 
+    {
+        "behold the ancient enemy and murderer strongly raises his head fight the lord battles", 
         "with the undefeated army of the angels as once thou didst fight the first apostate and he prevailed not",
-    "where the sea of peter has been settled for the light of the gentiles",
-    "where the behemoth was cast out the serpent called the devil seduced the world",
-    "pray the god of peace to crush satan may he no more be able to harm innocents amen"
-};
+        "where the sea of peter has been settled for the light of the gentiles",
+        "where the behemoth was cast out the serpent called the devil seduced the world",
+        "pray the god of peace to crush satan may he no more be able to harm innocents amen"
+    };
 
 
     private Queue<(string word, bool isFirstWord)> wordQueue = new Queue<(string, bool)>();

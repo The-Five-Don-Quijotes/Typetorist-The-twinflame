@@ -12874,6 +12874,7 @@ GameObject:
   - component: {fileID: 1995745189}
   - component: {fileID: 1995745188}
   - component: {fileID: 1995745190}
+  - component: {fileID: 1995745191}
   m_Layer: 0
   m_Name: Vorrak
   m_TagString: Untagged
@@ -12973,6 +12974,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1995745191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995745187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310b7cfaaa27cd14c838428e9cf331fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  maxHealth: 100
+  wordBank: {fileID: 1920549732968493304}
+  bossHealthBar: {fileID: 1073092676}
+  healthSlider: {fileID: 1073092678}
+  hurtSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  phase2ShootingDuration: 0
 --- !u!1 &2061552609
 GameObject:
   m_ObjectHideFlags: 0
@@ -13197,7 +13218,7 @@ PrefabInstance:
     - target: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: outputLine
       value: 
-      objectReference: {fileID: 716984811}
+      objectReference: {fileID: 228019068}
     - target: {fileID: 7181855075233093852, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_BodyType
       value: 1
@@ -13274,6 +13295,11 @@ PrefabInstance:
     - target: {fileID: 1683109334212036689, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'phase2Lines.Array.data[0]'
+      value: behold the ancient enemy and murderer strongly raises his head fight
+        the lord battles
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -300783868191688617, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
