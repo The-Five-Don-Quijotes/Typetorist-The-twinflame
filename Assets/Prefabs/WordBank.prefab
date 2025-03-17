@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1683109334212036689}
-  - component: {fileID: -300783868191688617}
+  - component: {fileID: 6437873047448707922}
   m_Layer: 0
   m_Name: WordBank
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-300783868191688617
+--- !u!114 &6437873047448707922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,24 +41,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1557947345378815248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 925026921e60ee645948b48460ca8a06, type: 3}
+  m_Script: {fileID: 11500000, guid: 2100cb9991da85f4c82281a63abaeb84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   originalLines:
-  - witness the cross of the lord
-  - flee away ye hostiles may thy mercy o lord
-  - rest upon us for we have hope
-  - the lion of the tribe of judah
-  - the root of david hath conquered
-  - we cast you out every unclean spirit
-  - every satanic power and onslaught
-  - cursed dragon we adjure
-  - you may the lord be with you
-  - and with thy spirit amen
+  - witness the cross of the lord flee away ye hostiles may thy mercy o lord
+  - rest upon us for we have hope the lion of the tribe of judah
+  - the root of david hath conquered we cast you out every unclean spirit
+  - every satanic power and onslaught cursed dragon we adjure
+  - you may the lord be with you and with thy spirit amen
   phase2Lines:
-  - behold the ancient enemy and murderer strongly raises his head
-  - fight the lord battles with the undefeated army of the angels
-  - as once thou didst fight the first apostate and he prevailed not
+  - 'behold the ancient enemy and murderer strongly raises his head fight the lord
+    battles '
+  - with the undefeated army of the angels as once thou didst fight the first apostate
+    and he prevailed not
   - where the sea of peter has been settled for the light of the gentiles
   - where the behemoth was cast out the serpent called the devil seduced the world
   - pray the god of peace to crush satan may he no more be able to harm innocents

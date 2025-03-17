@@ -149,10 +149,10 @@ GameObject:
   - component: {fileID: 2639400941257527526}
   - component: {fileID: 3855529193843954369}
   - component: {fileID: 8715319608622402906}
-  - component: {fileID: 7919494613333571557}
   - component: {fileID: 7181855075233093852}
   - component: {fileID: 1963049754142120196}
-  m_Layer: 0
+  - component: {fileID: 6214316778244422354}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -310,27 +310,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3b7e9021b32bc40b60cee8c672c28e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashRange: 1.5
+  dashRange: 2.5
   dashCooldown: 2
   speed: 5
   dashDuration: 0.2
---- !u!114 &7919494613333571557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4070568225006338372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59a1b96db73b2743b29c85d2698367b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wordBank: {fileID: 0}
-  wordOutput: {fileID: 1081382429987439186}
-  outputLine: {fileID: 0}
-  Enemy: {fileID: 0}
-  damage: 25
+  isInvincible: 0
 --- !u!50 &7181855075233093852
 Rigidbody2D:
   serializedVersion: 5
@@ -404,6 +388,26 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.1, y: 0.03}
   m_EdgeRadius: 0
+--- !u!114 &6214316778244422354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4070568225006338372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6e51480a8c54a4fa48ded9e67e0b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wordBank: {fileID: 0}
+  wordOutput: {fileID: 1081382429987439186}
+  outputLine: {fileID: 0}
+  Enemy: {fileID: 0}
+  damage: 13
+  dotPrefab: {fileID: 2177327532916581973, guid: f00ac3c923d45d6479d0d051b4f2241f, type: 3}
+  player: {fileID: 4070568225006338372}
+  dotCount: 15
 --- !u!1 &8324403828535808953
 GameObject:
   m_ObjectHideFlags: 0
