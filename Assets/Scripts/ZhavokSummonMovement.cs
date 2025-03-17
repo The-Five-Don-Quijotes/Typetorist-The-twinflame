@@ -35,7 +35,7 @@ public class ZhavokSummonMovement : MonoBehaviour
         }
         else
         {
-            MoveTowards(player.position); // Default: Follow the player
+            MoveTowards(player.position, false); // Default: Follow the player
         }
 
         if(boss != null)
@@ -44,8 +44,8 @@ public class ZhavokSummonMovement : MonoBehaviour
             float bossMaxHealth = boss.GetComponent<EnemyReceiveDamage>().maxHealth;
             if(bossHealth > bossMaxHealth / 2)
             {
-                gameObject.GetComponent<SummonBehavior>().enabled = true;
                 gameObject.GetComponent<SummonPhase2Behavior>().enabled = false;
+                gameObject.GetComponent<SummonBehavior>().enabled = true;
             }
             else
             {
@@ -82,7 +82,7 @@ public class ZhavokSummonMovement : MonoBehaviour
             // Move towards the book
             while (targetBook != null && Vector2.Distance(transform.position, targetBook.position) > 0.1f)
             {
-                MoveTowards(targetBook.position);
+                MoveTowards(targetBook.position, true);
                 yield return null; // Wait for next frame
             }
 
@@ -98,7 +98,7 @@ public class ZhavokSummonMovement : MonoBehaviour
                 Vector2 newPos = (Vector2)transform.position + randomOffset;
                 while (targetBook != null && Vector2.Distance(targetBook.position, newPos) > 0)
                 {
-                    MoveTowards(newPos);
+                    MoveTowards(newPos, true);
                     targetBook.position = Vector2.MoveTowards(targetBook.position, newPos, moveSpeed * Time.deltaTime);
                     yield return null;
                 }
@@ -114,11 +114,21 @@ public class ZhavokSummonMovement : MonoBehaviour
         }
     }
 
-    private void MoveTowards(Vector2 targetPosition)
+    private void MoveTowards(Vector2 targetPosition, bool isBook)
     {
-        if (Vector2.Distance(transform.position, targetPosition) > stoppingDistance)
+        if(isBook)
         {
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            }
+        }
+        else
+        {
+            if (Vector2.Distance(transform.position, targetPosition) > stoppingDistance)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            }
         }
     }
 }

@@ -640,7 +640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &459350502
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -749,7 +749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  wordBank: {fileID: 0}
+  wordBank: {fileID: 1951922209}
   bossHealthBar: {fileID: 1073092676}
   healthSlider: {fileID: 1073092678}
   hurtSound: {fileID: 8300000, guid: 14794acc0da5bab43804f0814d415d9e, type: 3}
@@ -3941,10 +3941,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -887067414038403748, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3861887280696410547, guid: 8a446391723753f4299513558bb5656c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.56
@@ -3992,34 +3988,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5952387582114696370, guid: 8a446391723753f4299513558bb5656c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1281869640}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a446391723753f4299513558bb5656c, type: 3}
---- !u!1 &1281869639 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5952387582114696370, guid: 8a446391723753f4299513558bb5656c, type: 3}
-  m_PrefabInstance: {fileID: 1281869638}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1281869640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281869639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: babdc39f09581bb449cdc881ee186a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1471225942147973259, guid: 9d3a22bdb463ecc46af8e2c65bf8aa1f, type: 3}
-  cooldowns: 5
-  numberOfBullet: 8
-  bulletSpeed: 5
-  bulletLife: 30
-  stoppingDistnce: 3
 --- !u!1 &1413736948
 GameObject:
   m_ObjectHideFlags: 0

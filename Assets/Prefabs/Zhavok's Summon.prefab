@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3835835036999067249}
   - component: {fileID: 1006532410442595244}
   - component: {fileID: -887067414038403748}
+  - component: {fileID: 1007405619757783299}
   m_Layer: 0
   m_Name: Zhavok's Summon
   m_TagString: Summon
@@ -206,3 +207,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearDuration: 5
+--- !u!114 &1007405619757783299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5952387582114696370}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babdc39f09581bb449cdc881ee186a76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1471225942147973259, guid: 9d3a22bdb463ecc46af8e2c65bf8aa1f, type: 3}
+  cooldowns: 5
+  numberOfBullet: 8
+  bulletSpeed: 5
+  bulletLife: 30
+  stoppingDistnce: 3
