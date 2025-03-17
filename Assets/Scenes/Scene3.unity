@@ -13186,6 +13186,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: Enemy
+      value: 
+      objectReference: {fileID: 1995745187}
+    - target: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: wordBank
+      value: 
+      objectReference: {fileID: 1920549732968493304}
+    - target: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: outputLine
+      value: 
+      objectReference: {fileID: 716984811}
     - target: {fileID: 7181855075233093852, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_BodyType
       value: 1
@@ -13272,6 +13284,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1277917708}
   m_SourcePrefab: {fileID: 100100000, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+--- !u!114 &1920549732968493304 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+  m_PrefabInstance: {fileID: 1920549732968493303}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277917705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2100cb9991da85f4c82281a63abaeb84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
