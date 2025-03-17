@@ -291,6 +291,7 @@ public class PlayerStats : MonoBehaviour
     public void ShowTyper()
     {
         TypingText.gameObject.SetActive(true);
+        GameObject.Find("TypingText").GetComponent<MakeTextAppear>().ShowText(0f);
     }
 
     private void Update()

@@ -205,6 +205,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f990ff23b3feb174a943b643fe18be98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typingText: {fileID: 0}
-  fadeDuration: 1
-  reappearDelay: 2
+  disappearDuration: 5

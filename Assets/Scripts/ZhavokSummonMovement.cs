@@ -5,6 +5,7 @@ public class ZhavokSummonMovement : MonoBehaviour
 {
     private Transform player;
     private Transform targetBook;
+    private GameObject boss;
     private bool isInteractingWithBook = false;
 
     [Header("Movement Settings")]
@@ -16,6 +17,7 @@ public class ZhavokSummonMovement : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
+        boss = GameObject.Find("Zhavok");
     }
 
     void Update()
@@ -34,6 +36,22 @@ public class ZhavokSummonMovement : MonoBehaviour
         else
         {
             MoveTowards(player.position); // Default: Follow the player
+        }
+
+        if(boss != null)
+        {
+            float bossHealth = boss.GetComponent<EnemyReceiveDamage>().health;
+            float bossMaxHealth = boss.GetComponent<EnemyReceiveDamage>().maxHealth;
+            if(bossHealth > bossMaxHealth / 2)
+            {
+                gameObject.GetComponent<SummonBehavior>().enabled = true;
+                gameObject.GetComponent<SummonPhase2Behavior>().enabled = false;
+            }
+            else
+            {
+                gameObject.GetComponent<SummonBehavior>().enabled = false;
+                gameObject.GetComponent<SummonPhase2Behavior>().enabled = true;
+            }
         }
     }
 
@@ -62,7 +80,7 @@ public class ZhavokSummonMovement : MonoBehaviour
             isInteractingWithBook = true;
 
             // Move towards the book
-            while (targetBook != null && Vector2.Distance(transform.position, targetBook.position) > stoppingDistance)
+            while (targetBook != null && Vector2.Distance(transform.position, targetBook.position) > 0.1f)
             {
                 MoveTowards(targetBook.position);
                 yield return null; // Wait for next frame
@@ -86,8 +104,11 @@ public class ZhavokSummonMovement : MonoBehaviour
                 }
 
                 // Reset book target and resume normal behavior
-                targetBook.GetComponent<BookRecollect>().isTaken = false;
-                targetBook = null;
+                if(targetBook != null)
+                {
+                    targetBook.GetComponent<BookRecollect>().isTaken = false;
+                    targetBook = null;
+                }
                 isInteractingWithBook = false;
             }
         }
