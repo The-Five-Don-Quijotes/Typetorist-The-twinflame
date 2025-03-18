@@ -1,17 +1,26 @@
+using System;
 using UnityEngine;
 
 public class ActiveSpawner : MonoBehaviour
 {
-    public GameObject Spawner;
-    public GameObject Spawner1;
-    public GameObject Spawner2;
-    public GameObject Spawner3;
+    private GameObject Spawner;
+    private GameObject Spawner1;
+    private GameObject Spawner2;
+    private GameObject Spawner3;
+
     void Start()
     {
-        Spawner.SetActive(false);
-        Spawner1.SetActive(false);
-        Spawner2.SetActive(false);
-        Spawner3.SetActive(false);
+        // Find objects in the scene (even if inactive)
+        Spawner = GameObject.Find("BulletSpawner");
+        Spawner1 = GameObject.Find("BulletSpawner (1)");
+        Spawner2 = GameObject.Find("BulletSpawner (2)");
+        Spawner3 = GameObject.Find("BulletSpawner (3)");
+
+        // Ensure they are found before setting active
+        if (Spawner != null) Spawner.SetActive(false);
+        if (Spawner1 != null) Spawner1.SetActive(false);
+        if (Spawner2 != null) Spawner2.SetActive(false);
+        if (Spawner3 != null) Spawner3.SetActive(false);
     }
 
     void Update()
@@ -20,31 +29,21 @@ public class ActiveSpawner : MonoBehaviour
         if (boss != null)
         {
             float bossHealth = boss.GetComponent<EnemyReceiveDamage>().health;
-            if (bossHealth <= 75 && bossHealth > 50)
-            {
-                Spawner.SetActive(true);
-                Spawner1.SetActive(true);
-                Spawner2.SetActive(true);
-                Spawner3.SetActive(true);
-            }
-            if (bossHealth == 50 || bossHealth == 0)
-            {
-                Spawner.SetActive(false);
-                Spawner1.SetActive(false);
-                Spawner2.SetActive(false);
-                Spawner3.SetActive(false);
-            }
-            else
-            {
-                Spawner.SetActive(true);
-                Spawner1.SetActive(true);
-                Spawner2.SetActive(true);
-                Spawner3.SetActive(true);
-            }
+
+            bool shouldActivate = bossHealth <= 75 && bossHealth > 50;
+            bool shouldDeactivate = bossHealth == 50 || bossHealth == 0;
+
+            Debug.Log("Active: " + shouldActivate + ", Deactive: " + shouldDeactivate);
+
+            // Activate or deactivate spawners based on health
+            if (Spawner != null) Spawner.SetActive(shouldActivate && !shouldDeactivate);
+            if (Spawner1 != null) Spawner1.SetActive(shouldActivate && !shouldDeactivate);
+            if (Spawner2 != null) Spawner2.SetActive(shouldActivate && !shouldDeactivate);
+            if (Spawner3 != null) Spawner3.SetActive(shouldActivate && !shouldDeactivate);
         }
         else
         {
-            Debug.Log("Baeloris not found in the scene.");
+            Debug.LogWarning("Baeloris not found in the scene.");
         }
     }
 }
