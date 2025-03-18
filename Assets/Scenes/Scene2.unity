@@ -69756,6 +69756,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
+      propertyPath: m_TagString
+      value: Boss
+      objectReference: {fileID: 0}
     - target: {fileID: 7054755973381718111, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: tilemap
       value: 

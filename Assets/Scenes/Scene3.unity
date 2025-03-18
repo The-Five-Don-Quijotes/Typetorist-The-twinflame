@@ -4329,10 +4329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf592b9b8bf0dd1458133accdef95c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spawner: {fileID: 0}
-  Spawner1: {fileID: 0}
-  Spawner2: {fileID: 0}
-  Spawner3: {fileID: 0}
 --- !u!1 &1425190346
 GameObject:
   m_ObjectHideFlags: 0
@@ -48673,7 +48669,7 @@ GameObject:
   - component: {fileID: 1995745191}
   m_Layer: 0
   m_Name: Vorrak
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
