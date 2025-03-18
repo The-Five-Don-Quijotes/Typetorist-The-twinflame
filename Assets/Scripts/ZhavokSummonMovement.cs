@@ -42,12 +42,17 @@ public class ZhavokSummonMovement : MonoBehaviour
         {
             float bossHealth = boss.GetComponent<EnemyReceiveDamage>().health;
             float bossMaxHealth = boss.GetComponent<EnemyReceiveDamage>().maxHealth;
-            if(bossHealth > bossMaxHealth / 2)
+            if (gameObject.GetComponent<SummonBehavior>() == null)
+                Debug.LogError("SummonBehavior is missing!");
+
+            if (gameObject.GetComponent<SummonPhase2Behavior>() == null)
+                Debug.LogError("SummonPhase2Behavior is missing!");
+            if (bossHealth > bossMaxHealth / 4) //50% boss
             {
                 gameObject.GetComponent<SummonPhase2Behavior>().enabled = false;
                 gameObject.GetComponent<SummonBehavior>().enabled = true;
             }
-            else
+            else //25% boss
             {
                 gameObject.GetComponent<SummonBehavior>().enabled = false;
                 gameObject.GetComponent<SummonPhase2Behavior>().enabled = true;
