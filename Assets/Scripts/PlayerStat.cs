@@ -5,10 +5,12 @@ using TMPro;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine.Tilemaps;
+using UnityEditor.SearchService;
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats playerStats;
+    private SceneTransition sceneTransition;
     public GameObject spawnedBook;
     public GameObject Player;
     public GameObject Boss;
@@ -59,6 +61,7 @@ public class PlayerStats : MonoBehaviour
         DisplayHeart();
         audioSource = GetComponent<AudioSource>();
         mapBounds = mapCollider.bounds;
+        sceneTransition = FindFirstObjectByType<SceneTransition>(); // Find the script in the scene
 
         isGodMode = false;
     }
@@ -136,6 +139,7 @@ public class PlayerStats : MonoBehaviour
             audioSource.Play();
             Destroy(TypingLine.gameObject);
             Destroy(Player); //dead
+            sceneTransition.LoadSceneWithFade("DedScreen");
         }
     }
 
