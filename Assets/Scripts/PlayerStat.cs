@@ -237,12 +237,12 @@ public class PlayerStats : MonoBehaviour
             return false;
         }
 
-        if (Vector3.Distance(position, Player.transform.position) < minPlayerDist)
+        if (Player != null && Vector3.Distance(position, Player.transform.position) < minPlayerDist)
         {
             return false;
         }
 
-        if (Vector3.Distance(position, Boss.transform.position) < minBossDist)
+        if (Boss != null && Vector3.Distance(position, Boss.transform.position) < minBossDist)
         {
             return false;
         }

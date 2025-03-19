@@ -10,6 +10,7 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     public GameObject bossHealthBar;
     public Slider healthSlider;
+    public CanvasGroup bossShield;
     private Animator animator;
     private AudioSource audioSource;
     public AudioClip hurtSound;
@@ -40,15 +41,44 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     public void DealDamage(float damage)
     {
+        if (bossShield != null)
+        {
+            var shieldScript = GetComponent<VorrakShieldCast>();
+            if(shieldScript.isShieldOn())
+            {
+                shieldScript.HideShield();
+                return;
+            }
+        }
         animator.SetTrigger("isHurt");
         audioSource.PlayOneShot(hurtSound);
         health -= damage;
         CheckDeath();
-        if (!animator.GetBool("isShooting"))
+        if (animator != null && HasParameter(animator, "isShooting"))
         {
+            if (!animator.GetBool("isShooting"))
+            {
+                CheckHalfHealth();
+            }
+        }
+        else
+        {
+            // If the parameter doesn't exist, just run the function
             CheckHalfHealth();
         }
         healthSlider.value = CalculateHealthPercentage();
+    }
+
+    private bool HasParameter(Animator animator, string paramName)
+    {
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void HealEnemy(float heal)
@@ -111,8 +141,11 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     void StartShooting()
     {
-        animator.SetTrigger("StartShooting");
-        animator.SetBool("isShooting", true);
+        if (animator != null && HasParameter(animator, "StartShooting"))
+        {
+            animator.SetTrigger("StartShooting");
+            animator.SetBool("isShooting", true);
+        }
 
         // Stay in shooting for x seconds, then go back to idle
         Invoke(nameof(StopShooting), phase2ShootingDuration);
@@ -126,5 +159,10 @@ public class EnemyReceiveDamage : MonoBehaviour
     private float CalculateHealthPercentage()
     {
         return (health / maxHealth);
+    }
+
+    public void DesTroyBoss()
+    {
+        Destroy(gameObject);
     }
 }
