@@ -112,4 +112,31 @@ public class VorrakMovement : MonoBehaviour
         transform.position = targetPosition;
         isMoving = false;
     }
+
+    public void MoveNearPlayerWithDuration(float duration)
+    {
+        if (player == null || isMoving) return;
+
+        isMoving = true; // Prevent overlapping movement
+
+        // Get a random direction within a 0.3 unit radius
+        Vector2 randomDirection = Random.insideUnitCircle.normalized * 0.3f;
+        Vector2 targetPosition = (Vector2)player.position + randomDirection;
+
+        StartCoroutine(MoveAndStop(targetPosition, duration));
+    }
+
+    IEnumerator MoveAndStop(Vector2 targetPosition, float duration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        isMoving = false; // Allow movement again
+    }
 }

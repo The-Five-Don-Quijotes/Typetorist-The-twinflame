@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class VorrakController : MonoBehaviour
@@ -6,6 +7,7 @@ public class VorrakController : MonoBehaviour
     private EnemyReceiveDamage healthSystem;
 
     public float attackCooldown = 3f; // Time between attacks
+    public float followDuration = 5f; // Duration to follow player
     private float nextAttackTime;
 
     private bool isFirst50 = true;
@@ -39,6 +41,7 @@ public class VorrakController : MonoBehaviour
             // Phase 1: 75% Melee, 25% Arm
             if (attackChoice < 75)
             {
+                GetComponent<VorrakMovement>()?.MoveNearPlayerWithDuration(followDuration);
                 TriggerMeleeAttack();
             }
             else
@@ -51,6 +54,7 @@ public class VorrakController : MonoBehaviour
             // Phase 2: 50% Melee, 50% Arm (Shoots 2 arms)
             if (attackChoice < 50)
             {
+                GetComponent<VorrakMovement>().MoveNearPlayerWithDuration(followDuration);
                 TriggerMeleeAttack();
             }
             else
@@ -74,7 +78,7 @@ public class VorrakController : MonoBehaviour
             {
                 TriggerLaser();
             }
-            if (attackChoice < 10) TriggerShield();
+            if (attackChoice < 5) TriggerShield();
         }
         else
         {
@@ -91,7 +95,7 @@ public class VorrakController : MonoBehaviour
             {
                 TriggerLaser();
             }
-            if (attackChoice < 20) TriggerShield();
+            if (attackChoice < 10) TriggerShield();
         }
     }
 
@@ -102,9 +106,18 @@ public class VorrakController : MonoBehaviour
 
     private void TriggerShootingArm(int count)
     {
-        animator.SetTrigger("isShootingArm");
-        //animator.SetInteger("ArmCount", count); // ArmCount controls how many arms to shoot
+        StartCoroutine(ShootArms(count));
     }
+
+    private IEnumerator ShootArms(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            animator.SetTrigger("isShootingArm");
+            yield return new WaitForSeconds(0.8f); // Adjust delay based on animation timing
+        }
+    }
+
 
     private void TriggerLaser()
     {
