@@ -5,23 +5,21 @@ public class BaelorisWordBank : MonoBehaviour
 {
     public List<string> originalLines = new List<string>()
     {
-        "witness the cross of the lord flee away ye hostiles may thy mercy o lord",
-        "rest upon us for we have hope the lion of the tribe of judah",
-        "the root of david hath conquered we cast you out every unclean spirit",
-        "every satanic power and onslaught cursed dragon we adjure",
-        "you may the lord be with you and with thy spirit amen"
+        "witness the cross of the lord flee away ye hostiles may thy mercy o lord rest upon us for we have hope",
+        "the lion of the tribe of judah the root of david hath conquered we cast you out every unclean spirit",
+        "every satanic power and onslaught cursed dragon we adjure you by his might you shall not stand",
+        "may the lord be with us our refuge and shield his light drives out the darkness",
+        "let his name reign forever in him we find our salvation amen"
     };
 
-
-    public List<string> phase2Lines = new List<string>
+    public List<string> phase2Lines = new List<string>()
     {
-        "behold the ancient enemy and murderer strongly raises his head fight the lord battles", 
-        "with the undefeated army of the angels as once thou didst fight the first apostate and he prevailed not",
-        "where the sea of peter has been settled for the light of the gentiles",
-        "where the behemoth was cast out the serpent called the devil seduced the world",
-        "pray the god of peace to crush satan may he no more be able to harm innocents amen"
+        "behold the ancient enemy the murderer raising his head yet the lords army shall fight his battles",
+        "as once thou didst fight the first apostate so shall he prevail the forces of light shall not be overcome",
+        "where the seat of peter is settled let truth shine for the nations darkness shall not consume it",
+        "the behemoth is cast down the serpent deceives no more the lord rebukes the prince of lies",
+        "pray to the god of peace to crush satans reign may he harm the innocent no more amen"
     };
-
 
     private Queue<(string word, bool isFirstWord)> wordQueue = new Queue<(string, bool)>();
     public int currentLineIndex = -1;

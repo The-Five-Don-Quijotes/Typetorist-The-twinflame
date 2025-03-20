@@ -43,15 +43,17 @@ public class PlayerStats : MonoBehaviour
 
     private void Awake()
     {
-        if(playerStats != null)
+        if (playerStats != null)
         {
-            Destroy(playerStats);
+            Destroy(playerStats.gameObject);
         }
-        else
-        {
-            playerStats = this;
-        }
-        DontDestroyOnLoad(this);
+
+        playerStats = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Ensure AudioSource is assigned early
+        audioSource = GetComponent<AudioSource>();
+        Player = GameObject.FindWithTag("Player");
     }
 
     private void Start()
