@@ -75,6 +75,11 @@ public class PlayerMovement : MonoBehaviour
             lastDashTime = Time.time;
             StartCoroutine(Dash());
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameObject.Find("SceneTransition").GetComponent<SceneTransition>()?.LoadSceneWithFade("PauseScreen");
+        }
     }
 
     private IEnumerator Dash()

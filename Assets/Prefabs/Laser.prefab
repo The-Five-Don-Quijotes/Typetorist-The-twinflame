@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 2037812589653088954}
   m_Layer: 0
   m_Name: Laser
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -633,6 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ad7176c57452149bfb2bca0a971fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
 --- !u!1 &8778129354793850062
 GameObject:
   m_ObjectHideFlags: 0

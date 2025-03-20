@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 7054755973381718111}
   m_Layer: 0
   m_Name: Zhavok
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,6 +260,7 @@ MonoBehaviour:
   wordBank: {fileID: 0}
   bossHealthBar: {fileID: 0}
   healthSlider: {fileID: 0}
+  bossShield: {fileID: 0}
   hurtSound: {fileID: 8300000, guid: 14794acc0da5bab43804f0814d415d9e, type: 3}
   deathSound: {fileID: 8300000, guid: 8bb3f71b93a52c34c8651ca92c0d5229, type: 3}
   phase2ShootingDuration: 0

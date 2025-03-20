@@ -71,6 +71,7 @@ public class EnemyShooting : MonoBehaviour
             if (GetComponent<EnemyReceiveDamage>().health <= GetComponent<EnemyReceiveDamage>().maxHealth / 2 && GetComponent<EnemyReceiveDamage>().health != 0) //Health below 50
             {
                 cooldown = 0.1f;
+                if (transform != null) yield return null;
                 // Face the player
                 if (player.position.x > transform.position.x)
                 {

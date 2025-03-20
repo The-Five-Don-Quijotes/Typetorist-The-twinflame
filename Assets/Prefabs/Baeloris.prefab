@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3407801321229331070}
   m_Layer: 0
   m_Name: Baeloris
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -195,8 +195,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   maxHealth: 100
+  wordBank: {fileID: 0}
   bossHealthBar: {fileID: 0}
   healthSlider: {fileID: 0}
+  bossShield: {fileID: 0}
   hurtSound: {fileID: 8300000, guid: 9d2848f3a956bb842910a53f209664e2, type: 3}
   deathSound: {fileID: 8300000, guid: ecba8293758642745866eb144fe217d9, type: 3}
   phase2ShootingDuration: 15
