@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6218298396241697795}
   - component: {fileID: 9091945304286765276}
   - component: {fileID: 5414326767528324833}
-  - component: {fileID: 3094281654184087687}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Portal
@@ -190,15 +189,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Scene2
---- !u!114 &3094281654184087687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8480293956725687899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d2d2ed4acd623e4db0f79068eb2e3e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -94953,6 +94953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c8f053b0304494c94359e71ac3ac1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activationY: -11
 --- !u!114 &1413736956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95581,6 +95582,7 @@ GameObject:
   - component: {fileID: 1736725577}
   - component: {fileID: 1736725576}
   - component: {fileID: 1736725575}
+  - component: {fileID: 1736725580}
   m_Layer: 0
   m_Name: Gate
   m_TagString: Wall
@@ -96017,6 +96019,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1736725580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736725573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f19a5d2345f37348ae3908040f80f97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1774067598
 PrefabInstance:
   m_ObjectHideFlags: 0
