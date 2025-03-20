@@ -6,7 +6,7 @@ public class DialougeUIScript : MonoBehaviour
 {
     [SerializeField] private GameObject dialougeBox;
     [SerializeField] private TMP_Text textLabel;
-    private TypeWriterEffect typeWriterEffect;
+    [SerializeField] private TypeWriterEffect typeWriterEffect;
     private void Start()
     {
         typeWriterEffect = GetComponent<TypeWriterEffect>();
@@ -24,7 +24,7 @@ public class DialougeUIScript : MonoBehaviour
     {
         foreach(string dialouge in dialougeObject.Dialouge)
         {
-            yield return typeWriterEffect.Run(dialouge,textLabel);
+            yield return typeWriterEffect.Run(dialouge, textLabel);
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         }
         CloseDialouge();

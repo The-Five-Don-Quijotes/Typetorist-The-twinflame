@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 352301d06dfb55c4c81ee81497a27217, type: 3}
+  m_Name: BaeLoris
+  m_EditorClassIdentifier: 
+  dialouge:
+  - "So....you are that foolish priest that felt down the celling\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPress
+    Space to continue"
+  - "I will make sure you are not getting up ever again!!!!\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPress
+    Space to continue"
+  - "I shall feast on your soulllll\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPress Space to
+    continue"

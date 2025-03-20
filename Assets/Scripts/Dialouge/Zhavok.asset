@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 352301d06dfb55c4c81ee81497a27217, type: 3}
-  m_Name: New Dialogue
+  m_Name: Zhavok
   m_EditorClassIdentifier: 
   dialouge:
-  - This is the first test
-  - This is the second test
+  - "The smell....of life\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPress Space to continue"
+  - "How long did I yearn for a living soul\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPress
+    Space to continue"
+  - "To REAPPPPPPPP\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tPress Space to continue"
