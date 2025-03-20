@@ -343,7 +343,10 @@ public class PlayerStats : MonoBehaviour
     public void ShowTyper()
     {
         TypingText.gameObject.SetActive(true);
-        TypingText.GetComponent<MakeTextAppear>()?.ShowText(0f);
+        if(TypingText.color.a == 0)
+        {
+            TypingText.GetComponent<MakeTextAppear>()?.ShowText(0f);
+        }
     }
 
     private void Update()
@@ -351,7 +354,7 @@ public class PlayerStats : MonoBehaviour
         DebugInput();
         if (GameObject.FindWithTag("Book") != null && (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect))
         {
-            typer.ResetLine();
+            typer?.ResetLine();
             bookDropTime = -1f; // Reset to avoid continuous resetting
         }
     }

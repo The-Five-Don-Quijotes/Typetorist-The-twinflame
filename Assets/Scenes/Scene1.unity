@@ -1051,7 +1051,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialougeBox: {fileID: 854302342}
   textLabel: {fileID: 243501262}
-  test: {fileID: 0}
 --- !u!1 &504637412
 GameObject:
   m_ObjectHideFlags: 0
@@ -106910,7 +106909,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8984303050656862795, guid: 2a01e254ca80a0d4a84e37ef95aef525, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
