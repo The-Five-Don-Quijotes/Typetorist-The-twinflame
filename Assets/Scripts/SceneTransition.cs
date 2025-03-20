@@ -13,7 +13,6 @@ public class SceneTransition : MonoBehaviour
     {
         // Save the current scene before switching
         previousScene = SceneManager.GetActiveScene().name;
-
         StartCoroutine(FadeAndLoad(sceneName));
     }
 
@@ -28,8 +27,15 @@ public class SceneTransition : MonoBehaviour
     private void StopAllAudio()
     {
         AudioSource[] audioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+
         foreach (AudioSource audio in audioSources)
         {
+            if (audio.gameObject.CompareTag("GameManager")) // Check if it's from GameManager
+            {
+                if (audio.clip != null && audio.clip.name == "PlayerDeath")
+                    continue; // Skip stopping "PlayerDeath" sound
+            }
+
             audio.Stop();
         }
     }

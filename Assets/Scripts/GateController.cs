@@ -7,6 +7,8 @@ public class GateController : MonoBehaviour
     private GameObject boss;
     private Transform player;
 
+    public float activationY = -12f; // Y position threshold for activation
+
     void Start()
     {
         gateTilemap = GameObject.Find("Gate"); // Find the tilemap GameObject
@@ -19,30 +21,24 @@ public class GateController : MonoBehaviour
             Debug.LogError("Gate tilemap not found!");
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player") && gateTilemap != null)
-        {
-            gateTilemap.SetActive(true); // Activate Gate when player is on top
-        }
-    }
-
-    //private void OnTriggerExit2D(Collider2D other)
-    //{
-    //    if (other.CompareTag("Player") && gateTilemap != null)
-    //    {
-    //        gateTilemap.SetActive(false); // Optionally deactivate when player leaves
-    //    }
-    //}
-
     void Update()
     {
+        // Activate gate if player is above a certain Y position
+        if (player != null && gateTilemap != null)
+        {
+            if (player.position.y > activationY)
+            {
+                gateTilemap.SetActive(true);
+            }
+        }
+
+        // Deactivate gate when boss dies
         if (boss != null)
         {
             float bossHealth = boss.GetComponent<EnemyReceiveDamage>().health;
             if (bossHealth == 0 && gateTilemap != null)
             {
-                gateTilemap.SetActive(false); // Deactivate when boss dies
+                gateTilemap.SetActive(false);
             }
         }
     }
