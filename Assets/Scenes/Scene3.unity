@@ -3520,17 +3520,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
   m_PrefabInstance: {fileID: 841215362383593742}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &639294682 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
-  m_PrefabInstance: {fileID: 841215362383593742}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 639294681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee6e51480a8c54a4fa48ded9e67e0b33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &678726289
 GameObject:
   m_ObjectHideFlags: 0
@@ -4542,7 +4531,6 @@ MonoBehaviour:
   TimeToRecollect: 5
   minDistanceFromPlayer: 3
   safeDistanceFromBoss: 4
-  typer: {fileID: 639294682}
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 0
