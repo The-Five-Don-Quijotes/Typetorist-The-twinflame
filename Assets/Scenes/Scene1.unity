@@ -95005,7 +95005,6 @@ MonoBehaviour:
   TimeToRecollect: 5
   minDistanceFromPlayer: 3
   safeDistanceFromBoss: 4
-  typer: {fileID: 0}
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 64

@@ -3,11 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class PortalTeleport : MonoBehaviour
 {
-    [SerializeField] private string sceneName; // Assign the scene in the Inspector
+    public string sceneName; // Assign the scene in the Inspector
 
     void Start()
     {
         gameObject.SetActive(false);
+        string currentScene = SceneManager.GetActiveScene().name;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

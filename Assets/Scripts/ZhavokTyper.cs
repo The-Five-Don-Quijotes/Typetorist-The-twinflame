@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaelorisTyper : MonoBehaviour,ITyper 
+public class ZhavokTyper : MonoBehaviour, ITyper
 {
-    public BaelorisWordBank wordBank = null;
+    public ZhavokWordBank wordBank = null;
     public TextMeshProUGUI wordOutput = null;
     public TextMeshProUGUI outputLine = null;
     public GameObject Enemy;
@@ -67,7 +67,7 @@ public class BaelorisTyper : MonoBehaviour,ITyper
 
     private void HideText()
     {
-        if(Enemy == null)
+        if (Enemy == null)
         {
             wordOutput.gameObject.SetActive(false);
             outputLine.gameObject.SetActive(false);
