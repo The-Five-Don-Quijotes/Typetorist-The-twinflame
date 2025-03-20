@@ -36,8 +36,6 @@ public class ActiveSpawner : MonoBehaviour
             bool shouldActivate = bossHealth == 75 || bossHealth == 25;
             bool shouldDeactivate = bossHealth == 50 || bossHealth == 0;
 
-            Debug.Log("Active: " + shouldActivate + ", Deactive: " + shouldDeactivate);
-
             // Activate or deactivate spawners based on health
             if (Spawner != null) Spawner.SetActive(shouldActivate && !shouldDeactivate);
             if (Spawner1 != null) Spawner1.SetActive(shouldActivate && !shouldDeactivate);

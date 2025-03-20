@@ -6,6 +6,8 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine.Tilemaps;
 using UnityEditor.SearchService;
+using Assets.Interface;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -24,11 +26,12 @@ public class PlayerStats : MonoBehaviour
     public float TimeToRecollect = 3f;
     public float minDistanceFromPlayer = 10f;
     public float safeDistanceFromBoss = 10f;
-    public BaelorisTyper typer;
+    public ITyper typer;
     private Vector3 respawnPosition;
     public LayerMask wallLayerMask;
     [SerializeField] private CompositeCollider2D mapCollider;
     private Bounds mapBounds;
+
 
 
 
@@ -58,15 +61,58 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        typer = FindFirstObjectByType<BaelorisTyper>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
         health = maxHealth;
         DisplayHeart();
         audioSource = GetComponent<AudioSource>();
         mapBounds = mapCollider.bounds;
-        sceneTransition = FindFirstObjectByType<SceneTransition>(); // Find the script in the scene
+        sceneTransition = FindFirstObjectByType<SceneTransition>(); 
 
         isGodMode = false;
     }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; 
+    }
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Scene Loaded: " + scene.name);
+
+        StartCoroutine(AssignTyper(scene.name));
+    }
+
+    private IEnumerator AssignTyper(string sceneName)
+    {
+        if (sceneName == "Scene2")
+        {
+            while (typer == null)
+            {
+                typer = FindFirstObjectByType<ZhavokTyper>();
+                if (typer != null)
+                {
+                    Debug.Log("Assigned typer to ZhavokTyper");
+                    break;
+                }
+                yield return null; // wait frame
+            }
+        }
+        else
+        {
+            while (typer == null)
+            {
+                typer = FindFirstObjectByType<BaelorisTyper>();
+                if (typer != null)
+                {
+                    Debug.Log("Assigned typer to BaelorisTyper");
+                    break;
+                }
+                yield return null;
+            }
+        }
+    }
+
 
     private void DebugInput()
     {

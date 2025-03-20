@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Assets.Interface;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaelorisTyper : MonoBehaviour
+public class BaelorisTyper : MonoBehaviour,ITyper 
 {
     public BaelorisWordBank wordBank = null;
     public TextMeshProUGUI wordOutput = null;
@@ -28,7 +29,7 @@ public class BaelorisTyper : MonoBehaviour
         SetCurrentLine();
     }
 
-    private void SetCurrentLine()
+    public void SetCurrentLine()
     {
         string line = wordBank.GetLine();
         if (line != string.Empty)
@@ -45,7 +46,7 @@ public class BaelorisTyper : MonoBehaviour
         }
     }
 
-    private void SetCurrentWord()
+    public void SetCurrentWord()
     {
         currentWord = wordBank.GetWord();
         SetRemainingWord(currentWord);
@@ -73,7 +74,7 @@ public class BaelorisTyper : MonoBehaviour
         }
     }
 
-    private void CheckInput()
+    public void CheckInput()
     {
         if (Input.anyKeyDown)
         {

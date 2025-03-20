@@ -978,6 +978,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &375387743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+  m_PrefabInstance: {fileID: 1920549732968493303}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &459350501 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
@@ -57763,6 +57768,26 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
   m_PrefabInstance: {fileID: 841215362383593742}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &639294682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639294681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f8c3ca3de29344688cd216d31965b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wordBank: {fileID: 1951922210}
+  wordOutput: {fileID: 716984811}
+  outputLine: {fileID: 228019068}
+  Enemy: {fileID: 459350501}
+  damage: 13
+  dotPrefab: {fileID: 2177327532916581973, guid: f00ac3c923d45d6479d0d051b4f2241f, type: 3}
+  player: {fileID: 639294681}
+  dotCount: 15
 --- !u!1001 &655136128
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59184,7 +59209,6 @@ MonoBehaviour:
   TimeToRecollect: 5
   minDistanceFromPlayer: 3
   safeDistanceFromBoss: 4
-  typer: {fileID: 0}
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -69415,17 +69439,40 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &1951922209 stripped
+--- !u!114 &1951922210
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
-  m_PrefabInstance: {fileID: 1920549732968493303}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 375387743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2100cb9991da85f4c82281a63abaeb84, type: 3}
+  m_Script: {fileID: 11500000, guid: c0c19f7e0426cc64694b5f76c66192ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalLines:
+  - in the name and by the power of our lord jesus christ we chant
+  - may you be snatched away from this fiend and redeemed by the divine
+  - transfiguratus in angelum lucis c-um tota malignorum spirituum caterva late circuit
+  - ecclesiam agni immaculati sponsam faverrimi hostes repleverunt amaritudinibus
+    inebriarunt absinthio
+  - virus nequitiae suae tamquam flumen immundissimum draco maleficus transfundit
+    in homines depravatos mente
+  - ut in ea deleat nomen dei ad aeternae gloriae coronam destinatas furetur mactet
+    ac perdat ininteritum amen
+  phase2Lines:
+  - vade satana inventor et magister omnis fallacie hostis humanae
+  - da locum ecclesiae uni sanctae quam christus ipse acquisivit sanguine suo
+  - humiliare sub potenti manu dei contremisce a nobis sancto et terribili nomine
+    jesu
+  - quem inferi tremunt cui virtutles subjectae sunt quem seraphim seraphim indefessis
+    vocibus audant
+  - dicentes sanctus dominue deus sabaoth domine elxaudi orationem meam et camor
+    meus ad te veniat
+  - gloriae tuae supplicamus ut ab omni infernalium spiritum potestate laqueo deceptione
+    nos potenter liberare amen
+  currentLineIndex: -1
 --- !u!1 &2014446854
 GameObject:
   m_ObjectHideFlags: 0
@@ -70099,7 +70146,7 @@ PrefabInstance:
     - target: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: wordBank
       value: 
-      objectReference: {fileID: 1951922209}
+      objectReference: {fileID: 0}
     - target: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: outputLine
       value: 
@@ -70124,10 +70171,14 @@ PrefabInstance:
       propertyPath: outputLine
       value: 
       objectReference: {fileID: 228019068}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4070568225006338372, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 639294682}
     - targetCorrespondingSourceObject: {fileID: 1038343328928601738, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 716984814}
@@ -70297,10 +70348,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1951922210}
   m_SourcePrefab: {fileID: 100100000, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
 --- !u!1001 &5290079147774253263
 PrefabInstance:
@@ -70313,7 +70368,7 @@ PrefabInstance:
     - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: wordBank
       value: 
-      objectReference: {fileID: 1951922209}
+      objectReference: {fileID: 0}
     - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: healthSlider
       value: 
