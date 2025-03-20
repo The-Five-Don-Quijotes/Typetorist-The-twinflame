@@ -63,6 +63,9 @@ public class ZhavokSummonMovement : MonoBehaviour
                 gameObject.GetComponent<SummonBehavior>().enabled = false;
                 gameObject.GetComponent<SummonPhase2Behavior>().enabled = true;
             }
+        }else
+        {
+            Destroy(gameObject);
         }
     }
 

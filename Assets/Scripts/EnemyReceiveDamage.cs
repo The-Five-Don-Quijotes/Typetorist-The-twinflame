@@ -103,31 +103,8 @@ public class EnemyReceiveDamage : MonoBehaviour
         {
             animator.SetTrigger("isDeath");
             audioSource.PlayOneShot(deathSound);
-            float deathAnimDuration = GetAnimationClipLength("death"); // Get exact animation length
-            Debug.Log(deathAnimDuration);
-            StartCoroutine(HandleDeath(deathAnimDuration));
             bossHealthBar.SetActive(false); // Hide health bar when death
         }
-    }
-
-    private IEnumerator HandleDeath(float duration)
-    {
-        yield return new WaitForSeconds(duration*10); // Wait for the actual death animation to finish
-        Destroy(gameObject);
-    }
-
-    private float GetAnimationClipLength(string clipName)
-    {
-        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
-        foreach (AnimationClip clip in ac.animationClips)
-        {
-            if (clip.name == clipName)
-            {
-                return clip.length;
-            }
-        }
-        Debug.LogWarning($"Animation clip '{clipName}' not found!");
-        return 0f; // Default if not found
     }
 
     private void CheckHalfHealth()
@@ -135,6 +112,7 @@ public class EnemyReceiveDamage : MonoBehaviour
         if (health <= maxHealth / 2)
         {
             wordBank.SetNewLines(wordBank.phase2Lines);
+            wordBank.ResetToFirstWordOfCurrentLine();
             StartShooting();
         }
     }

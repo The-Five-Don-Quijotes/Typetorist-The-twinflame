@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            GameObject.Find("SceneTransition").GetComponent<SceneTransition>()?.LoadSceneWithFade("PauseScreen");
+            FindFirstObjectByType<SceneTransition>().LoadSceneWithFade("PauseScreen");
         }
     }
 

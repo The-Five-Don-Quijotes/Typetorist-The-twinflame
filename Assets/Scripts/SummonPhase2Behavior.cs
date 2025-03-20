@@ -40,7 +40,11 @@ public class SummonPhase2Behavior : MonoBehaviour
                 rb.linearVelocity = rotation * Vector2.up * bulletSpeed;
             }
         }
-
         StartCoroutine(SummonBullets());
+    }
+
+    public void StopSummoning()
+    {
+        Destroy(gameObject);
     }
 }

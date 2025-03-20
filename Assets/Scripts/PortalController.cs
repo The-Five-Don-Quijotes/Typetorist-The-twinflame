@@ -12,7 +12,8 @@ public class PortalController : MonoBehaviour
 
     void Update()
     {
-        if (boss.GetComponent<Animator>().GetBool("isDeath"))
+        //if (boss == null || boss.GetComponent<Animator>().GetBool("isDeath"))
+        if(boss == null)
         {
             if(portal != null)
                 portal.SetActive(true); // Activate Portal when boss dies

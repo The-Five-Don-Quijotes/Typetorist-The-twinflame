@@ -57409,6 +57409,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3094281654184087687, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
+      propertyPath: portal
+      value: 
+      objectReference: {fileID: 468854255}
     - target: {fileID: 5414326767528324833, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
       propertyPath: sceneName
       value: Scene3
@@ -69554,7 +69558,7 @@ Transform:
   m_GameObject: {fileID: 2061552609}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -20, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69653,11 +69657,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3637353554232192825, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.04
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3637353554232192825, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.02
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 3637353554232192825, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -69759,6 +69763,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1808040722148718435, guid: 0976226bb1c3c1243a71c9b99be0365f, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345138885146521814, guid: 0976226bb1c3c1243a71c9b99be0365f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345138885146521814, guid: 0976226bb1c3c1243a71c9b99be0365f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 5000
+      objectReference: {fileID: 0}
     - target: {fileID: 3625647887991675924, guid: 0976226bb1c3c1243a71c9b99be0365f, type: 3}
       propertyPath: m_Name
       value: SceneTransitionCanvas

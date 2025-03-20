@@ -61,6 +61,16 @@ public class BaelorisTyper : MonoBehaviour
     private void Update()
     {
         CheckInput();
+        HideText();
+    }
+
+    private void HideText()
+    {
+        if(Enemy == null)
+        {
+            wordOutput.gameObject.SetActive(false);
+            outputLine.gameObject.SetActive(false);
+        }
     }
 
     private void CheckInput()
