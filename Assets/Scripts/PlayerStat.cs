@@ -36,9 +36,10 @@ public class PlayerStats : MonoBehaviour
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
-    private AudioSource audioSource;
 
     public bool isGodMode = false;
+
+    AudioManager audioManager;
 
     private void Awake()
     {
@@ -47,11 +48,11 @@ public class PlayerStats : MonoBehaviour
             Destroy(playerStats.gameObject);
         }
 
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         playerStats = this;
         DontDestroyOnLoad(gameObject);
 
         // Ensure AudioSource is assigned early
-        audioSource = GetComponent<AudioSource>();
         Player = GameObject.FindWithTag("Player");
     }
 
@@ -60,7 +61,6 @@ public class PlayerStats : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         health = maxHealth;
         DisplayHeart();
-        audioSource = GetComponent<AudioSource>();
         mapBounds = mapCollider.bounds;
         sceneTransition = FindFirstObjectByType<SceneTransition>(); 
 
@@ -151,6 +151,7 @@ public class PlayerStats : MonoBehaviour
                 Player.gameObject.SetActive(false);
                 Invoke("Respawn", 0.5f);
             }
+            audioManager.PlaySFX(audioManager.damaged);
             CheckDeath();
             DisplayHeart();
         }
@@ -176,11 +177,12 @@ public class PlayerStats : MonoBehaviour
     {
         if(health <= 0)
         {
+
             if(health < 0)
             {
                 health = 0;
             }
-            audioSource.Play();
+            audioManager.PlaySFX(audioManager.die);
             Destroy(TypingLine.gameObject);
             Destroy(Player); //dead
             sceneTransition.LoadSceneWithFade("DedScreen");
