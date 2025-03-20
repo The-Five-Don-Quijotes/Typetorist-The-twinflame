@@ -354,7 +354,7 @@ public class PlayerStats : MonoBehaviour
         DebugInput();
         if (GameObject.FindWithTag("Book") != null && (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect))
         {
-            typer?.ResetLine();
+            typer.ResetLine();
             bookDropTime = -1f; // Reset to avoid continuous resetting
         }
     }
