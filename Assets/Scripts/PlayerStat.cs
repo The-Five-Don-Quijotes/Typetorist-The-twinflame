@@ -1,11 +1,7 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine.Tilemaps;
-using UnityEditor.SearchService;
 using Assets.Interface;
 using UnityEngine.SceneManagement;
 

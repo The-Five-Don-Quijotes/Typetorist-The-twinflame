@@ -1,13 +1,5 @@
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.Hardware;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-using static UnityEditor.PlayerSettings;
 
 public class ZhavokWordBank : MonoBehaviour
 {
