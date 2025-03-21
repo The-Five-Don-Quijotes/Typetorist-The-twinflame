@@ -12,6 +12,8 @@ TagManager:
   - Summon
   - Furniture
   - Bullet
+  - GameManager
+  - Audio
   layers:
   - Default
   - TransparentFX

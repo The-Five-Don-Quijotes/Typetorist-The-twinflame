@@ -1,11 +1,13 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class GateController : MonoBehaviour
 {
     private GameObject gateTilemap;
     private GameObject boss;
     private Transform player;
+    private MonoBehaviour[] bossScripts;
+
+    public float activationY = -12f; // Y position threshold for activation
 
     void Start()
     {
@@ -13,37 +15,61 @@ public class GateController : MonoBehaviour
         boss = GameObject.FindWithTag("Boss"); // Find the boss
         player = GameObject.FindGameObjectWithTag("Player")?.transform; // Find player
 
+        if (boss != null)
+        {
+            bossScripts = boss.GetComponents<MonoBehaviour>(); // Get all scripts on the boss
+        }
+
         if (gateTilemap != null)
             gateTilemap.SetActive(false); // Deactivate Gate at start
         else
             Debug.LogError("Gate tilemap not found!");
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player") && gateTilemap != null)
-        {
-            gateTilemap.SetActive(true); // Activate Gate when player is on top
-        }
-    }
-
-    //private void OnTriggerExit2D(Collider2D other)
-    //{
-    //    if (other.CompareTag("Player") && gateTilemap != null)
-    //    {
-    //        gateTilemap.SetActive(false); // Optionally deactivate when player leaves
-    //    }
-    //}
-
     void Update()
     {
+        if (player != null && gateTilemap != null)
+        {
+            if (player.position.y > activationY)
+            {
+                gateTilemap.SetActive(true);
+                SetBossScriptsActive(true);
+            }
+            else
+            {
+                SetBossScriptsActive(false); // Disable all boss scripts
+            }
+        }
+
         if (boss != null)
         {
             float bossHealth = boss.GetComponent<EnemyReceiveDamage>().health;
             if (bossHealth == 0 && gateTilemap != null)
             {
-                gateTilemap.SetActive(false); // Deactivate when boss dies
+                gateTilemap.SetActive(false);
             }
         }
+    }
+
+    private void SetBossScriptsActive(bool state)
+    {
+        if (bossScripts != null)
+        {
+            foreach (MonoBehaviour script in bossScripts)
+            {
+                if (!state) // If disabling the scripts
+                {
+                    script.StopAllCoroutines(); // Stop all running coroutines
+                }
+                script.enabled = state;
+            }
+        }
+    }
+
+    public bool isGateActive()
+    {
+        if(gateTilemap == null) gateTilemap = GameObject.Find("Gate");
+        if(gateTilemap == null) return false;
+        return gateTilemap.activeSelf;
     }
 }

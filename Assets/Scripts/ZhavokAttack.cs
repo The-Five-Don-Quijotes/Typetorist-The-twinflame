@@ -29,6 +29,11 @@ public class ZhavokAttack : MonoBehaviour
         StartCoroutine(AttackPlayer());
     }
 
+    void OnEnable()
+    {
+        StartCoroutine(AttackPlayer());
+    }
+
     IEnumerator AttackPlayer()
     {
         if (player != null)

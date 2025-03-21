@@ -1,11 +1,9 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine.Tilemaps;
-using UnityEditor.SearchService;
+using Assets.Interface;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -24,11 +22,12 @@ public class PlayerStats : MonoBehaviour
     public float TimeToRecollect = 3f;
     public float minDistanceFromPlayer = 10f;
     public float safeDistanceFromBoss = 10f;
-    public BaelorisTyper typer;
+    public ITyper typer;
     private Vector3 respawnPosition;
     public LayerMask wallLayerMask;
     [SerializeField] private CompositeCollider2D mapCollider;
     private Bounds mapBounds;
+
 
 
 
@@ -37,34 +36,79 @@ public class PlayerStats : MonoBehaviour
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
-    private AudioSource audioSource;
 
     public bool isGodMode = false;
 
+    AudioManager audioManager;
+
     private void Awake()
     {
-        if(playerStats != null)
+        if (playerStats != null)
         {
-            Destroy(playerStats);
+            Destroy(playerStats.gameObject);
         }
-        else
-        {
-            playerStats = this;
-        }
-        DontDestroyOnLoad(this);
+
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        playerStats = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Ensure AudioSource is assigned early
+        Player = GameObject.FindWithTag("Player");
     }
 
     private void Start()
     {
-        typer = FindFirstObjectByType<BaelorisTyper>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
         health = maxHealth;
         DisplayHeart();
-        audioSource = GetComponent<AudioSource>();
         mapBounds = mapCollider.bounds;
-        sceneTransition = FindFirstObjectByType<SceneTransition>(); // Find the script in the scene
+        sceneTransition = FindFirstObjectByType<SceneTransition>(); 
 
         isGodMode = false;
     }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; 
+    }
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Scene Loaded: " + scene.name);
+
+        StartCoroutine(AssignTyper(scene.name));
+    }
+
+    private IEnumerator AssignTyper(string sceneName)
+    {
+        if (sceneName == "Scene2")
+        {
+            while (typer == null)
+            {
+                typer = FindFirstObjectByType<ZhavokTyper>();
+                if (typer != null)
+                {
+                    Debug.Log("Assigned typer to ZhavokTyper");
+                    break;
+                }
+                yield return null; // wait frame
+            }
+        }
+        else
+        {
+            while (typer == null)
+            {
+                typer = FindFirstObjectByType<BaelorisTyper>();
+                if (typer != null)
+                {
+                    Debug.Log("Assigned typer to BaelorisTyper");
+                    break;
+                }
+                yield return null;
+            }
+        }
+    }
+
 
     private void DebugInput()
     {
@@ -107,6 +151,7 @@ public class PlayerStats : MonoBehaviour
                 Player.gameObject.SetActive(false);
                 Invoke("Respawn", 0.5f);
             }
+            audioManager.PlaySFX(audioManager.damaged);
             CheckDeath();
             DisplayHeart();
         }
@@ -132,11 +177,12 @@ public class PlayerStats : MonoBehaviour
     {
         if(health <= 0)
         {
+
             if(health < 0)
             {
                 health = 0;
             }
-            audioSource.Play();
+            audioManager.PlaySFX(audioManager.die);
             Destroy(TypingLine.gameObject);
             Destroy(Player); //dead
             sceneTransition.LoadSceneWithFade("DedScreen");
@@ -295,7 +341,10 @@ public class PlayerStats : MonoBehaviour
     public void ShowTyper()
     {
         TypingText.gameObject.SetActive(true);
-        TypingText.GetComponent<MakeTextAppear>()?.ShowText(0f);
+        if(TypingText.color.a == 0)
+        {
+            TypingText.GetComponent<MakeTextAppear>()?.ShowText(0f);
+        }
     }
 
     private void Update()

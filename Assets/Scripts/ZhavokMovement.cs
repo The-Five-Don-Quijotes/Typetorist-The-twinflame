@@ -5,6 +5,7 @@ public class ZhavokMovement : MonoBehaviour
 {
     private Transform player;
     private Animator animator;
+    private GateController gateController;
 
     [Header("Movement Settings")]
     public float teleportDistanceThreshold = 10f; // Distance at which boss teleports
@@ -23,11 +24,22 @@ public class ZhavokMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player")?.transform;
         currentTarget = transform.position; // Start by standing still
+
+        GameObject gameManager = GameObject.Find("GameManager"); // Ensure "Gate" exists in hierarchy
+        if (gameManager != null)
+        {
+            gateController = gameManager.GetComponent<GateController>();
+        }
+
+        if (gateController == null)
+        {
+            Debug.LogError("GateController not found! Make sure it's assigned.");
+        }
     }
 
     void Update()
     {
-        if (player == null) return;
+        if (player == null || !gateController.isGateActive()) return;
         LookAtPlayer();
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
