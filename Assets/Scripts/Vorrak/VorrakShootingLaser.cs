@@ -14,6 +14,11 @@ public class VorrakShooting : MonoBehaviour
 
     public void CreateLaser()
     {
+        if (currentLaser != null)
+        {
+            return;
+        }
+
         bool isFlipped = transform.rotation.y != 0; // Check if Vorrak is flipped
         float directionMultiplier = isFlipped ? -1f : 1f; // Reverse if flipped
 

@@ -28,7 +28,7 @@ public class GateController : MonoBehaviour
 
     void Update()
     {
-        if (player != null && gateTilemap != null)
+        if (player != null && gateTilemap != null && boss != null)
         {
             if (player.position.y > activationY)
             {
@@ -41,13 +41,19 @@ public class GateController : MonoBehaviour
             }
         }
 
+        float bossHealth = 0;
         if (boss != null)
         {
-            float bossHealth = boss.GetComponent<EnemyReceiveDamage>().health;
-            if (bossHealth == 0 && gateTilemap != null)
-            {
-                gateTilemap.SetActive(false);
-            }
+            bossHealth = boss.GetComponent<EnemyReceiveDamage>().health;
+        }
+        else
+        {
+            bossHealth = 0;
+        }
+
+        if (bossHealth == 0 && gateTilemap != null)
+        {
+            gateTilemap.SetActive(false);
         }
     }
 
