@@ -14,8 +14,8 @@ public class PlayerStats : MonoBehaviour
     public GameObject Boss;
 
     public GameObject Book;
-    public float minRadius ; //The radius which the book is dropped
-    public float maxRadius ;
+    public float minRadius; //The radius which the book is dropped
+    public float maxRadius;
     public TextMeshProUGUI TypingLine;
     public TextMeshProUGUI TypingText;
     private float bookDropTime = -1f;
@@ -28,9 +28,6 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private CompositeCollider2D mapCollider;
     private Bounds mapBounds;
 
-
-
-
     public int health;
     public int maxHealth;
     public Image[] hearts;
@@ -40,6 +37,8 @@ public class PlayerStats : MonoBehaviour
     public bool isGodMode = false;
 
     AudioManager audioManager;
+
+    private bool canBeDamaged = true; 
 
     private void Awake()
     {
@@ -61,21 +60,23 @@ public class PlayerStats : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         health = maxHealth;
         DisplayHeart();
-        mapBounds = mapCollider.bounds;
-        sceneTransition = FindFirstObjectByType<SceneTransition>(); 
+        if (mapCollider != null)
+        {
+            mapBounds = mapCollider.bounds;
+        }
+        sceneTransition = FindFirstObjectByType<SceneTransition>();
 
         isGodMode = false;
     }
 
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded; 
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {
         Debug.Log("Scene Loaded: " + scene.name);
-
         StartCoroutine(AssignTyper(scene.name));
     }
 
@@ -120,6 +121,14 @@ public class PlayerStats : MonoBehaviour
 
     public void DealDamage(int damage)
     {
+        // If the player can't be damaged, stop the function immediately.
+        if (!canBeDamaged)
+        {
+            return;
+        }
+        // Instantly make the player immune to prevent double hits.
+        StartCoroutine(DamageCooldown(0.5f)); // Cooldown for half a second
+
         // Check if a Book instance exists in the scene
         if (GameObject.FindWithTag("Book") == null)
         {
@@ -157,6 +166,12 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    private IEnumerator DamageCooldown(float duration)
+    {
+        canBeDamaged = false;
+        yield return new WaitForSeconds(duration);
+        canBeDamaged = true;
+    }
 
     public void HealCharacter(int heal)
     {
@@ -167,7 +182,7 @@ public class PlayerStats : MonoBehaviour
 
     private void CheckOverheal()
     {
-        if(health > maxHealth)
+        if (health > maxHealth)
         {
             health = maxHealth;
         }
@@ -175,15 +190,18 @@ public class PlayerStats : MonoBehaviour
 
     private void CheckDeath()
     {
-        if(health <= 0)
+        if (health <= 0)
         {
 
-            if(health < 0)
+            if (health < 0)
             {
                 health = 0;
             }
             audioManager.PlaySFX(audioManager.die);
-            Destroy(TypingLine.gameObject);
+            if (TypingLine != null)
+            {
+                Destroy(TypingLine.gameObject);
+            }
             Destroy(Player); //dead
             sceneTransition.LoadSceneWithFade("DedScreen");
         }
@@ -201,8 +219,14 @@ public class PlayerStats : MonoBehaviour
 
     private IEnumerator TemporaryInvulnerability(float duration)
     {
-        if(Player != null)
+        if (Player != null)
         {
+            PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.isInvincible = true; // Set invincibility ON
+            }
+
             Collider2D[] colliders = Player.GetComponents<Collider2D>();
             foreach (Collider2D col in colliders)
             {
@@ -226,7 +250,12 @@ public class PlayerStats : MonoBehaviour
             spriteRenderer.enabled = true;
             foreach (Collider2D col in colliders)
             {
-                col.enabled = true; 
+                col.enabled = true;
+            }
+
+            if (playerMovement != null)
+            {
+                playerMovement.isInvincible = false;
             }
         }
     }
@@ -235,9 +264,13 @@ public class PlayerStats : MonoBehaviour
     {
         if (Book != null)
         {
-            Book.GetComponent<Collider2D>().enabled = false; 
-            yield return new WaitForSeconds(delay); 
-            Book.GetComponent<Collider2D>().enabled = true; 
+            Collider2D bookCollider = Book.GetComponent<Collider2D>();
+            if (bookCollider != null)
+            {
+                bookCollider.enabled = false;
+                yield return new WaitForSeconds(delay);
+                bookCollider.enabled = true;
+            }
         }
     }
 
@@ -249,8 +282,6 @@ public class PlayerStats : MonoBehaviour
             bookCollider.enabled = true;
         }
     }
-
-
 
     private Vector3 GetRandomPositionAroundPlayer()
     {
@@ -264,8 +295,8 @@ public class PlayerStats : MonoBehaviour
             Vector2 randomOffset = randomDirection * randomDistance;
 
             spawnPosition = new Vector3(Player.transform.position.x + randomOffset.x,
-                                        Player.transform.position.y + randomOffset.y,
-                                        0);
+                                          Player.transform.position.y + randomOffset.y,
+                                          0);
 
             if (IsPositionValid(spawnPosition, minDistanceFromPlayer, safeDistanceFromBoss))
             {
@@ -292,7 +323,6 @@ public class PlayerStats : MonoBehaviour
         {
             return false;
         }
-        Debug.Log( wallLayerMask.value);
 
         Collider2D hit = Physics2D.OverlapCircle(position, 1f, wallLayerMask);
         if (hit != null)
@@ -309,7 +339,7 @@ public class PlayerStats : MonoBehaviour
         float mapMinX = -15.32f + bookMargin, mapMaxX = 14.68f - bookMargin;
         float mapMinY = -14.4f + bookMargin, mapMaxY = 9.6f - bookMargin;
 
-        for (int i = 0; i < 10; i++) 
+        for (int i = 0; i < 10; i++)
         {
             float randomX = Random.Range(mapMinX, mapMaxX);
             float randomY = Random.Range(mapMinY, mapMaxY);
@@ -321,10 +351,8 @@ public class PlayerStats : MonoBehaviour
             }
         }
 
-        return new Vector3(0, 0, 1); 
+        return new Vector3(0, 0, 1);
     }
-
-
 
     public void DisplayHeart()
     {
@@ -332,7 +360,7 @@ public class PlayerStats : MonoBehaviour
         {
             img.sprite = emptyHeart;
         }
-        for(int i = 0; i < health; i++)
+        for (int i = 0; i < health; i++)
         {
             hearts[i].sprite = fullHeart;
         }
@@ -341,7 +369,7 @@ public class PlayerStats : MonoBehaviour
     public void ShowTyper()
     {
         TypingText.gameObject.SetActive(true);
-        if(TypingText.color.a == 0)
+        if (TypingText.color.a == 0)
         {
             TypingText.GetComponent<MakeTextAppear>()?.ShowText(0f);
         }
@@ -350,6 +378,10 @@ public class PlayerStats : MonoBehaviour
     private void Update()
     {
         DebugInput();
+        if (typer == null)
+        {
+            return;
+        }
         if (GameObject.FindWithTag("Book") != null && (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect) && Boss != null)
         {
             typer.ResetLine();

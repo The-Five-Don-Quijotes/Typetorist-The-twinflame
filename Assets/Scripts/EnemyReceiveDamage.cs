@@ -119,10 +119,17 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     void StartShooting()
     {
-        if (animator != null && HasParameter(animator, "StartShooting"))
+        if (animator != null)
         {
-            animator.SetTrigger("StartShooting");
-            animator.SetBool("isShooting", true);
+            if (HasParameter(animator, "StartShooting"))
+            {
+                animator.SetTrigger("StartShooting");
+            }
+
+            if (HasParameter(animator, "isShooting"))
+            {
+                animator.SetBool("isShooting", true);
+            }
         }
 
         // Stay in shooting for x seconds, then go back to idle
@@ -131,7 +138,10 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     void StopShooting()
     {
-        animator.SetBool("isShooting", false);
+        if (animator != null && HasParameter(animator, "isShooting"))
+        {
+            animator.SetBool("isShooting", false);
+        }
     }
 
     private float CalculateHealthPercentage()
