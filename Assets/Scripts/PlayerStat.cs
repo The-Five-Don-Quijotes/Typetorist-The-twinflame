@@ -238,7 +238,7 @@ public class PlayerStats : MonoBehaviour
             bool isVisible = true;
             float blinkInterval = 0.2f;
 
-            while (elapsedTime < duration)
+            while (spriteRenderer != null && elapsedTime < duration)
             {
                 isVisible = !isVisible;
                 spriteRenderer.enabled = isVisible;

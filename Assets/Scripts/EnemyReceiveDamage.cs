@@ -50,7 +50,10 @@ public class EnemyReceiveDamage : MonoBehaviour
                 return;
             }
         }
-        animator.SetTrigger("isHurt");
+        if (animator != null && HasParameter(animator, "isHurt"))
+        {
+            animator.SetTrigger("isHurt");
+        }
         audioSource.PlayOneShot(hurtSound);
         health -= damage;
         CheckDeath();

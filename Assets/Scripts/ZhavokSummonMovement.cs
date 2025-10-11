@@ -112,7 +112,7 @@ public class ZhavokSummonMovement : MonoBehaviour
                 Vector2 newPos = FindValidBookPosition();
                 if (newPos != Vector2.zero)
                 {
-                    while (Vector2.Distance(targetBook.position, newPos) > 0.1f)
+                    while (targetBook != null && Vector2.Distance(targetBook.position, newPos) > 0.1f)
                     {
                         MoveTowards(newPos, true);
                         targetBook.position = Vector2.MoveTowards(targetBook.position, newPos, moveSpeed * Time.deltaTime);

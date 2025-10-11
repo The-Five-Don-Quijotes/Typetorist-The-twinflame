@@ -74,6 +74,11 @@ public class EnemyShooting : MonoBehaviour
         {
             yield return new WaitForSeconds(cooldown);
 
+            if (player == null)
+            {
+                yield break; // Safely stop the coroutine
+            }
+
             if (GetComponent<EnemyReceiveDamage>().health <= GetComponent<EnemyReceiveDamage>().maxHealth / 2 && GetComponent<EnemyReceiveDamage>().health != 0) //Health below 50
             {
                 cooldown = 0.1f;
