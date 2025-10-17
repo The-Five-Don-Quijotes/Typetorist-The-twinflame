@@ -6,11 +6,11 @@ public class CameraFollowPlayer : MonoBehaviour
     public float smoothing;
     public Vector3 offset;
 
-    void Update()
+    void LateUpdate()
     {
         if(player != null)
         {
-            Vector3 newPosition = Vector3.Lerp(transform.position, player.transform.position + offset, smoothing);
+            Vector3 newPosition = Vector3.Lerp(transform.position, player.transform.position + offset, smoothing * Time.deltaTime);
             transform.position = newPosition;
         }
     }
