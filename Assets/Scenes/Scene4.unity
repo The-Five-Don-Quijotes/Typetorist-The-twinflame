@@ -5363,6 +5363,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Uiiiiiiia
       objectReference: {fileID: 0}
+    - target: {fileID: 9188780430395143249, guid: e10289f39927f4b46954b4b7b3bb5f40, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5373,6 +5377,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3621349982333040225, guid: e10289f39927f4b46954b4b7b3bb5f40, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1379427187}
+    - targetCorrespondingSourceObject: {fileID: 3621349982333040225, guid: e10289f39927f4b46954b4b7b3bb5f40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1379427188}
   m_SourcePrefab: {fileID: 100100000, guid: e10289f39927f4b46954b4b7b3bb5f40, type: 3}
 --- !u!1 &1379427180 stripped
 GameObject:
@@ -5497,6 +5504,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1379427188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379427180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29cf4822ac730f14cae6fbfa8da0a07e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pattern: 0
+  speed: 15
+  playerTransform: {fileID: 187489523}
+  patrolDistance: 7
+  telegraphTime: 0.5
+  pauseAtDestinationTime: 1
 --- !u!1 &1413736948
 GameObject:
   m_ObjectHideFlags: 0

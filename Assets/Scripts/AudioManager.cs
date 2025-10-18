@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-
     public static AudioManager instance;
 
     [Header("=========== Audio Source ============")]
@@ -19,6 +18,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip fireballSound1;
     public AudioClip fireballSound2;
 
+    private const string MUSIC_VOLUME_KEY = "MusicVolume";
+    private const string SFX_VOLUME_KEY = "SFXVolume";
+
     private void Awake()
     {
         if (instance == null)
@@ -34,6 +36,8 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        LoadVolume();
+
         musicSource.clip = backgroundmusic;
         musicSource.Play();
     }
@@ -43,5 +47,39 @@ public class AudioManager : MonoBehaviour
         SFXSource.PlayOneShot(clip);
     }
 
+    public void SetMusicVolume(float volume)
+    {
+        musicSource.volume = volume;
+        // Save the setting so it persists after closing the game.
+        PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, volume);
+        PlayerPrefs.Save();
+    }
 
+    public void SetSFXVolume(float volume)
+    {
+        SFXSource.volume = volume;
+        // Save the setting.
+        PlayerPrefs.SetFloat(SFX_VOLUME_KEY, volume);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadVolume()
+    {
+        // GetFloat will return the default value (1.0f) if the key doesn't exist yet.
+        float musicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1.0f);
+        float sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1.0f);
+
+        musicSource.volume = musicVolume;
+        SFXSource.volume = sfxVolume;
+    }
+
+    public float GetMusicVolume()
+    {
+        return musicSource.volume;
+    }
+
+    public float GetSFXVolume()
+    {
+        return SFXSource.volume;
+    }
 }

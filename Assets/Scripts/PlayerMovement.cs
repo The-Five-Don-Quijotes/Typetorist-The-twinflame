@@ -84,11 +84,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Check for pause input.
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            // FindObjectOfType is slow, but acceptable for a pause menu.
-            FindFirstObjectByType<SceneTransition>().LoadSceneWithFade("PauseScreen");
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    // FindObjectOfType is slow, but acceptable for a pause menu.
+        //    FindFirstObjectByType<SceneTransition>().LoadSceneWithFade("PauseScreen");
+        //}
     }
 
     /// Executes the dash ability and triggers the UI cooldown.
