@@ -1,11 +1,10 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
-// MODIFIED: Renamed the enum to be specific to the pause menu.
-public enum PauseMenuActionType { ResumeGame, LoadScene, QuitApplication }
+public enum PauseMenuActionType { ResumeGame, LoadScene, QuitApplication, OpenOptions, CloseOptions }
 
-// The MenuOption class is mostly the same, just uses the new enum.
 [System.Serializable]
 public class PauseMenuOption
 {
@@ -15,55 +14,90 @@ public class PauseMenuOption
     [Tooltip("The command the player must type (e.g., 'resume' or 'main menu'). Spaces will be ignored during typing.")]
     public string command;
 
-    [Tooltip("The name of the scene to load (if action is LoadScene)")]
-    public string sceneToLoad;
-
     [Tooltip("The action to perform when the command is completed")]
     public PauseMenuActionType actionType;
 
-    [HideInInspector]
-    public string originalText;
+    [Tooltip("Is this command only available when in the Options sub-menu?")]
+    public bool isOptionsCommand = false;
 
-    // NEW: We'll store the command without spaces for easier comparison.
-    [HideInInspector]
-    public string commandWithoutSpaces;
+    [Tooltip("The name of the scene to load (if action is LoadScene)")]
+    public string sceneToLoad;
 
-    [HideInInspector]
-    public int currentProgress = 0; // This will now track progress on the spaceless command.
+    [HideInInspector] public string originalText;
+    [HideInInspector] public string commandWithoutSpaces;
+    [HideInInspector] public int currentProgress = 0;
 }
 
 public class TypingPauseController : MonoBehaviour
 {
-    // NEW: A static bool to let other scripts know if the game is paused.
     public static bool isPaused = false;
 
-    [Tooltip("Assign your Pause Menu UI Panel's Animator here.")]
-    public Animator pauseMenuAnimator;
+    [SerializeField] private Animator pauseMenuAnimator;
+    [SerializeField] private PauseMenuOption[] menuOptions;
+    [SerializeField] private Color typedColor = Color.green;
+    [SerializeField] private Color defaultColor = Color.white;
 
-    [Tooltip("List of all menu options available on this screen")]
-    public PauseMenuOption[] menuOptions;
+    // NEW: Add a field in the Inspector for your main menu scene's name.
+    [Header("Scene Management")]
+    [SerializeField] private string mainMenuSceneName = "MainMenu"; // <-- IMPORTANT: Change this to your exact scene name!
 
-    [Tooltip("The color for text that has been correctly typed")]
-    public Color typedColor = Color.green;
+    private bool _actionIsQueued = false;
+    private PauseMenuOption _queuedOption = null;
 
-    [Tooltip("The color for text that is yet to be typed")]
-    public Color defaultColor = Color.white;
+    private bool isInOptionsView = false;
+
+    // NEW: Subscribe to the sceneLoaded event when the object is enabled.
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // NEW: Unsubscribe when the object is disabled to prevent memory leaks.
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     void Start()
     {
-        // Make sure the menu is initialized and hidden on start.
         InitializeAllDisplays();
         pauseMenuAnimator.gameObject.SetActive(false);
     }
 
+    // NEW: This function runs every time a new scene is finished loading.
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Check if the newly loaded scene is the main menu.
+        if (scene.name == mainMenuSceneName)
+        {
+            // If it is, this pause controller is a duplicate and should be destroyed.
+            // Also ensure time is running normally.
+            Time.timeScale = 1f;
+            Destroy(gameObject);
+        }
+    }
+
     void Update()
     {
-        // NEW: This is the master toggle for the pause menu.
+        if (_actionIsQueued)
+        {
+            _actionIsQueued = false;
+            PerformAction(_queuedOption);
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
             {
-                ResumeGame();
+                if (isInOptionsView)
+                {
+                    PerformAction(new PauseMenuOption { actionType = PauseMenuActionType.CloseOptions });
+                }
+                else
+                {
+                    ResumeGame();
+                }
             }
             else
             {
@@ -71,13 +105,8 @@ public class TypingPauseController : MonoBehaviour
             }
         }
 
-        // NEW: Only process typing input if the game is paused.
-        if (!isPaused)
-        {
-            return;
-        }
+        if (!isPaused) return;
 
-        // Your existing input handling logic, now running only when paused.
         if (Input.anyKeyDown)
         {
             if (Input.GetKeyDown(KeyCode.Backspace))
@@ -89,7 +118,7 @@ public class TypingPauseController : MonoBehaviour
             string typedChars = Input.inputString;
             foreach (char c in typedChars)
             {
-                if (char.IsLetterOrDigit(c))
+                if (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c))
                 {
                     HandleCharacterInput(char.ToLower(c));
                 }
@@ -97,32 +126,50 @@ public class TypingPauseController : MonoBehaviour
         }
     }
 
-    // NEW: Function to pause the game and show the menu.
     public void PauseGame()
     {
         isPaused = true;
-        Time.timeScale = 0f; // This freezes the game!
+        Time.timeScale = 0f;
+
+        EventSystem.current.SetSelectedGameObject(null);
+
         pauseMenuAnimator.gameObject.SetActive(true);
         pauseMenuAnimator.SetBool("isOpen", true);
-        InitializeAllDisplays(); // Reset typing progress every time we open the menu.
+
+        isInOptionsView = false;
+        if (pauseMenuAnimator.gameObject.activeInHierarchy)
+        {
+            pauseMenuAnimator.ResetTrigger("ShowOptions");
+            pauseMenuAnimator.SetTrigger("HideOptions");
+        }
+
+        InitializeAllDisplays();
     }
 
-    // NEW: Function to resume the game and hide the menu.
     public void ResumeGame()
     {
         isPaused = false;
-        Time.timeScale = 1f; // This unfreezes the game!
+        Time.timeScale = 1f;
+
+        EventSystem.current.SetSelectedGameObject(null);
+
         pauseMenuAnimator.SetBool("isOpen", false);
+    }
+
+    public void DisablePausePanel()
+    {
+        pauseMenuAnimator.gameObject.SetActive(false);
     }
 
     void HandleCharacterInput(char typedChar)
     {
-        // NEW: We'll check for a completed option but won't act on it until the loop is finished.
-        PauseMenuOption completedOption = null;
-
         foreach (var option in menuOptions)
         {
-            // MODIFIED: We compare against the command *without* spaces.
+            if (option.isOptionsCommand != isInOptionsView)
+            {
+                continue;
+            }
+
             if (option.currentProgress < option.commandWithoutSpaces.Length)
             {
                 if (typedChar == option.commandWithoutSpaces[option.currentProgress])
@@ -131,23 +178,16 @@ public class TypingPauseController : MonoBehaviour
                 }
                 else
                 {
-                    // Reset logic is slightly simpler now.
                     option.currentProgress = (typedChar == option.commandWithoutSpaces[0]) ? 1 : 0;
                 }
             }
             UpdateTextDisplay(option);
 
-            // NEW: If this option is now complete, remember it.
-            if (option.currentProgress == option.commandWithoutSpaces.Length)
+            if (option.currentProgress == option.commandWithoutSpaces.Length && option.command.Length > 0)
             {
-                completedOption = option;
+                _queuedOption = option;
+                _actionIsQueued = true;
             }
-        }
-
-        // NEW: Now that the loop is done, perform the action if one was completed.
-        if (completedOption != null)
-        {
-            PerformAction(completedOption);
         }
     }
 
@@ -155,11 +195,48 @@ public class TypingPauseController : MonoBehaviour
     {
         foreach (var option in menuOptions)
         {
+            if (option.isOptionsCommand != isInOptionsView)
+            {
+                continue;
+            }
+
             if (option.currentProgress > 0)
             {
                 option.currentProgress--;
                 UpdateTextDisplay(option);
             }
+        }
+    }
+
+    void PerformAction(PauseMenuOption option)
+    {
+        switch (option.actionType)
+        {
+            case PauseMenuActionType.ResumeGame:
+                ResumeGame();
+                break;
+            case PauseMenuActionType.LoadScene:
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(option.sceneToLoad);
+                break;
+            case PauseMenuActionType.QuitApplication:
+                Application.Quit();
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+                break;
+            case PauseMenuActionType.OpenOptions:
+                pauseMenuAnimator.SetTrigger("ShowOptions");
+                isInOptionsView = true;
+                EventSystem.current.SetSelectedGameObject(null);
+                InitializeAllDisplays();
+                break;
+            case PauseMenuActionType.CloseOptions:
+                pauseMenuAnimator.SetTrigger("HideOptions");
+                isInOptionsView = false;
+                EventSystem.current.SetSelectedGameObject(null);
+                InitializeAllDisplays();
+                break;
         }
     }
 
@@ -169,7 +246,6 @@ public class TypingPauseController : MonoBehaviour
         string typedHexColor = ColorUtility.ToHtmlStringRGB(typedColor);
         string defaultHexColor = ColorUtility.ToHtmlStringRGB(defaultColor);
 
-        // MODIFIED: This is the new logic to handle spaces correctly in the display.
         int splitIndex = 0;
         int nonSpaceCharsCounted = 0;
         for (int i = 0; i < commandToShow.Length && nonSpaceCharsCounted < option.currentProgress; i++)
@@ -186,32 +262,6 @@ public class TypingPauseController : MonoBehaviour
         string untypedPart = commandToShow.Substring(splitIndex);
 
         option.displayText.text = $"<color=#{typedHexColor}>{typedPart}</color><color=#{defaultHexColor}>{untypedPart}</color>";
-
-        // MODIFIED: The action-triggering logic has been REMOVED from this function.
-    }
-
-    // NEW: A dedicated function to perform the action.
-    void PerformAction(PauseMenuOption option)
-    {
-        // We must un-pause before loading a new scene or quitting.
-        Time.timeScale = 1f;
-
-        switch (option.actionType)
-        {
-            case PauseMenuActionType.ResumeGame:
-                // We call ResumeGame directly. It handles the Time.timeScale and animations.
-                ResumeGame();
-                break;
-            case PauseMenuActionType.LoadScene:
-                SceneManager.LoadScene(option.sceneToLoad);
-                break;
-            case PauseMenuActionType.QuitApplication:
-                Application.Quit();
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
-                break;
-        }
     }
 
     void InitializeAllDisplays()
@@ -220,18 +270,19 @@ public class TypingPauseController : MonoBehaviour
         {
             option.currentProgress = 0;
 
-            // BUG FIX: Only store the original text if we haven't already.
-            // This prevents it from being corrupted with rich text tags on subsequent pauses.
-            if (string.IsNullOrEmpty(option.originalText))
+            if (string.IsNullOrEmpty(option.originalText) && option.displayText != null)
             {
                 option.originalText = option.displayText.text;
             }
 
-            // NEW: Prepare the spaceless version of the command.
             option.commandWithoutSpaces = option.command.Replace(" ", "").ToLower();
 
-            string defaultHexColor = ColorUtility.ToHtmlStringRGB(defaultColor);
-            option.displayText.text = $"<color=#{defaultHexColor}>{option.originalText}</color>";
+            if (option.displayText != null)
+            {
+                string defaultHexColor = ColorUtility.ToHtmlStringRGB(defaultColor);
+                option.displayText.text = $"<color=#{defaultHexColor}>{option.originalText}</color>";
+            }
         }
     }
 }
+

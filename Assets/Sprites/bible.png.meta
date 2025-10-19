@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 70bbe78462eb13c488061dc51e39381b
+guid: c16be142b3f6d6c418274d4926f6b364
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7352339073622421304
-    second: Title_0
+      213: -34776251664189739
+    second: bible_0
+  - first:
+      213: -5763490996865674188
+    second: bible_1
+  - first:
+      213: 8487272707988541209
+    second: bible_2
+  - first:
+      213: 2397024371209627886
+    second: bible_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Title_0
+      name: bible_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1024
-        height: 1024
+        y: 19
+        width: 200
+        height: 200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8c0d280219e37f990800000000000000
-      internalID: -7352339073622421304
+      spriteID: 5d6bfe0fe23748ff0800000000000000
+      internalID: -34776251664189739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bible_1
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 5
+        width: 15
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 434d8a18977f300b0800000000000000
+      internalID: -5763490996865674188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bible_2
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 5
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91f46877f89d8c570800000000000000
+      internalID: 8487272707988541209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bible_3
+      rect:
+        serializedVersion: 2
+        x: 631
+        y: 0
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee867e337f0f34120800000000000000
+      internalID: 2397024371209627886
       vertices: []
       indices: 
       edges: []
@@ -134,8 +209,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Title_0: -7352339073622421304
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

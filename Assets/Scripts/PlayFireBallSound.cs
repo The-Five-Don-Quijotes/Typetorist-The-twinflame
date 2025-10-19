@@ -12,6 +12,6 @@ public class Fireball : MonoBehaviour
 
         // Pick a random sound and play it
         AudioClip selectedSound = Random.value < 0.5f ? fireballSound1 : fireballSound2;
-        audioSource.PlayOneShot(selectedSound);
+        AudioManager.instance.PlaySFX(selectedSound);
     }
 }

@@ -2,7 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public enum MenuActionType { LoadScene, QuitApplication }
+// 1. Added "Continue" to the list of possible actions.
+public enum MenuActionType { LoadScene, QuitApplication, Continue }
 
 [System.Serializable]
 public class MenuOption
@@ -13,11 +14,11 @@ public class MenuOption
     [Tooltip("The command the player must type (e.g., 'start')")]
     public string command;
 
-    [Tooltip("The name of the scene to load when the command is completed")]
-    public string sceneToLoad;
-
     [Tooltip("The action to perform when the command is completed")]
     public MenuActionType actionType;
+
+    [Tooltip("The name of the scene to load (ignored if action is Quit or Continue)")]
+    public string sceneToLoad;
 
     [HideInInspector]
     public string originalText;
@@ -37,8 +38,18 @@ public class TypingMenuController : MonoBehaviour
     [Tooltip("The color for text that is yet to be typed")]
     public Color defaultColor = Color.white;
 
+    // A reference to the SceneTransition component to avoid finding it repeatedly.
+    private SceneTransition sceneTransition;
+
     void Start()
     {
+        // Find the SceneTransition component once and store it.
+        sceneTransition = FindFirstObjectByType<SceneTransition>();
+        if (sceneTransition == null)
+        {
+            Debug.LogError("SceneTransition component not found in the scene! Fading will not work.");
+        }
+
         // Initialize all text displays when the game starts
         InitializeAllDisplays();
     }
@@ -52,7 +63,7 @@ public class TypingMenuController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 HandleBackspace();
-                return; 
+                return;
             }
 
             // Get all characters typed this frame (handles different keyboard layouts)
@@ -61,8 +72,8 @@ public class TypingMenuController : MonoBehaviour
             // Process each character that was typed
             foreach (char c in typedChars)
             {
-                // Ignore special keys like 'enter'
-                if (char.IsLetterOrDigit(c))
+                // We check for letters, digits, or spaces to allow multi-word commands.
+                if (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c))
                 {
                     HandleCharacterInput(char.ToLower(c));
                 }
@@ -117,9 +128,14 @@ public class TypingMenuController : MonoBehaviour
 
     void UpdateTextDisplay(MenuOption option)
     {
-        string commandToShow = option.originalText; // Use the display text as base
-        string typedPart = commandToShow.Substring(0, option.currentProgress);
-        string untypedPart = commandToShow.Substring(option.currentProgress);
+        // Use the display text (e.g., "START GAME") as the base for coloring
+        string commandToShow = option.originalText;
+
+        // Safety check to prevent errors if progress exceeds text length
+        int progress = Mathf.Min(option.currentProgress, commandToShow.Length);
+
+        string typedPart = commandToShow.Substring(0, progress);
+        string untypedPart = commandToShow.Substring(progress);
 
         // Convert colors to hex codes for TextMeshPro rich text
         string typedHexColor = ColorUtility.ToHtmlStringRGB(typedColor);
@@ -130,34 +146,70 @@ public class TypingMenuController : MonoBehaviour
 
         // Check if the command is complete
         if (option.currentProgress == option.command.Length)
-{
-    // Perform the action defined for this option
-    switch (option.actionType)
-    {
-        case MenuActionType.LoadScene:
-            Debug.Log($"Command '{option.command}' complete! Loading scene: {option.sceneToLoad}");
-            SceneManager.LoadScene(option.sceneToLoad);
-            break;
+        {
+            // 2. We disabled this component to prevent further typing after a command is completed.
+            this.enabled = false;
 
-        case MenuActionType.QuitApplication:
-            Debug.Log("Command 'quit' complete! Closing application.");
-            Application.Quit();
-            break;
+            // Perform the action defined for this option
+            PerformMenuAction(option);
+        }
     }
-}
+
+    // 3. Moved the action logic into its own method for clarity.
+    void PerformMenuAction(MenuOption option)
+    {
+        if (sceneTransition == null && option.actionType != MenuActionType.QuitApplication)
+        {
+            Debug.LogError("Cannot perform scene transition because the SceneTransition component is missing!");
+            return;
+        }
+
+        switch (option.actionType)
+        {
+            case MenuActionType.LoadScene:
+                Debug.Log($"Command '{option.command}' complete! Loading scene: {option.sceneToLoad}");
+                // Use the SceneTransition component for a consistent fade effect
+                sceneTransition.LoadSceneWithFade(option.sceneToLoad);
+                break;
+
+            case MenuActionType.QuitApplication:
+                Debug.Log("Command 'quit' complete! Closing application.");
+                Application.Quit();
+                break;
+
+            // 4. Added the logic for the new "Continue" action.
+            case MenuActionType.Continue:
+                Debug.Log($"Command '{option.command}' complete! Loading previous scene.");
+                string previousScene = SceneTransition.GetPreviousScene();
+
+                if (!string.IsNullOrEmpty(previousScene))
+                {
+                    sceneTransition.LoadSceneWithFade(previousScene);
+                }
+                else
+                {
+                    Debug.LogWarning("No previous scene found to continue from!");
+                    // Re-enable the script if we can't continue, so the player isn't stuck.
+                    this.enabled = true;
+                }
+                break;
+        }
     }
 
     void InitializeAllDisplays()
     {
         foreach (var option in menuOptions)
         {
+            // Store the original text (e.g., "NEW GAME") so we can always refer to it.
+            option.originalText = option.displayText.text;
+
+            // Make the command lowercase for reliable comparison.
+            option.command = option.command.ToLower();
+
             // Reset progress and update display to default color
             option.currentProgress = 0;
-            option.originalText = option.displayText.text;
-            // The display text can be different from the command, so we use its length
-            string commandToShow = option.displayText.text;
             string defaultHexColor = ColorUtility.ToHtmlStringRGB(defaultColor);
-            option.displayText.text = $"<color=#{defaultHexColor}>{commandToShow}</color>";
+            option.displayText.text = $"<color=#{defaultHexColor}>{option.originalText}</color>";
         }
     }
 }

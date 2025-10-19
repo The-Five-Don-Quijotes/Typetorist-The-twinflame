@@ -246,6 +246,10 @@ public class PlayerStats : MonoBehaviour
                 elapsedTime += blinkInterval;
             }
 
+            if (spriteRenderer == null)
+            {
+                yield break; // Exit before trying to access destroyed components
+            }
             // Ensure the player is visible and re-enable the collider
             spriteRenderer.enabled = true;
             foreach (Collider2D col in colliders)

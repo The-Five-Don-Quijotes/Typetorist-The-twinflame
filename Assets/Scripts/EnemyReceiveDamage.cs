@@ -12,7 +12,6 @@ public class EnemyReceiveDamage : MonoBehaviour
     public Slider healthSlider;
     public CanvasGroup bossShield;
     private Animator animator;
-    private AudioSource audioSource;
     public AudioClip hurtSound;
     public AudioClip deathSound;
     public float phase2ShootingDuration;
@@ -23,7 +22,6 @@ public class EnemyReceiveDamage : MonoBehaviour
         bossHealthBar.SetActive(true);
         health = maxHealth;
         healthSlider.value = CalculateHealthPercentage();
-        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -54,7 +52,7 @@ public class EnemyReceiveDamage : MonoBehaviour
         {
             animator.SetTrigger("isHurt");
         }
-        audioSource.PlayOneShot(hurtSound);
+        AudioManager.instance.PlaySFX(hurtSound);
         health -= damage;
         CheckDeath();
         if (animator != null && HasParameter(animator, "isShooting"))
@@ -105,7 +103,7 @@ public class EnemyReceiveDamage : MonoBehaviour
         if (health <= 0)
         {
             animator.SetTrigger("isDeath");
-            audioSource.PlayOneShot(deathSound);
+            AudioManager.instance.PlaySFX(deathSound);
             bossHealthBar.SetActive(false); // Hide health bar when death
         }
     }
