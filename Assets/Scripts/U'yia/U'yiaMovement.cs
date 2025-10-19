@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class UyiaMovement : MonoBehaviour
 {
-    // Enum to define the different movement patterns you drew.
+    // Enum to define the different movement patterns.
     // You can select one of these in the Unity Inspector.
     public enum MovementPattern { Cross, Diamond, LungeTowardsPlayer }
 
@@ -63,13 +63,12 @@ public class UyiaMovement : MonoBehaviour
         }
         rb2D.bodyType = RigidbodyType2D.Kinematic;
 
-        // --- FIX: Disable Animator Root Motion ---
-        // This is the key change. If an Animator exists, this tells it to stop
-        // controlling the GameObject's position, allowing this script to take over.
+        // --- Disable Animator Root Motion ---
+        // This tells the Animator to stop controlling the GameObject's position,
+        // allowing this script to take over.
         if (animator != null && disableRootMotion)
         {
             animator.applyRootMotion = false;
-            Debug.Log("Animator root motion has been disabled to allow script-based movement.");
         }
 
         // Set up the specific points for the selected pattern.
@@ -104,10 +103,10 @@ public class UyiaMovement : MonoBehaviour
                 // Also defines 4 points, but in a diamond shape.
                 patrolPoints = new Vector3[]
                 {
-                    startPos2D + new Vector2(0, patrolDistance),       // Top
-                    startPos2D + new Vector2(patrolDistance, 0),       // Right
-                    startPos2D + new Vector2(0, -patrolDistance),      // Bottom
-                    startPos2D + new Vector2(-patrolDistance, 0)       // Left
+                    startPos2D + new Vector2(0, patrolDistance),      // Top
+                    startPos2D + new Vector2(patrolDistance, 0),      // Right
+                    startPos2D + new Vector2(0, -patrolDistance),     // Bottom
+                    startPos2D + new Vector2(-patrolDistance, 0)      // Left
                 };
                 break;
 
@@ -138,7 +137,7 @@ public class UyiaMovement : MonoBehaviour
             // This loop moves the boss towards the target position over several frames.
             while (Vector2.Distance(rb2D.position, targetPosition) > 0.01f)
             {
-                // --- IMPROVEMENT: Use rb2D.MovePosition for smoother, physics-based movement ---
+                // Use rb2D.MovePosition for smoother, physics-based movement
                 Vector2 newPosition = Vector2.MoveTowards(rb2D.position, targetPosition, speed * Time.fixedDeltaTime);
                 rb2D.MovePosition(newPosition);
                 // Wait for the next physics update to ensure smooth movement.
@@ -189,4 +188,3 @@ public class UyiaMovement : MonoBehaviour
         return target;
     }
 }
-
