@@ -6477,6 +6477,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Uiiiiiiia
       objectReference: {fileID: 0}
+    - target: {fileID: 3621349982333040225, guid: e10289f39927f4b46954b4b7b3bb5f40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9188780430395143249, guid: e10289f39927f4b46954b4b7b3bb5f40, type: 3}
       propertyPath: m_BodyType
       value: 1
@@ -6631,7 +6635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behavior: 0
-  fixedPattern: 5
+  fixedPattern: 2
   dynamicSequence: 
   movesPerPattern: 4
   moveSpeed: 15

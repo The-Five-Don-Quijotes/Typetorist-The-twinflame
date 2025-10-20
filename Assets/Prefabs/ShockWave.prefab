@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5176265230942852249}
   - component: {fileID: 7446919451028167703}
   - component: {fileID: 7784796126942531280}
+  - component: {fileID: 1284907824843627686}
   m_Layer: 0
   m_Name: ShockWave
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25, y: 25, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,8 +77,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 304384799102440702, guid: 9ad61b9f5566a1c428c9c4968faec3f5, type: 3}
+  m_SortingOrder: -15
+  m_Sprite: {fileID: 4984736673019130485, guid: b348ad262a02dc14c9039c6a1d2b31d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -110,3 +111,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1284907824843627686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279984304805678129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9871fa1ee9ba65748aadcdb31e3ae364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
