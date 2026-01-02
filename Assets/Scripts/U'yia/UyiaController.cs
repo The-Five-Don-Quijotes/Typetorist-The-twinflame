@@ -1,10 +1,11 @@
 using System.Collections;
-using System.Collections.Generic; // Required for List
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// A unified, advanced controller for the "Uyia" boss.
 /// It handles multiple movement patterns and can sequence them dynamically.
+/// It can ALSO shoot bullets while performing other movements and summon other bosses.
 /// This should be the ONLY movement script on the boss GameObject.
 /// </summary>
 public class UyiaBossController : MonoBehaviour
@@ -24,7 +25,16 @@ public class UyiaBossController : MonoBehaviour
         CustomPatrol,      // Moves between points you set manually in the scene.
         ArcJumps,          // Jumps in arcs over a central point.
         LungeTowardsPlayer, // A direct attack towards the player's position.
-        MoonLeap           // Leaps high up, pauses, crashes down, and creates a shockwave.
+        MoonLeap,          // Leaps high up, pauses, crashes down, and creates a shockwave.
+        SummonMinion       // Uyia summons another boss to perform an attack.
+    }
+
+    // Enum for different bullet firing patterns.
+    public enum BulletFirePattern
+    {
+        Plus,              // Shoots in 4 directions (+ shape: Up, Down, Left, Right)
+        Cross,             // Shoots in 4 diagonal directions (X shape: Up-Left, Up-Right, Down-Left, Down-Right)
+        Star               // Shoots in 8 directions (* shape: Plus + Cross combined)
     }
 
     [Header("AI Behavior")]
@@ -62,7 +72,6 @@ public class UyiaBossController : MonoBehaviour
     [Tooltip("An array of points for the boss to move between (only for 'CustomPatrol' pattern).")]
     public Transform[] patrolPoints;
 
-
     [Header("Arc Jump Settings")]
     [Tooltip("The center of the area for arc jumps.")]
     public Transform arenaCenter;
@@ -91,7 +100,33 @@ public class UyiaBossController : MonoBehaviour
     [Tooltip("The Prefab for the shockwave effect to spawn on impact.")]
     public GameObject shockwavePrefab;
     [Tooltip("The point relative to the boss where the shockwave should spawn (e.g., at its base).")]
-    public Vector3 shockwaveOffset = new Vector3(0, -1f, 0); // Adjust this if your boss's pivot isn't at the bottom
+    public Vector3 shockwaveOffset = new Vector3(0, -1f, 0);
+
+
+    [Header("Bullet Attack Settings")]
+    [Tooltip("The Prefab of the bullet to be fired.")]
+    public GameObject bulletPrefab;
+    [Tooltip("The speed at which the bullets will travel.")]
+    public float bulletSpeed = 10f;
+    [Tooltip("How often the boss fires a burst of bullets.")]
+    public float fireRate = 1.0f;
+    [Tooltip("The pattern in which bullets are fired (Plus, Cross, Star).")]
+    public BulletFirePattern bulletFirePattern = BulletFirePattern.Star;
+
+
+    // --- NEW: Summon Minion Settings ---
+    [Header("Summon Minion Settings")]
+    [Tooltip("The Vorrak boss prefab to summon.")]
+    public GameObject vorrakPrefab;
+    [Tooltip("The Baeloris boss prefab to summon.")]
+    public GameObject baelorisPrefab;
+    [Tooltip("Where summoned minions will appear relative to Uyia.")]
+    public Vector3 summonOffset = new Vector3(0, 2f, 0); // Above Uyia
+    [Tooltip("How long the summoned minion stays active before being destroyed.")]
+    public float minionActiveTime = 5.0f; // E.g., Vorrak performs one attack then disappears
+    [Tooltip("The tag of the GameObject to destroy if a boss is summoned. E.g., 'Player'.")]
+    public string playerTagForMinions = "Player"; // Vorrak needs player reference, Baeloris needs player reference
+
 
     // Internal state variables
     private Rigidbody2D rb2D;
@@ -103,6 +138,8 @@ public class UyiaBossController : MonoBehaviour
     private int movesCompleted = 0;
     private Vector2 smoothDampVelocity; // Used for LinearMovement
     private Vector3 currentLeapVelocity = Vector3.zero; // Used for MoonLeap's SmoothDamp
+
+    private Coroutine activeShootingCoroutine;
 
     void Start()
     {
@@ -128,6 +165,17 @@ public class UyiaBossController : MonoBehaviour
 
         while (true)
         {
+            // Stop any existing shooting coroutine before starting a new move.
+            if (activeShootingCoroutine != null)
+            {
+                StopCoroutine(activeShootingCoroutine);
+            }
+            // Check if the *new* pattern allows shooting.
+            if (CanShootDuringPattern(currentPattern))
+            {
+                activeShootingCoroutine = StartCoroutine(ShootingRoutine());
+            }
+
             switch (currentPattern)
             {
                 case MovementPattern.ArcJumps:
@@ -136,13 +184,15 @@ public class UyiaBossController : MonoBehaviour
                 case MovementPattern.MoonLeap:
                     yield return StartCoroutine(MoonLeapRoutine());
                     break;
+                case MovementPattern.SummonMinion: // --- NEW CASE ---
+                    yield return StartCoroutine(SummonMinionRoutine());
+                    break;
                 default: // Handles Cross, Diamond, CustomPatrol, LungeTowardsPlayer
                     yield return StartCoroutine(LinearMovementRoutine());
                     break;
             }
             movesCompleted++;
 
-            // After a move is done, check if we need to switch patterns.
             if (behavior == MovementBehavior.DynamicSequence && movesCompleted >= movesPerPattern)
             {
                 movesCompleted = 0;
@@ -174,9 +224,7 @@ public class UyiaBossController : MonoBehaviour
             }
         }
 
-        // Generate the points for procedural patterns like Cross and Diamond.
         SetupGeneratedPoints();
-        // Reset smooth damp velocity for next movement
         smoothDampVelocity = Vector2.zero;
         currentLeapVelocity = Vector3.zero;
     }
@@ -190,7 +238,6 @@ public class UyiaBossController : MonoBehaviour
 
         Vector3 targetPosition = GetNextTargetPosition();
 
-        // Move towards the target using SmoothDamp for acceleration/deceleration.
         while (Vector2.Distance(rb2D.position, targetPosition) > 0.1f)
         {
             Vector2 newPosition = Vector2.SmoothDamp(rb2D.position, targetPosition, ref smoothDampVelocity, smoothTime, moveSpeed);
@@ -216,9 +263,7 @@ public class UyiaBossController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// A single move for the Arc Jump pattern.
-    /// </summary>
+    #region Jump Routines
     private IEnumerator ArcJumpRoutine()
     {
         if (arenaCenter == null)
@@ -228,11 +273,11 @@ public class UyiaBossController : MonoBehaviour
         }
 
         float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        Vector3 direction = new Vector3(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle), 0);
+        Vector3 direction = new Vector3(Mathf.Cos(randomAngle), Mathf.Cos(randomAngle), 0);
         Vector3 startJumpPos = arenaCenter.position + direction * arcRadius;
         Vector3 endJumpPos = arenaCenter.position - direction * arcRadius;
 
-        transform.position = startJumpPos; // Instantly move to jump start point
+        transform.position = startJumpPos;
         yield return new WaitForSeconds(telegraphTime);
 
         float elapsedTime = 0f;
@@ -250,49 +295,36 @@ public class UyiaBossController : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
     }
 
-    /// <summary>
-    /// A single move for the Moon Leap pattern: jump high, pause, crash down, shockwave.
-    /// </summary>
     private IEnumerator MoonLeapRoutine()
     {
-        Vector3 initialGroundPos = transform.position; // Store current ground position
+        Vector3 initialGroundPos = transform.position;
         Vector3 apexPosition = initialGroundPos + Vector3.up * moonLeapHeight;
-        Vector3 impactPosition = playerTransform != null ? playerTransform.position : initialGroundPos; // Crash near player or original spot
+        Vector3 impactPosition = playerTransform != null ? playerTransform.position : initialGroundPos;
 
-        // --- Telegraph ---
         yield return new WaitForSeconds(telegraphTime);
 
-        // --- Leap Up ---
         float timer = 0f;
-        currentLeapVelocity = Vector3.zero; // Reset velocity for SmoothDamp
+        currentLeapVelocity = Vector3.zero;
         while (timer < leapUpDuration)
         {
             timer += Time.deltaTime;
-            float progress = timer / leapUpDuration;
-            // Using Vector3.SmoothDamp for the upward motion for a nice ease-in/ease-out
             transform.position = Vector3.SmoothDamp(transform.position, apexPosition, ref currentLeapVelocity, leapUpDuration, moveSpeed);
             yield return null;
         }
-        transform.position = apexPosition; // Ensure it reaches the exact apex
+        transform.position = apexPosition;
 
-        // --- Pause at Apex ("On the Moon") ---
         yield return new WaitForSeconds(moonPauseDuration);
 
-        // --- Crash Down ---
         timer = 0f;
-        currentLeapVelocity = Vector3.zero; // Reset velocity for SmoothDamp
-        Vector3 currentBossPos = transform.position; // Starting point for the crash down
+        currentLeapVelocity = Vector3.zero;
         while (timer < crashDownDuration)
         {
             timer += Time.deltaTime;
-            float progress = timer / crashDownDuration;
-            // Smoothly damp from current high position to impact position
             transform.position = Vector3.SmoothDamp(transform.position, impactPosition, ref currentLeapVelocity, crashDownDuration, moveSpeed);
             yield return null;
         }
-        transform.position = impactPosition; // Ensure it reaches the exact impact point
+        transform.position = impactPosition;
 
-        // --- Shockwave on Impact ---
         if (shockwavePrefab != null)
         {
             Vector3 shockwaveSpawnPos = transform.position + shockwaveOffset;
@@ -303,19 +335,180 @@ public class UyiaBossController : MonoBehaviour
             Debug.LogWarning("Shockwave Prefab is not assigned for MoonLeap pattern!", this);
         }
 
-        // --- Return to initial ground position (optional, depending on desired gameplay) ---
-        // For now, let's assume the boss stays at the impactPosition until the next move.
-        // If you want it to return, uncomment and adjust the following:
-        // yield return new WaitForSeconds(telegraphTime); // Small pause before returning
-        // while (Vector2.Distance(rb2D.position, initialGroundPos) > 0.1f)
-        // {
-        //     Vector2 newPosition = Vector2.SmoothDamp(rb2D.position, initialGroundPos, ref smoothDampVelocity, smoothTime, moveSpeed);
-        //     rb2D.MovePosition(newPosition);
-        //     yield return new WaitForFixedUpdate();
-        // }
-        // rb2D.MovePosition(initialGroundPos);
+        yield return new WaitForSeconds(waitTime);
+    }
+    #endregion
 
-        yield return new WaitForSeconds(waitTime); // Pause after the full attack
+
+    /// <summary>
+    /// Coroutine for continuous shooting.
+    /// </summary>
+    private IEnumerator ShootingRoutine()
+    {
+        if (bulletPrefab == null)
+        {
+            Debug.LogError("Bullet Prefab is not assigned! Cannot shoot.", this);
+            yield break;
+        }
+
+        yield return new WaitForSeconds(fireRate / 2);
+
+        while (true)
+        {
+            FireBulletsInPattern(bulletFirePattern);
+            yield return new WaitForSeconds(fireRate);
+        }
+    }
+
+    /// <summary>
+    /// Helper function to determine if the boss should be shooting during a given pattern.
+    /// </summary>
+    private bool CanShootDuringPattern(MovementPattern pattern)
+    {
+        switch (pattern)
+        {
+            case MovementPattern.Cross:
+            case MovementPattern.Diamond:
+            case MovementPattern.CustomPatrol:
+            case MovementPattern.LungeTowardsPlayer:
+            case MovementPattern.ArcJumps:
+                return true;
+            case MovementPattern.MoonLeap:
+            case MovementPattern.SummonMinion:
+            default:
+                return false;
+        }
+    }
+
+    /// <summary>
+    /// Fires a single bullet in a given direction.
+    /// </summary>
+    private void FireBullet(Vector2 direction)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
+
+        if (bulletRb != null)
+        {
+            bulletRb.linearVelocity = direction.normalized * bulletSpeed;
+        }
+        else
+        {
+            Debug.LogWarning("Bullet Prefab is missing a Rigidbody2D component!", bullet);
+        }
+    }
+
+    /// <summary>
+    /// Fires bullets in the specified pattern (Plus, Cross, Star).
+    /// </summary>
+    private void FireBulletsInPattern(BulletFirePattern pattern)
+    {
+        if (pattern == BulletFirePattern.Plus || pattern == BulletFirePattern.Star)
+        {
+            FireBullet(Vector2.up);
+            FireBullet(Vector2.down);
+            FireBullet(Vector2.left);
+            FireBullet(Vector2.right);
+        }
+
+        if (pattern == BulletFirePattern.Cross || pattern == BulletFirePattern.Star)
+        {
+            FireBullet(new Vector2(1, 1).normalized);
+            FireBullet(new Vector2(-1, 1).normalized);
+            FireBullet(new Vector2(1, -1).normalized);
+            FireBullet(new Vector2(-1, -1).normalized);
+        }
+    }
+
+    /// <summary>
+    /// Summon Minion Routine
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SummonMinionRoutine()
+    {
+        yield return new WaitForSeconds(telegraphTime); // Uyia pauses to "cast" summon
+
+        GameObject summonedBoss = null;
+        VorrakMovement vorrakScript = null;
+        BaelorisMovement baelorisScript = null;
+
+        // Randomly choose which boss to summon
+        int bossChoice = Random.Range(0, 2); // 0 for Vorrak, 1 for Baeloris
+
+        Vector3 spawnPos = transform.position + summonOffset;
+
+        if (bossChoice == 0 && vorrakPrefab != null)
+        {
+            Debug.Log("Uyia summoning Vorrak!");
+            summonedBoss = Instantiate(vorrakPrefab, spawnPos, Quaternion.identity);
+            vorrakScript = summonedBoss.GetComponent<VorrakMovement>();
+            if (vorrakScript != null)
+            {
+                // Vorrak needs to know where the player is
+                vorrakScript.player = playerTransform;
+            }
+            else
+            {
+                Debug.LogError("Summoned Vorrak Prefab is missing VorrakMovement script!", summonedBoss);
+                Destroy(summonedBoss); // Clean up if script is missing
+                yield break;
+            }
+        }
+        else if (bossChoice == 1 && baelorisPrefab != null)
+        {
+            Debug.Log("Uyia summoning Baeloris!");
+            summonedBoss = Instantiate(baelorisPrefab, spawnPos, Quaternion.identity);
+            baelorisScript = summonedBoss.GetComponent<BaelorisMovement>();
+            if (baelorisScript != null)
+            {
+                // Baeloris needs to know where the player is
+                baelorisScript.player = playerTransform;
+            }
+            else
+            {
+                Debug.LogError("Summoned Baeloris Prefab is missing BaelorisMovement script!", summonedBoss);
+                Destroy(summonedBoss); // Clean up if script is missing
+                yield break;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Uyia tried to summon a minion but its prefab was not assigned or choice was invalid!", this);
+            yield break;
+        }
+
+        // --- Trigger the summoned boss's attack ---
+        if (vorrakScript != null)
+        {
+            // Vorrak can do MoveNearPlayerWithDuration, TeleportToRandomPosition, or MoveToFurthestY
+            // Let's make him do a quick melee attack
+            Debug.Log("Vorrak activated melee attack!");
+            vorrakScript.MoveNearPlayerWithDuration(vorrakScript.cooldown + vorrakScript.hitboxDuration + 0.5f); // Move, then attack
+            yield return new WaitForSeconds(vorrakScript.cooldown); // Give him time to move before attack
+            vorrakScript.ActivateMeleeHitbox(); // Activate the melee hitbox
+        }
+        else if (baelorisScript != null)
+        {
+            // Baeloris mostly has movement. Its attack logic is in its Update.
+            // We just need to ensure its Update runs for a bit.
+            Debug.Log("Baeloris activated movement attack!");
+            // For Baeloris, we just let it run its normal Update behavior for its active time.
+            // Ensure its `timeBetweenMoves` and `speed` are set reasonably for a short summon.
+            baelorisScript.PickNewTargetPosition(); // Make it pick a target immediately
+            baelorisScript.enabled = true; // Make sure its script is active
+        }
+
+        // Wait for the minion to be active
+        yield return new WaitForSeconds(minionActiveTime);
+
+        // --- Destroy the summoned boss ---
+        if (summonedBoss != null)
+        {
+            Debug.Log($"Destroying summoned minion: {summonedBoss.name}");
+            Destroy(summonedBoss);
+        }
+
+        yield return new WaitForSeconds(waitTime); // Uyia pauses after the summon
     }
 
 
@@ -344,9 +537,8 @@ public class UyiaBossController : MonoBehaviour
                     startPosition + new Vector3(-patrolDistance, 0)
                };
                 break;
-                // No points generated for CustomPatrol, ArcJumps, LungeTowardsPlayer, MoonLeap
         }
-        currentPatrolIndex = 0; // Reset index when points are regenerated
+        currentPatrolIndex = 0;
     }
 
     /// <summary>
@@ -360,7 +552,7 @@ public class UyiaBossController : MonoBehaviour
             case MovementPattern.LungeTowardsPlayer:
                 if (playerTransform == null)
                 {
-                    Debug.LogError("Player Transform is not assigned for Lunge pattern! Returning to start.", this);
+                    Debug.LogError("Player Transform is not assigned for Lunge pattern!", this);
                     return startPosition;
                 }
                 target = playerTransform.position;
@@ -368,7 +560,7 @@ public class UyiaBossController : MonoBehaviour
             case MovementPattern.CustomPatrol:
                 if (patrolPoints == null || patrolPoints.Length == 0)
                 {
-                    Debug.LogError("Patrol Points are not assigned for CustomPatrol pattern! Returning to start.", this);
+                    Debug.LogError("Patrol Points are not assigned for CustomPatrol pattern!", this);
                     return startPosition;
                 }
                 target = patrolPoints[currentPatrolIndex].position;
@@ -376,7 +568,7 @@ public class UyiaBossController : MonoBehaviour
                 break;
             case MovementPattern.Cross:
             case MovementPattern.Diamond:
-            default: // Default case also handles patterns where no target is *needed* by this function (like ArcJump/MoonLeap) but prevents error if called
+            default:
                 if (generatedPatrolPoints != null && generatedPatrolPoints.Length > 0)
                 {
                     target = generatedPatrolPoints[currentPatrolIndex];
@@ -384,8 +576,7 @@ public class UyiaBossController : MonoBehaviour
                 }
                 else
                 {
-                    // This case should ideally not be hit if SetupGeneratedPoints is called correctly
-                    Debug.LogWarning("No generated patrol points available for Cross/Diamond pattern. Returning to start.", this);
+                    Debug.LogWarning("No generated patrol points available. Returning to start.", this);
                     target = startPosition;
                 }
                 break;

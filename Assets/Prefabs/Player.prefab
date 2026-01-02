@@ -310,11 +310,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3b7e9021b32bc40b60cee8c672c28e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashRange: 2.5
-  dashCooldown: 2
   speed: 5
+  dashRange: 2.5
   dashDuration: 0.2
-  isInvincible: 0
+  dashCooldown: 1.5
+  dashIconCooldown: {fileID: 0}
 --- !u!50 &7181855075233093852
 Rigidbody2D:
   serializedVersion: 5
@@ -404,7 +404,7 @@ MonoBehaviour:
   wordOutput: {fileID: 1081382429987439186}
   outputLine: {fileID: 0}
   Enemy: {fileID: 0}
-  damage: 13
+  damage: 10
   dotPrefab: {fileID: 2177327532916581973, guid: f00ac3c923d45d6479d0d051b4f2241f, type: 3}
   player: {fileID: 4070568225006338372}
   dotCount: 15

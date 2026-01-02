@@ -44,6 +44,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (DialogueManager.instance != null && DialogueManager.instance.isDialogueActive)
+        {
+            rb.linearVelocity = Vector2.zero;
+
+            animator.SetLayerWeight(1, 0);
+
+            direction = Vector2.zero;
+
+            return; 
+        }
+
         // Only process input if the player is not currently dashing.
         if (!isDashing)
         {

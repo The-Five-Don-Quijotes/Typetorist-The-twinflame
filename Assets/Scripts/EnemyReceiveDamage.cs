@@ -19,9 +19,13 @@ public class EnemyReceiveDamage : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        bossHealthBar.SetActive(true);
+        if(bossHealthBar != null)
+            bossHealthBar.SetActive(true);
+        else Debug.LogWarning("Boss Health Bar is not assigned in the inspector.");
         health = maxHealth;
-        healthSlider.value = CalculateHealthPercentage();
+        if(healthSlider != null)
+            healthSlider.value = CalculateHealthPercentage();
+        else Debug.LogWarning("Health Slider is not assigned in the inspector.");
     }
 
     private void Update()

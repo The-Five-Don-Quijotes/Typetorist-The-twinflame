@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class VorrakMovement : MonoBehaviour
 {
-    private Transform player;
+    public Transform player;
     private Animator animator;
 
     public GameObject melee;

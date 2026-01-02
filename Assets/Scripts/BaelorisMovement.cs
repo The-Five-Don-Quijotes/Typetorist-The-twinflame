@@ -41,7 +41,7 @@ public class BaelorisMovement : MonoBehaviour
         }
     }
 
-    void PickNewTargetPosition()
+    public void PickNewTargetPosition()
     {
         Vector2 randomCircle = Random.insideUnitCircle * radius;
         targetPosition = new Vector3(player.position.x + randomCircle.x, player.position.y, 0);

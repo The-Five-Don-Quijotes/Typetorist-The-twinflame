@@ -900,7 +900,7 @@ MonoBehaviour:
   menuOptions:
   - displayText: {fileID: 1312636705}
     command: continue
-    actionType: 0
+    actionType: 2
     sceneToLoad: 
     originalText: 
     currentProgress: 0
