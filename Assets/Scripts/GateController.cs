@@ -1,26 +1,27 @@
 using UnityEngine;
-using System.Collections; // --- ADD THIS --- for using Coroutines
+using System.Collections;
 
 public class GateController : MonoBehaviour
 {
+    public float activationY = -12f;
+    public float animationFrameTime = 0.2f;
+
+    // --- CHANGE 1: Update to the new generic controller ---
+    public BossCutsceneController dialogueController;
+
     private GameObject gateTilemap;
     private GameObject gateTilemap1;
     private GameObject gateTilemap2;
     private GameObject gateTilemap3;
     private GameObject boss;
     private Transform player;
-    private MonoBehaviour[] bossScripts;
 
-    public float activationY = -12f; // Y position threshold for activation
-
-    public float animationFrameTime = 0.2f; // Time between each gate frame
-    private bool hasBeenTriggered = false; // Prevents the animation from playing more than once
+    private bool hasBeenTriggered = false;
     private bool isDeactivating = false;
-    private bool isAnimatedScene = false; // Checks if gates 1, 2, 3 exist
+    private bool isAnimatedScene = false;
 
-    void Start()
+    private void Start()
     {
-        // Find all GameObjects
         gateTilemap = GameObject.Find("Gate");
         gateTilemap1 = GameObject.Find("Gate (1)");
         gateTilemap2 = GameObject.Find("Gate (2)");
@@ -28,59 +29,31 @@ public class GateController : MonoBehaviour
         boss = GameObject.FindWithTag("Boss");
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        if (boss != null)
-        {
-            bossScripts = boss.GetComponents<MonoBehaviour>();
-        }
-
-        // If any of the animation gates exist
         if (gateTilemap1 != null || gateTilemap2 != null || gateTilemap3 != null)
         {
             isAnimatedScene = true;
         }
 
-        // Deactivate all gates at the start
-        if (gateTilemap != null)
-            gateTilemap.SetActive(false);
-        else
-            Debug.LogError("Main 'Gate' tilemap not found!");
-
-        // Also deactivate the animation gates
-        //if (gateTilemap1 != null) gateTilemap1.SetActive(false);
+        if (gateTilemap != null) gateTilemap.SetActive(false);
         if (gateTilemap2 != null) gateTilemap2.SetActive(false);
         if (gateTilemap3 != null) gateTilemap3.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        if (player != null && !hasBeenTriggered) // Only run this if it hasn't been triggered yet
+        if (player != null && !hasBeenTriggered)
         {
             if (player.position.y > activationY)
             {
-                // Player crossed the line for the first time
-                // Start the activation sequence!
-                StartCoroutine(PlayActivationAnimation());
-            }
-            else if (boss != null)
-            {
-                // Player is below the line, keep boss scripts disabled
-                SetBossScriptsActive(false);
+                StartCoroutine(PlayActivationSequence());
             }
         }
 
-        // Only check boss health *after* the fight has started
         if (hasBeenTriggered && boss != null)
         {
-            float bossHealth = 0;
-            var damageScript = boss.GetComponent<EnemyReceiveDamage>();
-            if (damageScript != null)
+            EnemyReceiveDamage damageScript = boss.GetComponent<EnemyReceiveDamage>();
+            if (damageScript != null && damageScript.health <= 0 && gateTilemap != null)
             {
-                bossHealth = damageScript.health;
-            }
-
-            if (bossHealth <= 0 && gateTilemap != null)
-            {
-                //gateTilemap.SetActive(false);
                 if (!isDeactivating)
                 {
                     StartCoroutine(PlayDeactivationAnimation());
@@ -89,18 +62,12 @@ public class GateController : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayActivationAnimation()
+    private IEnumerator PlayActivationSequence()
     {
         hasBeenTriggered = true;
 
-        if (boss != null)
-        {
-            SetBossScriptsActive(true);
-        }
-
         if (isAnimatedScene)
         {
-            // Play the 3-stage animation
             yield return new WaitForSeconds(animationFrameTime);
 
             if (gateTilemap1 != null) gateTilemap1.SetActive(false);
@@ -118,60 +85,41 @@ public class GateController : MonoBehaviour
         {
             gateTilemap.SetActive(true);
         }
+
+        if (dialogueController != null)
+        {
+            dialogueController.TriggerSequence();
+        }
+        else
+        {
+            // --- CHANGE 2: Update the debug log message ---
+            Debug.LogError("BossCutsceneController reference is missing in GateController.");
+        }
     }
 
     private IEnumerator PlayDeactivationAnimation()
     {
-        // 1. Set the flag so this only runs once
         isDeactivating = true;
 
-        // 2. Deactivate the main, solid gate
-        if (gateTilemap != null)
-        {
-            gateTilemap.SetActive(false);
-        }
+        if (gateTilemap != null) gateTilemap.SetActive(false);
 
-        // 3. Play the reverse animation if in the animated scene
         if (isAnimatedScene)
         {
-            // Show 3
             if (gateTilemap3 != null) gateTilemap3.SetActive(true);
             yield return new WaitForSeconds(animationFrameTime);
 
-            // Hide 3, Show 2
             if (gateTilemap3 != null) gateTilemap3.SetActive(false);
             if (gateTilemap2 != null) gateTilemap2.SetActive(true);
             yield return new WaitForSeconds(animationFrameTime);
 
-            // Hide 2, Show 1
             if (gateTilemap2 != null) gateTilemap2.SetActive(false);
             if (gateTilemap1 != null) gateTilemap1.SetActive(true);
         }
 
-        // 4. Optional: Ensure boss scripts are off (since boss is dead)
         if (boss != null)
         {
-            SetBossScriptsActive(false);
-        }
-    }
-
-    private void SetBossScriptsActive(bool state)
-    {
-        if (bossScripts != null)
-        {
-            foreach (MonoBehaviour script in bossScripts)
-            {
-                if (script == null || script == this)
-                {
-                    continue;
-                }
-
-                if (!state) // If disabling the scripts
-                {
-                    script.StopAllCoroutines();
-                }
-                script.enabled = state;
-            }
+            boss.GetComponent<EnemyShooting>()?.StopShootingPhase();
+            boss.GetComponent<BaelorisMovement>()?.StopMovementPhase();
         }
     }
 

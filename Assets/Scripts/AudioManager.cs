@@ -42,6 +42,20 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
+    public void PlayMusic(AudioClip clip)
+    {
+        if (musicSource.clip == clip && musicSource.isPlaying) return;
+
+        musicSource.clip = clip;
+        musicSource.volume = PlayerPrefs.GetFloat("MusicVolume", 1.0f); 
+        musicSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        musicSource.Stop();
+    }
+
     public void PlaySFX(AudioClip clip)
     {
         SFXSource.PlayOneShot(clip);

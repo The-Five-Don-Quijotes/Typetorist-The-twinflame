@@ -1,11 +1,10 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyShooting : MonoBehaviour
 {
-    public GameObject bulletA; // Sine wave bullet
-    public GameObject bulletB; // Cosine wave bullet
+    public GameObject bulletA;
+    public GameObject bulletB;
     public GameObject projectile;
     public Transform player;
     public int minDamage;
@@ -14,27 +13,35 @@ public class EnemyShooting : MonoBehaviour
     public float cooldown;
     private Animator animator;
 
-    void Start()
+    private void Start()
     {
         animator = GetComponent<Animator>();
-        StartCoroutine(ShootPlayer());
-        StartCoroutine(Phase2ShootPlayer());
+        // Execution removed from Start/OnEnable
     }
 
-    void OnEnable()
+    // Explicitly call this when cutscene ends
+    public void BeginShootingPhase()
     {
         StartCoroutine(ShootPlayer());
         StartCoroutine(Phase2ShootPlayer());
     }
 
-    IEnumerator ShootPlayer()
+    public void StopShootingPhase()
     {
-        if(player != null)
+        StopAllCoroutines();
+    }
+
+    private IEnumerator ShootPlayer()
+    {
+        if (player != null)
         {
             yield return new WaitForSeconds(cooldown);
-            if (GetComponent<EnemyReceiveDamage>().health > GetComponent<EnemyReceiveDamage>().maxHealth / 2)
+
+            // Replaced repeated GetComponent calls with local logic or cached references in production
+            EnemyReceiveDamage damageScript = GetComponent<EnemyReceiveDamage>();
+
+            if (damageScript.health > damageScript.maxHealth / 2)
             {
-                // Flip the enemy to face the player
                 if (player.position.x > transform.position.x)
                 {
                     transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -43,9 +50,9 @@ public class EnemyShooting : MonoBehaviour
                 {
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
+
                 if (player != null)
                 {
-                    // Play the attack animation
                     animator.SetTrigger("Attack");
 
                     GameObject spell = Instantiate(projectile, transform.position, Quaternion.identity);
@@ -54,36 +61,38 @@ public class EnemyShooting : MonoBehaviour
                     Vector2 direction = (targetPos - myPos).normalized;
                     spell.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileForce;
 
-                    // Rotate the bullet to face the direction it's moving
                     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180;
                     spell.transform.rotation = Quaternion.Euler(0, 0, angle);
 
                     spell.GetComponent<TestEnemyProjectile>().damage = Random.Range(minDamage, maxDamage);
                 }
             }
+
             if (!animator.GetBool("isDeath"))
             {
-                StartCoroutine(ShootPlayer()); // Stop the coroutine if isDeath is triggered
+                StartCoroutine(ShootPlayer());
             }
         }
     }
 
-    IEnumerator Phase2ShootPlayer()
+    private IEnumerator Phase2ShootPlayer()
     {
-        if(player != null)
+        if (player != null)
         {
             yield return new WaitForSeconds(cooldown);
 
             if (player == null)
             {
-                yield break; // Safely stop the coroutine
+                yield break;
             }
 
-            if (GetComponent<EnemyReceiveDamage>().health <= GetComponent<EnemyReceiveDamage>().maxHealth / 2 && GetComponent<EnemyReceiveDamage>().health != 0) //Health below 50
+            EnemyReceiveDamage damageScript = GetComponent<EnemyReceiveDamage>();
+
+            if (damageScript.health <= damageScript.maxHealth / 2 && damageScript.health > 0)
             {
                 cooldown = 0.1f;
                 if (transform != null) yield return null;
-                // Face the player
+
                 if (player.position.x > transform.position.x)
                 {
                     transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -95,19 +104,15 @@ public class EnemyShooting : MonoBehaviour
 
                 if (player != null)
                 {
-                    // Shoot Bullet A (Sine wave)
                     GameObject spellA = Instantiate(bulletA, transform.position, Quaternion.identity);
                     SetupBullet(spellA, true, false);
 
-                    // Shoot Bullet B (Cosine wave)
                     GameObject spellB = Instantiate(bulletB, transform.position, Quaternion.identity);
                     SetupBullet(spellB, false, false);
 
-                    // Shoot Bullet C (Sine wave)
                     GameObject spellC = Instantiate(bulletA, transform.position, Quaternion.identity);
                     SetupBullet(spellC, true, true);
 
-                    // Shoot Bullet D (Cosine wave)
                     GameObject spellD = Instantiate(bulletB, transform.position, Quaternion.identity);
                     SetupBullet(spellD, false, true);
                 }
@@ -120,15 +125,17 @@ public class EnemyShooting : MonoBehaviour
         }
     }
 
-    void SetupBullet(GameObject bullet, bool isSineWave, bool isOposite)
+    private void SetupBullet(GameObject bullet, bool isSineWave, bool isOpposite)
     {
         Vector2 myPos = transform.position;
         Vector2 targetPos = player.position;
         Vector2 direction = (targetPos - myPos).normalized;
-        if(isOposite)
+
+        if (isOpposite)
         {
             direction = -direction;
         }
+
         bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileForce;
 
         BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();

@@ -1,55 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; 
+using TMPro;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
+    public event Action OnDialogueEnded;
 
     [Header("UI Components")]
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
     public Animator dialogueBoxAnimator;
 
-    [Header("UI To Toggle")]
-    public GameObject worldGUI;    
-    public GameObject typingText;  
+    public bool isDialogueActive = false;
 
     private Queue<string> sentences;
-    public bool isDialogueActive = false;
+    private bool isTyping = false;
+    private string currentSentence = "";
+    private Coroutine typingCoroutine;
 
     private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
-
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
         sentences = new Queue<string>();
     }
 
-    void Start()
+    private void Update()
     {
-        //sentences = new Queue<string>();
-        isDialogueActive = false;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) && isDialogueActive)
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) && isDialogueActive)
         {
-            DisplayNextSentence();
+            if (isTyping)
+            {
+                CompleteSentence();
+            }
+            else
+            {
+                DisplayNextSentence();
+            }
         }
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
-        isDialogueActive = true; 
-
-        if (worldGUI != null) worldGUI.SetActive(false);
-        if (typingText != null) typingText.SetActive(false);
-
+        isDialogueActive = true;
         dialogueBoxAnimator.SetBool("IsOpen", true);
-
         nameText.text = dialogue.npcName;
         sentences.Clear();
 
@@ -61,7 +62,7 @@ public class DialogueManager : MonoBehaviour
         DisplayNextSentence();
     }
 
-    public void DisplayNextSentence()
+    private void DisplayNextSentence()
     {
         if (sentences.Count == 0)
         {
@@ -69,27 +70,43 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        string sentence = sentences.Dequeue();
-        StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
+        currentSentence = sentences.Dequeue();
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+        }
+        typingCoroutine = StartCoroutine(TypeSentence(currentSentence));
     }
 
-    IEnumerator TypeSentence(string sentence)
+    private IEnumerator TypeSentence(string sentence)
     {
+        isTyping = true;
         dialogueText.text = "";
+
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
             yield return null;
         }
+
+        isTyping = false;
     }
 
-    void EndDialogue()
+    private void CompleteSentence()
+    {
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+        }
+        dialogueText.text = currentSentence;
+        isTyping = false;
+    }
+
+    private void EndDialogue()
     {
         dialogueBoxAnimator.SetBool("IsOpen", false);
         isDialogueActive = false;
-
-        if (worldGUI != null) worldGUI.SetActive(true);
-        if (typingText != null) typingText.SetActive(true);
+        OnDialogueEnded?.Invoke();
     }
 }

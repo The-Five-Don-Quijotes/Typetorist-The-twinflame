@@ -18,28 +18,18 @@ public class ZhavokMovement : MonoBehaviour
     private Vector2 currentTarget;
     private bool isMoving = false;
     private bool canTeleport = true;
+    private bool isCombatActive = false;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player")?.transform;
         currentTarget = transform.position; // Start by standing still
-
-        GameObject gameManager = GameObject.Find("GameManager"); // Ensure "Gate" exists in hierarchy
-        if (gameManager != null)
-        {
-            gateController = gameManager.GetComponent<GateController>();
-        }
-
-        if (gateController == null)
-        {
-            Debug.LogError("GateController not found! Make sure it's assigned.");
-        }
     }
 
     void Update()
     {
-        if (player == null || !gateController.isGateActive()) return;
+        if (player == null || !isCombatActive) return;
         LookAtPlayer();
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
@@ -54,6 +44,17 @@ public class ZhavokMovement : MonoBehaviour
         }
 
         MoveTowardsTarget();
+    }
+
+    public void BeginMovementPhase()
+    {
+        isCombatActive = true;
+    }
+
+    public void StopMovementPhase()
+    {
+        isCombatActive = false;
+        StopAllCoroutines();
     }
 
     IEnumerator TeleportToPlayer()

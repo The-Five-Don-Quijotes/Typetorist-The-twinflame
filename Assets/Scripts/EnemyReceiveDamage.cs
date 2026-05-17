@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class EnemyReceiveDamage : MonoBehaviour
@@ -15,6 +16,10 @@ public class EnemyReceiveDamage : MonoBehaviour
     public AudioClip hurtSound;
     public AudioClip deathSound;
     public float phase2ShootingDuration;
+
+    [Header("Death Events")]
+    public UnityEvent OnHealthZero;
+    private bool isDead = false;
 
     void Start()
     {
@@ -104,11 +109,13 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     private void CheckDeath()
     {
-        if (health <= 0)
+        if (health <= 0 && !isDead)
         {
             animator.SetTrigger("isDeath");
             AudioManager.instance.PlaySFX(deathSound);
             bossHealthBar.SetActive(false); // Hide health bar when death
+
+            OnHealthZero?.Invoke();
         }
     }
 

@@ -9,36 +9,39 @@ public class BaelorisMovement : MonoBehaviour
 
     private Vector3 targetPosition;
     private float moveTimer;
+    private bool isCombatActive = false;
 
-    void Start()
+    private void Update()
     {
+        if (!isCombatActive || player == null) return;
+
+        EnemyReceiveDamage damageScript = GetComponent<EnemyReceiveDamage>();
+
+        if (damageScript.health > damageScript.maxHealth / 2)
+        {
+            moveTimer -= Time.deltaTime;
+
+            if (moveTimer <= 0)
+            {
+                PickNewTargetPosition();
+            }
+
+            MoveTowardsTarget();
+        }
+        else
+        {
+            transform.position = new Vector3(0, 0, 0);
+        }
     }
 
-    void Update()
+    public void BeginMovementPhase()
     {
-        if(player != null)
-        {
-            if (GetComponent<EnemyReceiveDamage>().health > GetComponent<EnemyReceiveDamage>().maxHealth / 2)
-            {
-                moveTimer -= Time.deltaTime;
+        isCombatActive = true;
+    }
 
-                if (moveTimer <= 0)
-                {
-                    PickNewTargetPosition();
-                }
-
-                MoveTowardsTarget();
-                if (transform.position == targetPosition)
-                {
-                    //GetComponent<Animator>().SetBool("isFlying", false);
-                }
-            }
-            else
-            {
-                transform.position = new (0, 0, 0);
-            }
-             
-        }
+    public void StopMovementPhase()
+    {
+        isCombatActive = false;
     }
 
     public void PickNewTargetPosition()
@@ -46,11 +49,9 @@ public class BaelorisMovement : MonoBehaviour
         Vector2 randomCircle = Random.insideUnitCircle * radius;
         targetPosition = new Vector3(player.position.x + randomCircle.x, player.position.y, 0);
         moveTimer = timeBetweenMoves;
-
-        //GetComponent<Animator>().SetBool("isFlying", true);
     }
 
-    void MoveTowardsTarget()
+    private void MoveTowardsTarget()
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
     }

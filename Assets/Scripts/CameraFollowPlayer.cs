@@ -2,16 +2,21 @@ using UnityEngine;
 
 public class CameraFollowPlayer : MonoBehaviour
 {
-    public Transform player;
+    public Transform target;
     public float smoothing;
     public Vector3 offset;
 
     void LateUpdate()
     {
-        if(player != null)
+        if (target != null)
         {
-            Vector3 newPosition = Vector3.Lerp(transform.position, player.transform.position + offset, smoothing * Time.deltaTime);
+            Vector3 newPosition = Vector3.Lerp(transform.position, target.position + offset, smoothing * Time.deltaTime);
             transform.position = newPosition;
         }
+    }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 }

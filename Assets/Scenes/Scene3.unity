@@ -5716,6 +5716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2d2ed4acd623e4db0f79068eb2e3e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boss: {fileID: 1995745187}
   portal: {fileID: 523731065}
 --- !u!114 &1413736956
 MonoBehaviour:
@@ -5730,6 +5731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activationY: -11
+  animationFrameTime: 0.2
 --- !u!114 &1413736957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5815,6 +5817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2d2ed4acd623e4db0f79068eb2e3e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boss: {fileID: 1995745187}
   portal: {fileID: 1374467949}
 --- !u!1 &1413870080
 GameObject:
@@ -51905,7 +51908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe1a8ad8e65b6a4b80f9334acb85fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 187489523}
+  target: {fileID: 187489523}
   smoothing: 3
   offset: {x: 0, y: 0, z: -1}
 --- !u!1 &2089426248

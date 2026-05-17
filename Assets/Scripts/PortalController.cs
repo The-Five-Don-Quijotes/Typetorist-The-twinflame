@@ -2,21 +2,24 @@ using UnityEngine;
 
 public class PortalController : MonoBehaviour
 {
-    private GameObject boss;
+    [SerializeField] private GameObject boss;
     public GameObject portal;
 
     void Start()
     {
-        boss = GameObject.FindWithTag("Boss"); // Find the boss
+        if (portal != null)
+            portal.SetActive(false);
     }
 
     void Update()
     {
         //if (boss == null || boss.GetComponent<Animator>().GetBool("isDeath"))
-        if(boss == null)
+        if (boss == null)
         {
-            if(portal != null)
-                portal.SetActive(true); // Activate Portal when boss dies
+            if (portal != null && !portal.activeSelf)
+            {
+                portal.SetActive(true);
+            }
         }
     }
 }

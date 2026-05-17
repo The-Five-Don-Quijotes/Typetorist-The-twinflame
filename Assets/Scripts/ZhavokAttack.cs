@@ -26,12 +26,17 @@ public class ZhavokAttack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         player = GameObject.Find("Player").transform;
+        //StartCoroutine(AttackPlayer());
+    }
+
+    public void BeginAttackPhase()
+    {
         StartCoroutine(AttackPlayer());
     }
 
-    void OnEnable()
+    public void StopAttackPhase()
     {
-        StartCoroutine(AttackPlayer());
+        StopAllCoroutines();
     }
 
     IEnumerator AttackPlayer()
