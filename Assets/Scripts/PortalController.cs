@@ -11,15 +11,11 @@ public class PortalController : MonoBehaviour
             portal.SetActive(false);
     }
 
-    void Update()
+    public void OpenPortal()
     {
-        //if (boss == null || boss.GetComponent<Animator>().GetBool("isDeath"))
-        if (boss == null)
+        if (portal != null && !portal.activeSelf)
         {
-            if (portal != null && !portal.activeSelf)
-            {
-                portal.SetActive(true);
-            }
+            portal.SetActive(true);
         }
     }
 }

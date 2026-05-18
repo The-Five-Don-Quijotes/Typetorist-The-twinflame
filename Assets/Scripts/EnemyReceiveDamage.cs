@@ -111,6 +111,7 @@ public class EnemyReceiveDamage : MonoBehaviour
     {
         if (health <= 0 && !isDead)
         {
+            isDead = true;
             animator.SetTrigger("isDeath");
             AudioManager.instance.PlaySFX(deathSound);
             bossHealthBar.SetActive(false); // Hide health bar when death

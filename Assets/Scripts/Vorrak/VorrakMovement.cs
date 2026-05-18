@@ -22,18 +22,34 @@ public class VorrakMovement : MonoBehaviour
     };
 
     private bool isMoving = false;
-    public float moveSpeed = 3f; // Speed of movement when moving down
+    public float moveSpeed = 3f;
 
-    void Start()
+    // --- NEW: Combat state ---
+    private bool isCombatActive = false;
+
+    private void Start()
     {
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player")?.transform;
     }
 
-    void Update()
+    private void Update()
     {
-        if (player == null) return;
+        if (player == null || !isCombatActive) return;
         LookAtPlayer();
+    }
+
+    // --- NEW: Execution Control ---
+    public void BeginMovementPhase()
+    {
+        isCombatActive = true;
+    }
+
+    public void StopMovementPhase()
+    {
+        isCombatActive = false;
+        StopAllCoroutines();
+        isMoving = false;
     }
 
     public void ActivateMeleeHitbox()
@@ -41,7 +57,7 @@ public class VorrakMovement : MonoBehaviour
         StartCoroutine(EnableHitbox(melee));
     }
 
-    IEnumerator EnableHitbox(GameObject hitbox)
+    private IEnumerator EnableHitbox(GameObject hitbox)
     {
         hitbox.SetActive(true);
         yield return new WaitForSeconds(hitboxDuration);
@@ -50,7 +66,7 @@ public class VorrakMovement : MonoBehaviour
 
     private void LookAtPlayer()
     {
-        if(player == null) return;
+        if (player == null) return;
         if (player.position.x > transform.position.x)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -61,21 +77,18 @@ public class VorrakMovement : MonoBehaviour
         }
     }
 
-    // Teleport to a random position
     public void TeleportToRandomPosition()
     {
-        if (isMoving) return;
+        if (isMoving || !isCombatActive) return;
 
         int randomIndex = Random.Range(0, teleportPositions.Length);
         transform.position = teleportPositions[randomIndex];
-
-        // Ensure the boss faces the player correctly after teleporting
         LookAtPlayer();
     }
 
-    // Move towards the furthest Y position while keeping the same X
     public void MoveToFurthestY()
     {
+        if (!isCombatActive) return;
         Vector2 targetPosition = GetFurthestYPosition();
         StartCoroutine(MoveTowardsTarget(targetPosition));
     }
@@ -85,7 +98,6 @@ public class VorrakMovement : MonoBehaviour
         float currentX = transform.position.x;
         float minY = float.MaxValue;
 
-        // Find the lowest Y position for the same X coordinate
         foreach (Vector2 pos in teleportPositions)
         {
             if (Mathf.Approximately(pos.x, currentX) && pos.y < minY)
@@ -93,40 +105,34 @@ public class VorrakMovement : MonoBehaviour
                 minY = pos.y;
             }
         }
-
         return new Vector2(currentX, minY);
     }
 
-    IEnumerator MoveTowardsTarget(Vector2 targetPosition)
+    private IEnumerator MoveTowardsTarget(Vector2 targetPosition)
     {
         while (Vector2.Distance(transform.position, targetPosition) > 0.1f)
         {
-            // Move the boss
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             isMoving = true;
-
-            yield return null; // Wait until next frame
+            yield return null;
         }
 
-        // Ensure final position is exact
         transform.position = targetPosition;
         isMoving = false;
     }
 
     public void MoveNearPlayerWithDuration(float duration)
     {
-        if (player == null || isMoving) return;
+        if (player == null || isMoving || !isCombatActive) return;
 
-        isMoving = true; // Prevent overlapping movement
-
-        // Get a random direction within a 0.3 unit radius
+        isMoving = true;
         Vector2 randomDirection = Random.insideUnitCircle.normalized * 0.3f;
         Vector2 targetPosition = (Vector2)player.position + randomDirection;
 
         StartCoroutine(MoveAndStop(targetPosition, duration));
     }
 
-    IEnumerator MoveAndStop(Vector2 targetPosition, float duration)
+    private IEnumerator MoveAndStop(Vector2 targetPosition, float duration)
     {
         float elapsedTime = 0f;
 
@@ -137,6 +143,6 @@ public class VorrakMovement : MonoBehaviour
             yield return null;
         }
 
-        isMoving = false; // Allow movement again
+        isMoving = false;
     }
 }

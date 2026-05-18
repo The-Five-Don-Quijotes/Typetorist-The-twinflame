@@ -7,6 +7,9 @@ public class VorrakShootingArm : MonoBehaviour
 
     public void InitArm()
     {
+
+        if (!enabled) return;
+
         if (armPrefab == null)
         {
             Debug.LogError("Arm Prefab is not assigned!");

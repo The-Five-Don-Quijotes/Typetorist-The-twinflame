@@ -2,27 +2,52 @@ using UnityEngine;
 
 public class ArmFollowPlayer : MonoBehaviour
 {
-    private Transform target; // Assign the player or target in Inspector or via script
-    public float speed = 5f; // How fast the arm moves
-    public float rotationSpeed = 200f; // How fast it rotates towards the target
-    public float lifetime = 5f; // How long before it destroys itself
+    private Transform target;
+    public float speed = 5f;
+    public float rotationSpeed = 200f;
+    public float lifetime = 5f;
+
+    // --- NEW: Support for fixed target in cutscenes ---
+    private Vector3? fixedTargetPos = null;
 
     private void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player")?.transform; // Find the player
+        // Only find player if no fixed target was set before Start
+        if (!fixedTargetPos.HasValue)
+        {
+            target = GameObject.FindGameObjectWithTag("Player")?.transform;
+        }
         Destroy(gameObject, lifetime);
     }
 
     private void Update()
     {
-        if (target == null)
+        Vector3 currentDestination;
+
+        // Determine destination based on mode
+        if (fixedTargetPos.HasValue)
         {
-            Destroy(gameObject); // If no target, self-destruct
+            currentDestination = fixedTargetPos.Value;
+
+            // Destroy if it reached the fixed target
+            if (Vector3.Distance(transform.position, currentDestination) < 0.5f)
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+        else if (target != null)
+        {
+            currentDestination = target.position;
+        }
+        else
+        {
+            Destroy(gameObject);
             return;
         }
 
-        // Calculate direction to target
-        Vector3 direction = (target.position - transform.position).normalized;
+        // Calculate direction to destination
+        Vector3 direction = (currentDestination - transform.position).normalized;
 
         // Rotate towards target smoothly
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -31,5 +56,12 @@ public class ArmFollowPlayer : MonoBehaviour
 
         // Move towards target
         transform.position += transform.right * speed * Time.deltaTime;
+    }
+
+    // --- NEW: Method to set a specific point for the cutscene ---
+    public void SetFixedTarget(Vector3 position)
+    {
+        fixedTargetPos = position;
+        target = null; // Ignore player
     }
 }

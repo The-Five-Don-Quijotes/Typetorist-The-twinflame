@@ -250,6 +250,9 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: a75d06bb9b951ea44953a5d739299490, type: 3}
   deathSound: {fileID: 8300000, guid: ba81afa80f2d7364fb218946d3e96460, type: 3}
   phase2ShootingDuration: 0
+  OnHealthZero:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4464840087493545576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +325,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCooldown: 3
   followDuration: 5
+  mainCutsceneController: {fileID: 0}
+  armPrefab: {fileID: 0}
+  explosionVFX: {fileID: 0}
+  explosionSound: {fileID: 0}
+  portal1: {fileID: 0}
 --- !u!82 &8930882168494250037
 AudioSource:
   m_ObjectHideFlags: 0
