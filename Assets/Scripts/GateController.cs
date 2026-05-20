@@ -8,6 +8,7 @@ public class GateController : MonoBehaviour
 
     // --- CHANGE 1: Update to the new generic controller ---
     public BossCutsceneController dialogueController;
+    public FinalBossIntroSequence finalBossIntroSequence;
 
     private GameObject gateTilemap;
     private GameObject gateTilemap1;
@@ -92,8 +93,13 @@ public class GateController : MonoBehaviour
         }
         else
         {
-            // --- CHANGE 2: Update the debug log message ---
-            Debug.LogError("BossCutsceneController reference is missing in GateController.");
+            if(finalBossIntroSequence != null)
+            {
+                finalBossIntroSequence.StartIntroSequence();
+            }else
+            {
+                Debug.LogError("BossCutsceneController reference is missing in GateController.");
+            }  
         }
     }
 
