@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement; // NEW: Required for scene transitions
+using UnityEngine.SceneManagement;
 
 public class FinalSealingCutscene : MonoBehaviour
 {
@@ -16,11 +16,11 @@ public class FinalSealingCutscene : MonoBehaviour
     public MonoBehaviour baelorisTyperScript;
 
     [Header("UI Control")]
+    public GameObject worldGUI;
     public TextMeshProUGUI typingOutputText;
     public TextMeshProUGUI sentenceOutputText;
 
     [Header("Book & Scene Transition")]
-    // Replaced the UI GameObject with a SpriteRenderer for world-space manipulation
     public SpriteRenderer bookSpriteRenderer;
     public Animator bookAnimator;
     [Tooltip("The exact name of the scene you want to load after the book closes.")]
@@ -42,8 +42,10 @@ public class FinalSealingCutscene : MonoBehaviour
     public string[] incantations = new string[4];
 
     [Header("Dialogues")]
-    public Dialogue midSequenceDialogueBoss;
-    public Dialogue midSequenceDialoguePlayer;
+    public Dialogue bookIntroDialogue;
+    public Dialogue bossBeforeIncan2Dialogue;
+    public Dialogue bossBeforeIncan3Dialogue;
+    public Dialogue playerBeforeIncan3Dialogue;
     public Dialogue finalBeggingDialogueBoss;
     public Dialogue finalBeggingDialoguePlayer;
 
@@ -60,6 +62,8 @@ public class FinalSealingCutscene : MonoBehaviour
 
     public void StartSealingSequence()
     {
+        if (worldGUI != null) worldGUI.SetActive(false);
+
         // Ensure the book starts at -20 in the background
         if (bookSpriteRenderer != null) bookSpriteRenderer.sortingOrder = -20;
 
@@ -67,7 +71,7 @@ public class FinalSealingCutscene : MonoBehaviour
         StartCoroutine(FrameBothEntities());
 
         currentSentenceIndex = 0;
-        StartNextSentence();
+        StartCoroutine(StartNextSentenceCoroutine());
     }
 
     private void LockEntities()
@@ -128,9 +132,23 @@ public class FinalSealingCutscene : MonoBehaviour
         mainCamera.orthographicSize = targetOrthographicSize;
     }
 
-    private void StartNextSentence()
+    private IEnumerator StartNextSentenceCoroutine()
     {
-        if (currentSentenceIndex >= 4) return;
+        if (currentSentenceIndex >= 4) yield break;
+
+        if (currentSentenceIndex == 0)
+        {
+            yield return StartCoroutine(PlayDialogue(bookIntroDialogue));
+        }
+        else if (currentSentenceIndex == 1)
+        {
+            yield return StartCoroutine(PlayDialogue(bossBeforeIncan2Dialogue));
+        }
+        else if (currentSentenceIndex == 2)
+        {
+            yield return StartCoroutine(PlayDialogue(bossBeforeIncan3Dialogue));
+            yield return StartCoroutine(PlayDialogue(playerBeforeIncan3Dialogue));
+        }
 
         string fullSentence = incantations[currentSentenceIndex].Trim();
         if (sentenceOutputText != null) sentenceOutputText.text = fullSentence;
@@ -164,7 +182,8 @@ public class FinalSealingCutscene : MonoBehaviour
     private void Update()
     {
         if (!isTypingActive) return;
-        else if (!typingOutputText.gameObject.activeSelf) typingOutputText.gameObject.SetActive(true);
+        else if (typingOutputText != null && !typingOutputText.gameObject.activeSelf) typingOutputText.gameObject.SetActive(true);
+
         ProcessTypingInput();
     }
 
@@ -233,17 +252,11 @@ public class FinalSealingCutscene : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        if (currentSentenceIndex == 1)
-        {
-            yield return StartCoroutine(PlayDialogue(midSequenceDialogueBoss));
-            yield return StartCoroutine(PlayDialogue(midSequenceDialoguePlayer));
-        }
-
         currentSentenceIndex++;
 
         if (currentSentenceIndex < 4)
         {
-            StartNextSentence();
+            StartCoroutine(StartNextSentenceCoroutine());
         }
         else
         {
@@ -288,23 +301,19 @@ public class FinalSealingCutscene : MonoBehaviour
             yield break;
         }
 
-        // 1. Calculate the exact camera size required to fit the book based on screen resolution
         Bounds bookBounds = bookSpriteRenderer.bounds;
         float screenRatio = (float)Screen.width / (float)Screen.height;
         float targetSizeY = bookBounds.size.y / 2f;
         float targetSizeX = (bookBounds.size.x / 2f) / screenRatio;
 
-        // Pick whichever dimension requires a larger zoom out, and add some visual padding
         float targetOrthographicSize = Mathf.Max(targetSizeX, targetSizeY) + cameraPadding;
 
-        // 2. Smoothly zoom out and pan directly to the center of the book
         float zoomDuration = 3.0f;
         float elapsed = 0f;
 
         float startSize = mainCamera.orthographicSize;
         Vector3 startCamPos = mainCamera.transform.position;
 
-        // Determine target position, preserving the camera's original Z-depth
         Vector3 targetCamPos = bookBounds.center;
         targetCamPos.z = startCamPos.z;
 
@@ -317,23 +326,18 @@ public class FinalSealingCutscene : MonoBehaviour
             yield return null;
         }
 
-        // Snap to exact values
         mainCamera.transform.position = targetCamPos;
         mainCamera.orthographicSize = targetOrthographicSize;
 
-        // 3. Pop the book to the front layer (1) now that it is fully visible
         bookSpriteRenderer.sortingOrder = 1;
 
-        // 4. Trigger the Book Close Animation
         if (bookAnimator != null)
         {
             bookAnimator.Play("BookClose");
         }
 
-        // 5. Wait for the animation to play out
         yield return new WaitForSeconds(sceneTransitionDelay);
 
-        // 6. Transition to the Next Scene
         if (!string.IsNullOrEmpty(nextSceneName))
         {
             SceneManager.LoadScene(nextSceneName);

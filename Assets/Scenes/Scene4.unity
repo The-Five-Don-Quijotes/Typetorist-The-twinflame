@@ -39415,7 +39415,7 @@ GameObject:
   - component: {fileID: 642451956}
   m_Layer: 0
   m_Name: Music
-  m_TagString: Untagged
+  m_TagString: Audio
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39532,6 +39532,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1939682501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &659966768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8121297140586844088, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+  m_PrefabInstance: {fileID: 815883304}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &659966769 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6132755853597237116, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+  m_PrefabInstance: {fileID: 815883304}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659966768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae056d750836f204ba9bccc90622e40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &678726289
 GameObject:
   m_ObjectHideFlags: 0
@@ -39795,6 +39811,71 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &815883304
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6132755853597237116, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: playerTarget
+      value: 
+      objectReference: {fileID: 187489523}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.9370329
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -20.372223
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916323012652674768, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121297140586844088, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_Name
+      value: UiiiaPrev
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121297140586844088, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3243876878f1ae447ad9fbbaa953be97, type: 3}
 --- !u!1 &939756921
 GameObject:
   m_ObjectHideFlags: 0
@@ -42823,7 +42904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3621349982333040225, guid: e10289f39927f4b46954b4b7b3bb5f40, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4626997422604772157, guid: e10289f39927f4b46954b4b7b3bb5f40, type: 3}
       propertyPath: m_Color.a
@@ -44860,129 +44941,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 962472267059948675, guid: bea29bdc215c4b548ac4a4ce93aeeb75, type: 3}
   m_PrefabInstance: {fileID: 1451038693}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1476075955
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1476075957}
-  - component: {fileID: 1476075956}
-  - component: {fileID: 1476075959}
-  - component: {fileID: 1476075958}
-  m_Layer: 0
-  m_Name: UiiiaPrev
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &1476075956
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476075955}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7798561404964426918, guid: e3743a8590c85c342807f1d4e996441c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.31}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &1476075957
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476075955}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.26, y: -19.84, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1476075958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476075955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae056d750836f204ba9bccc90622e40d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &1476075959
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476075955}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ad5ae421c5639c149b15d624571a87b7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1492298830
 GameObject:
   m_ObjectHideFlags: 0
@@ -91990,41 +91948,61 @@ MonoBehaviour:
   combatTyperScript: {fileID: 639294686}
   playerMovementScript: {fileID: 639294685}
   mainCameraScript: {fileID: 2061552613}
+  uiiaMovementScript: {fileID: 659966769}
   playerTransform: {fileID: 187489523}
-  bossTransform: {fileID: 1379427182}
+  uiiiaPrevObject: {fileID: 659966768}
+  realBossObject: {fileID: 1379427180}
+  bossSpawnLocation: {fileID: 1379427182}
+  bgmAudioSource: {fileID: 642451956}
+  introMusic: {fileID: 8300000, guid: a33fcb4de86726244a68637358db4cb3, type: 3}
+  battleMusic: {fileID: 8300000, guid: 306d5d89b91d24b49b5bdc90091d9015, type: 3}
   narratorIntro:
-    npcName: boss
+    npcName: Umi Ida Ira Iva An
     sentences:
-    - "Kh\xF4ng! D\u1EEBng l\u1EA1i! Kh\xF4ng c\xF3 g\xEC \u1EDF \u0111\xE2y c\u1EA3!
-      Ch\xFAng ta n\xEAn quay v\u1EC1 th\xF4i! Ng\u01B0\u01A1i \u0111\xE3 l\xE0m
-      \u0111\u1EE7 r\u1ED3i!\r\n"
+    - 'Are you insane?! I told you to turn back! This place is saturated with the
+      Wardens'' miasma, it will rot your mind! Turn back right now!
+
+'
   playerReply:
-    npcName: player
+    npcName: Player
     sentences:
-    - "C\xF3 \u0111i\u1EC1u g\xEC \u0111\xF3 kh\xF4ng \u0111\xFAng. \xC1nh s\xE1ng
-      t\u1EEB quy\u1EC3n s\xE1ch... v\xE0 c\u1EA3 l\u1EDDi n\xF3i c\u1EE7a ch\xFAng.
-      Ta ph\u1EA3i t\xECm hi\u1EC3u.\r\n"
+    - If this is a trap, why are you trembling? The light from the three Fragments...
+      they are resonating with this room. They are pointing inward, not outward.
+  narratorSecondLine:
+    npcName: Umi Ida Ira Iva An
+    sentences:
+    - "You are hallucinating. Hand the Fragments to me. I SAID GIVE THEM TO ME!\r"
+  playerSecondReply:
+    npcName: Player
+    sentences:
+    - "You... You never intended to save the Library. You are the very thing they
+      were guarding!\r"
   narratorScream:
-    npcName: Boss
+    npcName: U'yia
     sentences:
-    - "D\u1EEBng l\u1EA1i NGAY L\u1EACP T\u1EE8C, H\u1EE0I K\u1EBA PHA CH\u1EBE TH\u1EA6N
-      CH\xDA! NG\u01AF\u01A0I NGH\u0128 NG\u01AF\u01A0I L\xC0 AI M\xC0 D\xC1M CH\u1ED0NG
-      L\u1EA0I L\u1EDCI C\u1EE6A TA?!\r\n"
+    - 'FOOLISH HUMANS, ALWAYS SO CURIOUS! I was going to let you leave alive, playing
+      the delusional hero. But you chose DEATH!
+
+'
+    - "Bound for millennia! And now, the heir themselves has hand-delivered my absolute
+      power back to me!\r\r\n"
   bossPostBreakWords:
-    npcName: Boss
+    npcName: U'yia
     sentences:
-    - impossible
+    - WHAT HAVE YOU DONE?! You dare shatter my resurrection?!
   playerResponseWords:
-    npcName: player
+    npcName: Player
     sentences:
-    - skill issue
+    - I am a Librarian. My duty is to guard the silence, not unleash the nightmare.
+      My mistake ends by my own hand!
   bossPreCombatWords:
-    npcName: boss
+    npcName: U'yia
     sentences:
-    - hollow purple
+    - EVEN WITH THIS FRACTURED STRENGTH, I WILL TEAR YOU APART!
   shakeDuration: 0.5
   shakeMagnitude: 0.3
   arcaneCirclePrefab: {fileID: 1839223423201274415, guid: 7bf948f1ee5daa74185d4057b1ba7666, type: 3}
+  glowingBookPrefab: {fileID: 3610254563372908901, guid: 879b485624040ff4090ccbf03b8b0b51, type: 3}
   fragmentPrefabs:
   - {fileID: 3217726093922877563, guid: 97544c485def7494f8b032d56eb983f7, type: 3}
   - {fileID: 2101547068716842465, guid: 0897c6c6ec198aa46ba4047d47e8395e, type: 3}
@@ -92032,7 +92010,7 @@ MonoBehaviour:
   transferDuration: 1
   circleRadius: 2
   circleSpeed: 150
-  breakWord: resist
+  breakWord: shatter
   wordOutput: {fileID: 716984811}
   OnCombatBegin:
     m_PersistentCalls:
@@ -92083,6 +92061,7 @@ MonoBehaviour:
   playerMovementScript: {fileID: 639294685}
   bossMovementScript: {fileID: 1379427189}
   baelorisTyperScript: {fileID: 639294686}
+  worldGUI: {fileID: 497129725}
   typingOutputText: {fileID: 716984811}
   sentenceOutputText: {fileID: 228019068}
   bookSpriteRenderer: {fileID: 1786722931}
@@ -92099,32 +92078,37 @@ MonoBehaviour:
   playerChainStyle: {r: 1, g: 1, b: 1, a: 1}
   bossChainStyle: {r: 0.3953506, g: 0.93962264, b: 0.49966744, a: 1}
   incantations:
-  - wut
-  - the
-  - hell
-  - mambo mambo omatsurimambo
-  midSequenceDialogueBoss:
-    npcName: Boss
+  - this mortal flesh is the offering
+  - this soul becomes the lock
+  - my blood is the sealing ink
+  - the eternal silence
+  bookIntroDialogue:
+    npcName: Ethereal Voice
     sentences:
-    - noooo
-    - pls
-    - my mom kinda homeless
-  midSequenceDialoguePlayer:
+    - "Its essence is immortal. Only the \"Shackles of Assimilation\" can hold it.
+      A substitute soul to forge an eternal prison.\r"
+  bossBeforeIncan2Dialogue:
+    npcName: 'U''yia '
+    sentences:
+    - What is this?! You bind yourself to me?! You're insane!
+  bossBeforeIncan3Dialogue:
+    npcName: 'U''yia '
+    sentences:
+    - Stop! You will be trapped here forever as well! You will never see the sun
+      again!
+  playerBeforeIncan3Dialogue:
     npcName: Player
     sentences:
-    - do you know what
-    - ya mom fat
+    - I have no need for the sun.
   finalBeggingDialogueBoss:
-    npcName: Boss
+    npcName: 'U''yia '
     sentences:
-    - stop
-    - pls
-    - plsss
+    - "NO! I can give you power! I can resurrect your bloodline! Please, do not speak
+      the final words! I BEG OF YOU!\r"
   finalBeggingDialoguePlayer:
     npcName: Player
     sentences:
-    - heh
-    - skill issue
+    - There is no forgiveness for you.
 --- !u!1 &2061552609
 GameObject:
   m_ObjectHideFlags: 0
@@ -94320,4 +94304,4 @@ SceneRoots:
   - {fileID: 430410992}
   - {fileID: 1230697695}
   - {fileID: 1786722932}
-  - {fileID: 1476075957}
+  - {fileID: 815883304}
