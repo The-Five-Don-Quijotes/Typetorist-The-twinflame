@@ -410,6 +410,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7562652273604579866, guid: 0976226bb1c3c1243a71c9b99be0365f, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8818493399931423933, guid: 0976226bb1c3c1243a71c9b99be0365f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1434,7 +1438,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -768, y: 149}
+  m_AnchoredPosition: {x: -767, y: 149}
   m_SizeDelta: {x: 294.838, y: 91.625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272156223
@@ -2795,36 +2799,36 @@ MonoBehaviour:
   menuOptions:
   - displayText: {fileID: 1272156223}
     command: start
-    sceneToLoad: Scene1
     actionType: 0
+    sceneToLoad: Scene0
     originalText: 
     currentProgress: 0
   - displayText: {fileID: 1906025229}
     command: options
-    sceneToLoad: Options
     actionType: 0
+    sceneToLoad: Options
     originalText: 
     currentProgress: 0
   - displayText: {fileID: 9632686}
     command: credits
-    sceneToLoad: Credits
     actionType: 0
+    sceneToLoad: Credits
     originalText: 
     currentProgress: 0
   - displayText: {fileID: 1715251306}
     command: exit
-    sceneToLoad: 
     actionType: 1
+    sceneToLoad: 
     originalText: 
     currentProgress: 0
   - displayText: {fileID: 441606221}
     command: yourkeyboardisyourweapontypeyourchoice
-    sceneToLoad: Scene1
     actionType: 0
+    sceneToLoad: Scene1
     originalText: 
     currentProgress: 0
-  typedColor: {r: 1, g: 0.12362611, b: 0, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  typedColor: {r: 0, g: 1, b: 0.25490198, a: 1}
+  defaultColor: {r: 0.9411765, g: 0.9411765, b: 0.9411765, a: 1}
 --- !u!4 &1927549119
 Transform:
   m_ObjectHideFlags: 0

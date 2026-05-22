@@ -14,6 +14,13 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public Animator dialogueBoxAnimator;
 
+    [Header("Audio Settings")]
+    [Tooltip("The audio clip to play during text typing.")]
+    public AudioClip dialogueTypingSound;
+    [Tooltip("Plays a sound every X characters to prevent audio overlap/noise.")]
+    [Range(1, 20)]
+    public int soundFrequency = 2;
+
     public bool isDialogueActive = false;
 
     private Queue<string> sentences;
@@ -84,9 +91,28 @@ public class DialogueManager : MonoBehaviour
         isTyping = true;
         dialogueText.text = "";
 
+        int charCounter = 0;
+
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
+
+            // Audio execution logic
+            // Ignore spaces and punctuation to simulate realistic vocal pacing
+            bool isPunctuationOrSpace = (letter == ' ' || letter == '.' || letter == ',' || letter == '?' || letter == '!');
+
+            if (!isPunctuationOrSpace)
+            {
+                charCounter++;
+                if (charCounter % soundFrequency == 0)
+                {
+                    if (AudioManager.instance != null && dialogueTypingSound != null)
+                    {
+                        AudioManager.instance.PlaySFX(dialogueTypingSound);
+                    }
+                }
+            }
+
             yield return null;
         }
 

@@ -47,4 +47,6 @@ MonoBehaviour:
   nameText: {fileID: 0}
   dialogueText: {fileID: 0}
   dialogueBoxAnimator: {fileID: 0}
+  dialogueTypingSound: {fileID: 8300000, guid: 774f602411b43a047a034cc725d196ea, type: 3}
+  soundFrequency: 20
   isDialogueActive: 0

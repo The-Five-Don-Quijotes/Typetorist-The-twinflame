@@ -44,6 +44,10 @@ public class TutorialSequenceController : MonoBehaviour
     public GameObject existingScenePortal;
     public GameObject magicCirclePrefab;
 
+    [Header("Audio")]
+    [Tooltip("The SFX played when the portal and magic circle appear.")]
+    public AudioClip portalSpawnSound; // --- NEW: Audio reference for portal spawn ---
+
     [Header("Dialogues")]
     public Dialogue narratorDialogue;
     public Dialogue npcDialogue;
@@ -112,6 +116,12 @@ public class TutorialSequenceController : MonoBehaviour
 
         Vector3 portalCamPos = portalSpawnLocation.position;
         portalCamPos.z = defaultCameraPosition.z;
+
+        // --- NEW: Execute portal spawn SFX via AudioManager ---
+        if (AudioManager.instance != null && portalSpawnSound != null)
+        {
+            AudioManager.instance.PlaySFX(portalSpawnSound);
+        }
 
         // Zoom into portal location
         yield return StartCoroutine(MoveCameraSmoothly(portalCamPos, zoomedInSize + 1f, cameraTransitionSpeed * 1.5f));
