@@ -192,3 +192,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpHeight: 3
   jumpDelay: 0.07
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bookRadius: 0.3
