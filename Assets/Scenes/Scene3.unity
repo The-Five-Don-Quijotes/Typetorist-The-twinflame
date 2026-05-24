@@ -5439,7 +5439,7 @@ GameObject:
   - component: {fileID: 1092998300}
   - component: {fileID: 1092998304}
   - component: {fileID: 1092998303}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Furniture
   m_TagString: Furniture
   m_Icon: {fileID: 0}
@@ -7675,7 +7675,7 @@ GameObject:
   - component: {fileID: 1492298834}
   - component: {fileID: 1492298833}
   - component: {fileID: 1492298832}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gate
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -54534,6 +54534,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7848801328647335247, guid: 79b135f7489fcd547b1c4d81e31a510b, type: 3}
     - target: {fileID: 6272572564899745408, guid: a9c95d5f79def544c9200b45a72228e3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6272572564899745408, guid: a9c95d5f79def544c9200b45a72228e3, type: 3}
       propertyPath: explosionVFX
       value: 
       objectReference: {fileID: 7316955199024470230, guid: b5c7584cc862efb4fb9f8016793f9130, type: 3}
@@ -54629,7 +54633,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 3610916906961943804}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995745187}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc8330dff2513b949a30a72bc6f708c9, type: 3}
   m_Name: 

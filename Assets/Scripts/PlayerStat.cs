@@ -81,10 +81,7 @@ public class PlayerStats : MonoBehaviour
             while (typer == null)
             {
                 typer = FindFirstObjectByType<ZhavokTyper>();
-                if (typer != null)
-                {
-                    break;
-                }
+                if (typer != null) break;
                 yield return null;
             }
         }
@@ -93,10 +90,7 @@ public class PlayerStats : MonoBehaviour
             while (typer == null)
             {
                 typer = FindFirstObjectByType<BaelorisTyper>();
-                if (typer != null)
-                {
-                    break;
-                }
+                if (typer != null) break;
                 yield return null;
             }
         }
@@ -112,14 +106,10 @@ public class PlayerStats : MonoBehaviour
 
     public void DealDamage(int damage)
     {
-        if (!canBeDamaged)
-        {
-            return;
-        }
+        if (!canBeDamaged) return;
 
         StartCoroutine(DamageCooldown(0.5f));
 
-        // Execute damage audio safely via Singleton instance
         if (AudioManager.instance != null && AudioManager.instance.damagedClip != null)
         {
             AudioManager.instance.PlaySFX(AudioManager.instance.damagedClip);
@@ -143,15 +133,14 @@ public class PlayerStats : MonoBehaviour
 
             if (bookScript != null)
             {
+                // Pass the wall layer mask to the spawned book so it can avoid walls on landing
+                bookScript.wallLayerMask = wallLayerMask;
                 bookScript.StartBookMovement(GetRandomPositionAroundPlayer());
             }
         }
         else
         {
-            if (isGodMode)
-            {
-                return;
-            }
+            if (isGodMode) return;
 
             health -= damage;
             if (health > 0)
@@ -181,31 +170,21 @@ public class PlayerStats : MonoBehaviour
 
     private void CheckOverheal()
     {
-        if (health > maxHealth)
-        {
-            health = maxHealth;
-        }
+        if (health > maxHealth) health = maxHealth;
     }
 
     private void CheckDeath()
     {
         if (health <= 0)
         {
-            if (health < 0)
-            {
-                health = 0;
-            }
+            if (health < 0) health = 0;
 
-            // Execute death audio safely via Singleton instance
             if (AudioManager.instance != null && AudioManager.instance.dieClip != null)
             {
                 AudioManager.instance.PlaySFX(AudioManager.instance.dieClip);
             }
 
-            if (TypingLine != null)
-            {
-                Destroy(TypingLine.gameObject);
-            }
+            if (TypingLine != null) Destroy(TypingLine.gameObject);
             Destroy(Player);
             sceneTransition.LoadSceneWithFade("DedScreen");
         }
@@ -223,18 +202,12 @@ public class PlayerStats : MonoBehaviour
         if (Player != null)
         {
             PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
-            if (playerMovement != null)
-            {
-                playerMovement.isInvincible = true;
-            }
+            if (playerMovement != null) playerMovement.isInvincible = true;
 
             Collider2D[] colliders = Player.GetComponents<Collider2D>();
-            foreach (Collider2D col in colliders)
-            {
-                col.enabled = false;
-            }
-            SpriteRenderer spriteRenderer = Player.GetComponent<SpriteRenderer>();
+            foreach (Collider2D col in colliders) col.enabled = false;
 
+            SpriteRenderer spriteRenderer = Player.GetComponent<SpriteRenderer>();
             float elapsedTime = 0f;
             bool isVisible = true;
             float blinkInterval = 0.2f;
@@ -247,21 +220,11 @@ public class PlayerStats : MonoBehaviour
                 elapsedTime += blinkInterval;
             }
 
-            if (spriteRenderer == null)
-            {
-                yield break;
-            }
+            if (spriteRenderer == null) yield break;
 
             spriteRenderer.enabled = true;
-            foreach (Collider2D col in colliders)
-            {
-                col.enabled = true;
-            }
-
-            if (playerMovement != null)
-            {
-                playerMovement.isInvincible = false;
-            }
+            foreach (Collider2D col in colliders) col.enabled = true;
+            if (playerMovement != null) playerMovement.isInvincible = false;
         }
     }
 
@@ -282,16 +245,13 @@ public class PlayerStats : MonoBehaviour
     private IEnumerator EnableBookColliderAfterDelay(Collider2D bookCollider, float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (bookCollider != null)
-        {
-            bookCollider.enabled = true;
-        }
+        if (bookCollider != null) bookCollider.enabled = true;
     }
 
     private Vector3 GetRandomPositionAroundPlayer()
     {
         Vector3 spawnPosition;
-        int maxAttempts = 10;
+        int maxAttempts = 20; // Increased attempts to find a valid position
 
         for (int i = 0; i < maxAttempts; i++)
         {
@@ -299,11 +259,14 @@ public class PlayerStats : MonoBehaviour
             float randomDistance = Random.Range(minRadius * 1.5f, maxRadius * 1.5f);
             Vector2 randomOffset = randomDirection * randomDistance;
 
-            spawnPosition = new Vector3(Player.transform.position.x + randomOffset.x,
-                                          Player.transform.position.y + randomOffset.y,
-                                          0);
+            spawnPosition = new Vector3(
+                Player.transform.position.x + randomOffset.x,
+                Player.transform.position.y + randomOffset.y,
+                0);
 
-            if (IsPositionValid(spawnPosition, minDistanceFromPlayer, safeDistanceFromBoss))
+            // Check both position validity AND that the path from player to book is clear
+            if (IsPositionValid(spawnPosition, minDistanceFromPlayer, safeDistanceFromBoss)
+                && IsPathClear(Player.transform.position, spawnPosition))
             {
                 return spawnPosition;
             }
@@ -314,28 +277,28 @@ public class PlayerStats : MonoBehaviour
 
     private bool IsPositionValid(Vector3 position, float minPlayerDist, float minBossDist)
     {
-        if (!mapBounds.Contains(position))
-        {
-            return false;
-        }
+        if (!mapBounds.Contains(position)) return false;
 
         if (Player != null && Vector3.Distance(position, Player.transform.position) < minPlayerDist)
-        {
             return false;
-        }
 
         if (Boss != null && Vector3.Distance(position, Boss.transform.position) < minBossDist)
-        {
             return false;
-        }
 
+        // Check if the landing spot itself overlaps a wall
         Collider2D hit = Physics2D.OverlapCircle(position, 1f, wallLayerMask);
-        if (hit != null)
-        {
-            return false;
-        }
+        if (hit != null) return false;
 
         return true;
+    }
+
+    // Raycast from player to target to make sure no wall is blocking the path
+    private bool IsPathClear(Vector3 from, Vector3 to)
+    {
+        Vector2 direction = (to - from).normalized;
+        float distance = Vector3.Distance(from, to);
+        RaycastHit2D hit = Physics2D.Raycast(from, direction, distance, wallLayerMask);
+        return hit.collider == null;
     }
 
     private Vector3 GetFallbackSpawnPosition()
@@ -351,9 +314,7 @@ public class PlayerStats : MonoBehaviour
             Vector3 fallbackPosition = new Vector3(randomX, randomY, 1);
 
             if (IsPositionValid(fallbackPosition, 3f, 3f))
-            {
                 return fallbackPosition;
-            }
         }
 
         return new Vector3(0, 0, 1);
@@ -361,33 +322,25 @@ public class PlayerStats : MonoBehaviour
 
     public void DisplayHeart()
     {
-        foreach (Image img in hearts)
-        {
-            img.sprite = emptyHeart;
-        }
-        for (int i = 0; i < health; i++)
-        {
-            hearts[i].sprite = fullHeart;
-        }
+        foreach (Image img in hearts) img.sprite = emptyHeart;
+        for (int i = 0; i < health; i++) hearts[i].sprite = fullHeart;
     }
 
     public void ShowTyper()
     {
         TypingText.gameObject.SetActive(true);
         if (TypingText.color.a == 0)
-        {
             TypingText.GetComponent<MakeTextAppear>()?.ShowText(0f);
-        }
     }
 
     private void Update()
     {
         DebugInput();
-        if (typer == null)
-        {
-            return;
-        }
-        if (GameObject.FindWithTag("Book") != null && (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect) && Boss != null)
+        if (typer == null) return;
+
+        if (GameObject.FindWithTag("Book") != null
+            && (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect)
+            && Boss != null)
         {
             typer.ResetLine();
             bookDropTime = -1f;

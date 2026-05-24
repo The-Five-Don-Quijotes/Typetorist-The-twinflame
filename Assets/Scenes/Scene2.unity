@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 84223204}
   - component: {fileID: 84223203}
   - component: {fileID: 84223202}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1712,7 +1712,7 @@ GameObject:
   - component: {fileID: 589365014}
   - component: {fileID: 589365016}
   - component: {fileID: 589365015}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59484,7 +59484,7 @@ GameObject:
   - component: {fileID: 1092998300}
   - component: {fileID: 1092998304}
   - component: {fileID: 1092998303}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Furniture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
