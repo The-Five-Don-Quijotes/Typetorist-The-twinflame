@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -5,21 +6,21 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     [Header("=========== Audio Source ============")]
-    [SerializeField] AudioSource musicSource;
-    [SerializeField] AudioSource SFXSource;
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource sfxSource;
 
-    [Header("=========== Audio Clip ============")]
-    public AudioClip backgroundmusic;
-    public AudioClip audioClip2;
-    public AudioClip audioClip3;
-    public AudioClip audioClip4;
-    public AudioClip die;
-    public AudioClip damaged;
-    public AudioClip fireballSound1;
-    public AudioClip fireballSound2;
+    [Header("=========== Global Audio Clips ============")]
+    public AudioClip dieClip;
+    public AudioClip damagedClip;
 
     private const string MUSIC_VOLUME_KEY = "MusicVolume";
     private const string SFX_VOLUME_KEY = "SFXVolume";
+
+    // Dictionary to store the last time a specific AudioClip was played
+    private Dictionary<int, float> sfxCooldowns = new Dictionary<int, float>();
+
+    // Minimum time (in seconds) required before playing the exact same clip again
+    private const float MIN_SFX_INTERVAL = 0.05f;
 
     private void Awake()
     {
@@ -37,17 +38,17 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         LoadVolume();
-
-        musicSource.clip = backgroundmusic;
-        musicSource.Play();
     }
 
     public void PlayMusic(AudioClip clip)
     {
+        if (clip == null) return;
+
+        // Prevent restarting the track if it is already playing
         if (musicSource.clip == clip && musicSource.isPlaying) return;
 
         musicSource.clip = clip;
-        musicSource.volume = PlayerPrefs.GetFloat("MusicVolume", 1.0f); 
+        musicSource.volume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1.0f);
         musicSource.Play();
     }
 
@@ -58,42 +59,62 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
-        SFXSource.PlayOneShot(clip);
+        if (clip == null) return;
+
+        int clipId = clip.GetInstanceID();
+
+        if (sfxCooldowns.TryGetValue(clipId, out float lastPlayedTime))
+        {
+            if (Time.time - lastPlayedTime < MIN_SFX_INTERVAL)
+            {
+                return;
+            }
+        }
+
+        sfxCooldowns[clipId] = Time.time;
+        sfxSource.pitch = Random.Range(0.95f, 1.05f);
+        sfxSource.PlayOneShot(clip);
     }
+
+    // Wrappers for global SFX
+    public void PlayDamagedSFX() => PlaySFX(damagedClip);
+    public void PlayDeathSFX() => PlaySFX(dieClip);
 
     public void SetMusicVolume(float volume)
     {
         musicSource.volume = volume;
-        // Save the setting so it persists after closing the game.
         PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, volume);
         PlayerPrefs.Save();
     }
 
     public void SetSFXVolume(float volume)
     {
-        SFXSource.volume = volume;
-        // Save the setting.
+        sfxSource.volume = volume;
         PlayerPrefs.SetFloat(SFX_VOLUME_KEY, volume);
         PlayerPrefs.Save();
     }
 
     private void LoadVolume()
     {
-        // GetFloat will return the default value (1.0f) if the key doesn't exist yet.
-        float musicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1.0f);
-        float sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1.0f);
-
-        musicSource.volume = musicVolume;
-        SFXSource.volume = sfxVolume;
+        musicSource.volume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1.0f);
+        sfxSource.volume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1.0f);
     }
 
     public float GetMusicVolume()
     {
-        return musicSource.volume;
+        if (musicSource != null)
+        {
+            return musicSource.volume;
+        }
+        return PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1.0f);
     }
 
     public float GetSFXVolume()
     {
-        return SFXSource.volume;
+        if (sfxSource != null)
+        {
+            return sfxSource.volume;
+        }
+        return PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1.0f);
     }
 }

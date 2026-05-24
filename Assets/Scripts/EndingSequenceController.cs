@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro; // Required for TextMeshPro
 
 public class EndingSequenceController : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class EndingSequenceController : MonoBehaviour
     [Tooltip("A black UI Image stretched across a Canvas to act as a fade screen.")]
     public Image fadeScreen;
     public float fadeDuration = 2.0f;
+
+    [Header("Good Ending UI")]
+    [Tooltip("The TextMeshProUGUI object displaying the 'GOOD ENDING' text.")]
+    public TextMeshProUGUI goodEndingText;
+    public float textFadeDuration = 1.5f;
+    public float textDisplayDuration = 3.0f;
 
     [Header("Camera & Transforms")]
     public Camera mainCamera;
@@ -45,6 +52,15 @@ public class EndingSequenceController : MonoBehaviour
         // Disable Camera Follow to allow cinematic panning
         if (cameraFollowScript != null) cameraFollowScript.enabled = false;
 
+        // Ensure the Good Ending text is hidden at the start
+        if (goodEndingText != null)
+        {
+            Color c = goodEndingText.color;
+            c.a = 0f;
+            goodEndingText.color = c;
+            goodEndingText.gameObject.SetActive(false);
+        }
+
         defaultCameraPosition = mainCamera.transform.position;
 
         StartCoroutine(ExecuteEndingSequence());
@@ -78,7 +94,16 @@ public class EndingSequenceController : MonoBehaviour
         // PHASE 5: Fade to Black
         yield return StartCoroutine(FadeToBlack());
 
-        // PHASE 6: Transition to Credits
+        // PHASE 6: Display "GOOD ENDING" Text
+        if (goodEndingText != null)
+        {
+            goodEndingText.gameObject.SetActive(true);
+            yield return StartCoroutine(FadeTextAlpha(goodEndingText, 0f, 1f, textFadeDuration));
+            yield return new WaitForSeconds(textDisplayDuration);
+            yield return StartCoroutine(FadeTextAlpha(goodEndingText, 1f, 0f, textFadeDuration));
+        }
+
+        // PHASE 7: Transition to Credits
         if (!string.IsNullOrEmpty(creditSceneName))
         {
             SceneManager.LoadScene(creditSceneName);
@@ -123,6 +148,25 @@ public class EndingSequenceController : MonoBehaviour
             fadeScreen.color = new Color(0, 0, 0, alpha);
             yield return null;
         }
+    }
+
+    private IEnumerator FadeTextAlpha(TextMeshProUGUI textElement, float startAlpha, float endAlpha, float duration)
+    {
+        if (textElement == null) yield break;
+
+        Color c = textElement.color;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            c.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+            textElement.color = c;
+            yield return null;
+        }
+
+        c.a = endAlpha;
+        textElement.color = c;
     }
 
     private IEnumerator MoveCameraSmoothly(Vector3 targetPos, float targetSize, float duration)

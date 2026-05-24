@@ -32,6 +32,10 @@ public class FinalBossIntroSequence : MonoBehaviour
     public AudioClip introMusic;
     [Tooltip("The music track that plays when the boss battle begins.")]
     public AudioClip battleMusic;
+    [Tooltip("The track that plays when the boss begins charging.")]
+    public AudioClip chargeSound;
+    [Tooltip("The track that plays when the boss break.")]
+    public AudioClip shatterSound;
 
     [Header("Dialogues - Phase 1 (Before Break)")]
     public Dialogue narratorIntro;
@@ -75,6 +79,9 @@ public class FinalBossIntroSequence : MonoBehaviour
     private bool sequenceBroken = false;
     private Vector3 originalWordPos;
 
+    // Dedicated AudioSource for the looping charge sound
+    private AudioSource chargeAudioSource;
+
     public void StartIntroSequence()
     {
         if (worldGUI != null) worldGUI.SetActive(false);
@@ -91,14 +98,12 @@ public class FinalBossIntroSequence : MonoBehaviour
 
         if (combatTyperScript != null) combatTyperScript.enabled = false;
 
-        // --- NEW: Dynamic Audio Source Linking ---
-        // If the Inspector reference is lost due to DontDestroyOnLoad, find it by name
+        // Dynamic Audio Source Linking
         if (bgmAudioSource == null)
         {
             GameObject audioManagerObj = GameObject.Find("AudioManager");
             if (audioManagerObj != null)
             {
-                // Grabs the AudioSource attached to the AudioManager (or its children)
                 bgmAudioSource = audioManagerObj.GetComponentInChildren<AudioSource>();
             }
             else
@@ -194,10 +199,36 @@ public class FinalBossIntroSequence : MonoBehaviour
             wordOutput.gameObject.SetActive(true);
         }
 
+        // --- Start looping Charge Sound ---
+        if (chargeSound != null)
+        {
+            if (chargeAudioSource == null)
+            {
+                chargeAudioSource = gameObject.AddComponent<AudioSource>();
+            }
+            chargeAudioSource.clip = chargeSound;
+            chargeAudioSource.loop = true;
+            // Sync volume with AudioManager settings
+            chargeAudioSource.volume = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
+            chargeAudioSource.Play();
+        }
+
         // Wait indefinitely until the player successfully types the word
         yield return new WaitUntil(() => sequenceBroken);
 
         // 11. Sequence Broken - Interrupt successful
+
+        // --- Stop Charge Sound & Trigger Shatter Sound ---
+        if (chargeAudioSource != null && chargeAudioSource.isPlaying)
+        {
+            chargeAudioSource.Stop();
+        }
+
+        if (AudioManager.instance != null && shatterSound != null)
+        {
+            AudioManager.instance.PlaySFX(shatterSound);
+        }
+
         isTypingPhase = false;
         isCircling = false;
 

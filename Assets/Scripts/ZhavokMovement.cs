@@ -12,8 +12,11 @@ public class ZhavokMovement : MonoBehaviour
     public float closeRangeDistance = 3f; // Distance where boss picks a random position
     public float moveSpeed = 5f;
     public float teleportCooldown = 5f;
-    public float movementPauseDuration = 1.5f; // New: Pause between moves
-    public float stoppingDistance = 0.5f; // New: How close is "close enough" when moving
+    public float movementPauseDuration = 1.5f; // Pause between moves
+    public float stoppingDistance = 0.5f; // How close is "close enough" when moving
+
+    [Header("Audio Settings")]
+    public AudioClip teleportSound;
 
     private Vector2 currentTarget;
     private bool isMoving = false;
@@ -69,6 +72,12 @@ public class ZhavokMovement : MonoBehaviour
     public void Teleport()
     {
         transform.position = player.position + (Vector3)Random.insideUnitCircle * 2f; // Slight offset
+
+        if (AudioManager.instance != null && teleportSound != null)
+        {
+            AudioManager.instance.PlaySFX(teleportSound);
+        }
+
         Debug.Log("Boss teleported to player!");
     }
 

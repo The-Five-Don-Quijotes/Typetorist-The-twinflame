@@ -10,9 +10,12 @@ public class ShockwaveController : MonoBehaviour
     [Tooltip("Should the shockwave only hit the player once?")]
     public bool hitOnce = true;
 
-    private bool hasHitPlayer = false;
+    [Tooltip("The amount of damage the shockwave deals to the player.")]
+    public float damageAmount = 10f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool hasHitPlayer = false;
+    private PlayerStats playerStats;
+
     void Start()
     {
         // Ensure the collider is set to Trigger for non-physical collisions
@@ -22,20 +25,31 @@ public class ShockwaveController : MonoBehaviour
             col.isTrigger = true;
         }
 
-        // Ensure there's a Rigidbody2D for collision detection, if not already present.
-        // Kinematic is usually best for effects that don't need physics.
+        // Ensure there's a Rigidbody2D for collision detection
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {
             rb = gameObject.AddComponent<Rigidbody2D>();
             rb.bodyType = RigidbodyType2D.Kinematic;
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Cache the PlayerStats reference from the GameManager
+        GameObject gameManager = GameObject.Find("GameManager");
+        if (gameManager != null)
+        {
+            playerStats = gameManager.GetComponent<PlayerStats>();
+        }
+
+        // Fallback: Find by type if the GameObject is named differently
+        if (playerStats == null)
+        {
+            playerStats = FindFirstObjectByType<PlayerStats>();
+        }
+
+        if (playerStats == null)
+        {
+            Debug.LogError("PlayerStats script could not be found on the GameManager.");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -43,37 +57,29 @@ public class ShockwaveController : MonoBehaviour
         // Check if this shockwave has already hit the player and if it's set to hit only once.
         if (hitOnce && hasHitPlayer)
         {
-            return; // Already hit, so do nothing.
+            return;
         }
 
-        // Check if the other GameObject has the specified playerTag.
+        // Check if the collided GameObject has the specified playerTag.
         if (other.CompareTag(playerTag))
         {
-            Debug.Log($"Shockwave hit the player: {other.gameObject.name}!", other.gameObject);
-
-            // If we only want to hit once, set the flag.
-            if (hitOnce)
+            if (playerStats != null)
             {
-                hasHitPlayer = true;
-            }
+                // Apply damage via the GameManager's PlayerStats component
+                playerStats.DealDamage(1);
+                Debug.Log($"Shockwave dealt {damageAmount} damage to the player via GameManager.", gameObject);
 
-            // --- In a full game, you would add actual damage logic here: ---
-            // PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            // if (playerHealth != null)
-            // {
-            //     playerHealth.TakeDamage(damageAmount);
-            // }
+                if (hitOnce)
+                {
+                    hasHitPlayer = true;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Player was hit, but the PlayerStats reference is missing.");
+            }
         }
     }
-
-    // --- Optional: Uncomment for continuous damage while overlapping ---
-    // private void OnTriggerStay2D(Collider2D other)
-    // {
-    //     if (other.CompareTag(playerTag))
-    //     {
-    //         Debug.Log("Player is still in shockwave area!");
-    //     }
-    // }
 
     public void destroyShockWave()
     {

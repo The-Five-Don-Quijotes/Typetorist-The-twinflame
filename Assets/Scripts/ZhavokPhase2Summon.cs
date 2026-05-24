@@ -8,6 +8,9 @@ public class ZhavokPhase2Summon : MonoBehaviour
     public GameObject summon;
     public Tilemap tilemap; // Reference to the tilemap
 
+    [Header("Audio Settings")]
+    public AudioClip summonSound;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -29,6 +32,11 @@ public class ZhavokPhase2Summon : MonoBehaviour
 
     private void DoSummon(int number)
     {
+        if (AudioManager.instance != null && summonSound != null)
+        {
+            AudioManager.instance.PlaySFX(summonSound);
+        }
+
         animator.SetTrigger("isSummoning");
 
         // Get tilemap bounds
@@ -51,22 +59,21 @@ public class ZhavokPhase2Summon : MonoBehaviour
         topRight += new Vector3(-offsetX, -offsetY, 0);
 
         // Spawn summons at adjusted positions
-        if(number == 0)
+        if (number == 0)
         {
             Instantiate(summon, bottomLeft, Quaternion.identity);
         }
-        else if(number == 1)
+        else if (number == 1)
         {
             Instantiate(summon, topLeft, Quaternion.identity);
         }
-        else if(number == 2)
+        else if (number == 2)
         {
             Instantiate(summon, bottomRight, Quaternion.identity);
         }
-        else if (number == 3) 
+        else if (number == 3)
         {
-                Instantiate(summon, topRight, Quaternion.identity);
+            Instantiate(summon, topRight, Quaternion.identity);
         }
     }
 }
-

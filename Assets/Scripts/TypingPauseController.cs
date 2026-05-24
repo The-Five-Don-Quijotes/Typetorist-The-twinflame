@@ -8,19 +8,10 @@ public enum PauseMenuActionType { ResumeGame, LoadScene, QuitApplication, OpenOp
 [System.Serializable]
 public class PauseMenuOption
 {
-    [Tooltip("The text that will be displayed on screen (e.g., RESUME)")]
     public TextMeshProUGUI displayText;
-
-    [Tooltip("The command the player must type (e.g., 'resume' or 'main menu'). Spaces will be ignored during typing.")]
     public string command;
-
-    [Tooltip("The action to perform when the command is completed")]
     public PauseMenuActionType actionType;
-
-    [Tooltip("Is this command only available when in the Options sub-menu?")]
     public bool isOptionsCommand = false;
-
-    [Tooltip("The name of the scene to load (if action is LoadScene)")]
     public string sceneToLoad;
 
     [HideInInspector] public string originalText;
@@ -37,22 +28,25 @@ public class TypingPauseController : MonoBehaviour
     [SerializeField] private Color typedColor = Color.green;
     [SerializeField] private Color defaultColor = Color.white;
 
-    // NEW: Add a field in the Inspector for your main menu scene's name.
     [Header("Scene Management")]
-    [SerializeField] private string mainMenuSceneName = "MainMenu"; // <-- IMPORTANT: Change this to your exact scene name!
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
+
+    [Header("Secret God Mode Integration")]
+    [SerializeField] private string secretGodModeCode = "baoaxid";
+    [SerializeField] private GameObject godModeUIContainer;
+    [SerializeField] private UnityEngine.UI.Toggle godModeToggle;
 
     private bool _actionIsQueued = false;
     private PauseMenuOption _queuedOption = null;
 
     private bool isInOptionsView = false;
+    private int secretCodeProgress = 0;
 
-    // NEW: Subscribe to the sceneLoaded event when the object is enabled.
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // NEW: Unsubscribe when the object is disabled to prevent memory leaks.
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -62,16 +56,17 @@ public class TypingPauseController : MonoBehaviour
     {
         InitializeAllDisplays();
         pauseMenuAnimator.gameObject.SetActive(false);
+
+        if (godModeUIContainer != null)
+        {
+            godModeUIContainer.SetActive(false);
+        }
     }
 
-    // NEW: This function runs every time a new scene is finished loading.
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Check if the newly loaded scene is the main menu.
         if (scene.name == mainMenuSceneName)
         {
-            // If it is, this pause controller is a duplicate and should be destroyed.
-            // Also ensure time is running normally.
             Time.timeScale = 1f;
             Destroy(gameObject);
         }
@@ -137,6 +132,8 @@ public class TypingPauseController : MonoBehaviour
         pauseMenuAnimator.SetBool("isOpen", true);
 
         isInOptionsView = false;
+        secretCodeProgress = 0;
+
         if (pauseMenuAnimator.gameObject.activeInHierarchy)
         {
             pauseMenuAnimator.ResetTrigger("ShowOptions");
@@ -152,7 +149,6 @@ public class TypingPauseController : MonoBehaviour
         Time.timeScale = 1f;
 
         EventSystem.current.SetSelectedGameObject(null);
-
         pauseMenuAnimator.SetBool("isOpen", false);
     }
 
@@ -163,6 +159,7 @@ public class TypingPauseController : MonoBehaviour
 
     void HandleCharacterInput(char typedChar)
     {
+        // Process UI Commands
         foreach (var option in menuOptions)
         {
             if (option.isOptionsCommand != isInOptionsView)
@@ -189,6 +186,24 @@ public class TypingPauseController : MonoBehaviour
                 _actionIsQueued = true;
             }
         }
+
+        // Process Secret God Mode Input isolated to the Options view
+        if (isInOptionsView && !string.IsNullOrEmpty(secretGodModeCode))
+        {
+            if (typedChar == secretGodModeCode[secretCodeProgress])
+            {
+                secretCodeProgress++;
+                if (secretCodeProgress == secretGodModeCode.Length)
+                {
+                    ToggleGodModeState();
+                    secretCodeProgress = 0;
+                }
+            }
+            else
+            {
+                secretCodeProgress = (typedChar == secretGodModeCode[0]) ? 1 : 0;
+            }
+        }
     }
 
     void HandleBackspace()
@@ -205,6 +220,11 @@ public class TypingPauseController : MonoBehaviour
                 option.currentProgress--;
                 UpdateTextDisplay(option);
             }
+        }
+
+        if (isInOptionsView && secretCodeProgress > 0)
+        {
+            secretCodeProgress--;
         }
     }
 
@@ -228,12 +248,14 @@ public class TypingPauseController : MonoBehaviour
             case PauseMenuActionType.OpenOptions:
                 pauseMenuAnimator.SetTrigger("ShowOptions");
                 isInOptionsView = true;
+                secretCodeProgress = 0;
                 EventSystem.current.SetSelectedGameObject(null);
                 InitializeAllDisplays();
                 break;
             case PauseMenuActionType.CloseOptions:
                 pauseMenuAnimator.SetTrigger("HideOptions");
                 isInOptionsView = false;
+                secretCodeProgress = 0;
                 EventSystem.current.SetSelectedGameObject(null);
                 InitializeAllDisplays();
                 break;
@@ -284,5 +306,35 @@ public class TypingPauseController : MonoBehaviour
             }
         }
     }
-}
 
+    private void ToggleGodModeState()
+    {
+        if (godModeUIContainer == null) return;
+
+        bool targetState = !godModeUIContainer.activeSelf;
+
+        // Toggle UI visibility
+        godModeUIContainer.SetActive(targetState);
+
+        // Sync toggle component
+        if (godModeToggle != null)
+        {
+            godModeToggle.SetIsOnWithoutNotify(targetState);
+        }
+
+        // Apply God Mode to PlayerStats
+        if (PlayerStats.playerStats != null)
+        {
+            PlayerStats.playerStats.isGodMode = targetState;
+        }
+    }
+
+    // Assign this method to the God Mode UI Toggle's OnValueChanged event in the Inspector
+    public void OnGodModeToggleChanged(bool isOn)
+    {
+        if (PlayerStats.playerStats != null)
+        {
+            PlayerStats.playerStats.isGodMode = isOn;
+        }
+    }
+}

@@ -14,7 +14,7 @@ public class PlayerStats : MonoBehaviour
     public GameObject Boss;
 
     public GameObject Book;
-    public float minRadius; //The radius which the book is dropped
+    public float minRadius;
     public float maxRadius;
     public TextMeshProUGUI TypingLine;
     public TextMeshProUGUI TypingText;
@@ -35,10 +35,7 @@ public class PlayerStats : MonoBehaviour
     public Sprite emptyHeart;
 
     public bool isGodMode = false;
-
-    AudioManager audioManager;
-
-    private bool canBeDamaged = true; 
+    private bool canBeDamaged = true;
 
     private void Awake()
     {
@@ -47,11 +44,9 @@ public class PlayerStats : MonoBehaviour
             Destroy(playerStats.gameObject);
         }
 
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         playerStats = this;
         DontDestroyOnLoad(gameObject);
 
-        // Ensure AudioSource is assigned early
         Player = GameObject.FindWithTag("Player");
     }
 
@@ -76,7 +71,6 @@ public class PlayerStats : MonoBehaviour
 
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Scene Loaded: " + scene.name);
         StartCoroutine(AssignTyper(scene.name));
     }
 
@@ -89,10 +83,9 @@ public class PlayerStats : MonoBehaviour
                 typer = FindFirstObjectByType<ZhavokTyper>();
                 if (typer != null)
                 {
-                    Debug.Log("Assigned typer to ZhavokTyper");
                     break;
                 }
-                yield return null; // wait frame
+                yield return null;
             }
         }
         else
@@ -102,14 +95,12 @@ public class PlayerStats : MonoBehaviour
                 typer = FindFirstObjectByType<BaelorisTyper>();
                 if (typer != null)
                 {
-                    Debug.Log("Assigned typer to BaelorisTyper");
                     break;
                 }
                 yield return null;
             }
         }
     }
-
 
     private void DebugInput()
     {
@@ -121,26 +112,31 @@ public class PlayerStats : MonoBehaviour
 
     public void DealDamage(int damage)
     {
-        // If the player can't be damaged, stop the function immediately.
         if (!canBeDamaged)
         {
             return;
         }
-        // Instantly make the player immune to prevent double hits.
-        StartCoroutine(DamageCooldown(0.5f)); // Cooldown for half a second
 
-        // Check if a Book instance exists in the scene
+        StartCoroutine(DamageCooldown(0.5f));
+
+        // Execute damage audio safely via Singleton instance
+        if (AudioManager.instance != null && AudioManager.instance.damagedClip != null)
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.damagedClip);
+        }
+
         if (GameObject.FindWithTag("Book") == null)
         {
             Vector3 spawnPosition = Player.transform.position + new Vector3(0, 1f, 1f);
-            TypingText.gameObject.SetActive(false); // Hide the Typer when the book is dropped
+            TypingText.gameObject.SetActive(false);
             bookDropTime = Time.time;
             spawnedBook = Instantiate(Book, spawnPosition, Quaternion.identity);
             Collider2D bookCollider = spawnedBook.GetComponent<Collider2D>();
+
             if (bookCollider != null)
             {
                 bookCollider.enabled = false;
-                StartCoroutine(EnableBookColliderAfterDelay(bookCollider, 2.9f)); // Delay before it can be recollected
+                StartCoroutine(EnableBookColliderAfterDelay(bookCollider, 2.9f));
             }
 
             BookMovement bookScript = spawnedBook.GetComponent<BookMovement>();
@@ -152,7 +148,11 @@ public class PlayerStats : MonoBehaviour
         }
         else
         {
-            // If the Book already exists, deal damage to the player
+            if (isGodMode)
+            {
+                return;
+            }
+
             health -= damage;
             if (health > 0)
             {
@@ -160,7 +160,6 @@ public class PlayerStats : MonoBehaviour
                 Player.gameObject.SetActive(false);
                 Invoke("Respawn", 0.5f);
             }
-            audioManager.PlaySFX(audioManager.damaged);
             CheckDeath();
             DisplayHeart();
         }
@@ -192,27 +191,29 @@ public class PlayerStats : MonoBehaviour
     {
         if (health <= 0)
         {
-
             if (health < 0)
             {
                 health = 0;
             }
-            audioManager.PlaySFX(audioManager.die);
+
+            // Execute death audio safely via Singleton instance
+            if (AudioManager.instance != null && AudioManager.instance.dieClip != null)
+            {
+                AudioManager.instance.PlaySFX(AudioManager.instance.dieClip);
+            }
+
             if (TypingLine != null)
             {
                 Destroy(TypingLine.gameObject);
             }
-            Destroy(Player); //dead
+            Destroy(Player);
             sceneTransition.LoadSceneWithFade("DedScreen");
         }
     }
 
     private void Respawn()
     {
-        // Reactivate the player
         Player.gameObject.SetActive(true);
-
-        // Make the player temporarily invulnerable
         StartCoroutine(TemporaryInvulnerability(5f));
         StartCoroutine(EnableBookColliderAfterDelay(3f));
     }
@@ -224,7 +225,7 @@ public class PlayerStats : MonoBehaviour
             PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
             if (playerMovement != null)
             {
-                playerMovement.isInvincible = true; // Set invincibility ON
+                playerMovement.isInvincible = true;
             }
 
             Collider2D[] colliders = Player.GetComponents<Collider2D>();
@@ -248,9 +249,9 @@ public class PlayerStats : MonoBehaviour
 
             if (spriteRenderer == null)
             {
-                yield break; // Exit before trying to access destroyed components
+                yield break;
             }
-            // Ensure the player is visible and re-enable the collider
+
             spriteRenderer.enabled = true;
             foreach (Collider2D col in colliders)
             {
@@ -389,7 +390,7 @@ public class PlayerStats : MonoBehaviour
         if (GameObject.FindWithTag("Book") != null && (bookDropTime > 0 && Time.time - bookDropTime > TimeToRecollect) && Boss != null)
         {
             typer.ResetLine();
-            bookDropTime = -1f; // Reset to avoid continuous resetting
+            bookDropTime = -1f;
         }
     }
 }

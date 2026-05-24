@@ -4,10 +4,18 @@ public class VorrakShieldCast : MonoBehaviour
 {
     public CanvasGroup bossShield; // Assign in Inspector
 
+    [Header("Audio Settings")]
+    public AudioClip shieldSound;
+
     public void ShowShield()
     {
         if (bossShield != null)
         {
+            // Trigger shield sound
+            if (AudioManager.instance != null && shieldSound != null)
+            {
+                AudioManager.instance.PlaySFX(shieldSound);
+            }
             bossShield.alpha = 1f; // Make shield fully visible
             bossShield.interactable = true;
             bossShield.blocksRaycasts = true;

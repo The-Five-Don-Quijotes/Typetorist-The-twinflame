@@ -16,6 +16,7 @@ public class VorrakController : MonoBehaviour
     public GameObject explosionVFX;
     public AudioClip explosionSound;
     public GameObject portal1;
+    public AudioClip shootingSound;
 
     private float nextAttackTime;
     private bool isFirst50 = true;
@@ -193,8 +194,19 @@ public class VorrakController : MonoBehaviour
     }
 
     private void TriggerMeleeAttack() { animator.SetTrigger("isAttacking"); }
-    private void TriggerShootingArm(int count) { StartCoroutine(ShootArms(count)); }
-    private IEnumerator ShootArms(int count) { for (int i = 0; i < count; i++) { animator.SetTrigger("isShootingArm"); yield return new WaitForSeconds(0.8f); } }
+    private void TriggerShootingArm(int count) {
+        //if (shootingSound != null && AudioManager.instance != null)
+        //{
+        //    AudioManager.instance.PlaySFX(shootingSound);
+        //}
+        StartCoroutine(ShootArms(count)); 
+    }
+    private IEnumerator ShootArms(int count) { for (int i = 0; i < count; i++) {
+            if (shootingSound != null && AudioManager.instance != null)
+            {
+                AudioManager.instance.PlaySFX(shootingSound);
+            }
+            animator.SetTrigger("isShootingArm"); yield return new WaitForSeconds(0.8f); } }
     private void TriggerLaser() { animator.SetTrigger("isShootingLaser"); }
     private void TriggerShield() { animator.SetTrigger("ShieldCast"); }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
@@ -17,20 +15,21 @@ public class BulletSpawner : MonoBehaviour
     [SerializeField] private float waveFrequency = 1f;
     [SerializeField] private float waveAmplitude = 1f;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip shootSound;
+
     private GameObject spawnedBullet;
     private float timer = 0f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
-        if (spawnerType == SpawnerType.Spin) transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z + 1f);
+
+        if (spawnerType == SpawnerType.Spin)
+        {
+            transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z + 1f);
+        }
+
         if (timer >= firingRate)
         {
             Fire();
@@ -43,13 +42,25 @@ public class BulletSpawner : MonoBehaviour
         if (bullet)
         {
             spawnedBullet = Instantiate(bullet, transform.position, Quaternion.identity);
-            spawnedBullet.GetComponent<Bullet>().speed = speed;
-            spawnedBullet.GetComponent<Bullet>().bulletLife = bulletLife;
+
+            Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
+            if (bulletScript != null)
+            {
+                bulletScript.speed = speed;
+                bulletScript.bulletLife = bulletLife;
+            }
+
             spawnedBullet.transform.rotation = transform.rotation;
 
             if (spawnerType == SpawnerType.Wave)
             {
                 spawnedBullet.AddComponent<BulletWaveMotion>().Initialize(waveFrequency, waveAmplitude);
+            }
+
+            // Trigger the audio playback
+            if (AudioManager.instance != null && shootSound != null)
+            {
+                AudioManager.instance.PlaySFX(shootSound);
             }
         }
     }

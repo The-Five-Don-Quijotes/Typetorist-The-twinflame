@@ -38,6 +38,11 @@ public class FinalSealingCutscene : MonoBehaviour
     public Color playerChainStyle = Color.white;
     public Color bossChainStyle = Color.red;
 
+    [Header("Audio Settings")]
+    public AudioClip chainSound;
+    [Tooltip("The duration (in seconds) it takes for the chains to reach their target. The sound will loop for this duration and then stop.")]
+    public float chainSoundDuration = 0.5f;
+
     [Header("Incantations")]
     public string[] incantations = new string[4];
 
@@ -59,6 +64,9 @@ public class FinalSealingCutscene : MonoBehaviour
 
     private bool isTypingActive = false;
     private bool pendingFinalWordInteraction = false;
+
+    // Audio State
+    private AudioSource chainAudioSource;
 
     public void StartSealingSequence()
     {
@@ -248,8 +256,12 @@ public class FinalSealingCutscene : MonoBehaviour
         if (currentSentenceIndex < cornerSpawns.Length)
         {
             FireChainsFromCorner(cornerSpawns[currentSentenceIndex].position);
+
+            // Execute the audio management independently from the sequence delay
+            StartCoroutine(ManageChainAudioRoutine());
         }
 
+        // Wait time between completing a sentence and starting the next one
         yield return new WaitForSeconds(1.0f);
 
         currentSentenceIndex++;
@@ -261,6 +273,32 @@ public class FinalSealingCutscene : MonoBehaviour
         else
         {
             StartCoroutine(ExecuteFinalClosingSequence());
+        }
+    }
+
+    private IEnumerator ManageChainAudioRoutine()
+    {
+        if (chainSound == null) yield break;
+
+        if (chainAudioSource == null)
+        {
+            chainAudioSource = gameObject.AddComponent<AudioSource>();
+            chainAudioSource.loop = true;
+            chainAudioSource.playOnAwake = false;
+        }
+
+        chainAudioSource.Stop();
+        chainAudioSource.clip = chainSound;
+        chainAudioSource.volume = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
+        chainAudioSource.time = 0f; 
+
+        chainAudioSource.Play();
+
+        yield return new WaitForSeconds(chainSoundDuration);
+
+        if (chainAudioSource != null && chainAudioSource.isPlaying)
+        {
+            chainAudioSource.Stop();
         }
     }
 

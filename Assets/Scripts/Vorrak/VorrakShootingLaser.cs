@@ -7,6 +7,9 @@ public class VorrakShooting : MonoBehaviour
     private GameObject currentLaser;
     public Vector2 laserOffset = new Vector2(2.6f, 1.7f); // Offset values
 
+    [Header("Audio Settings")]
+    public AudioClip laserSound; // Assign in Inspector
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -33,6 +36,12 @@ public class VorrakShooting : MonoBehaviour
         if (isFlipped)
         {
             currentLaser.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
+        // Trigger laser sound
+        if (AudioManager.instance != null && laserSound != null)
+        {
+            AudioManager.instance.PlaySFX(laserSound);
         }
     }
 }

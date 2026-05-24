@@ -27,14 +27,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Scene5.unity
     guid: aad1e7ae7dafcc247a9dee8529b34860
   - enabled: 1
+    path: Assets/Scenes/Scene5B.unity
+    guid: 3c968dba590f340418e64cda59287f93
+  - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 5f33ab251c958094298d59b6e2ef15ca
   - enabled: 1
     path: Assets/Scenes/DedScreen.unity
     guid: 5d7d569319392d4448682a67155d1218
-  - enabled: 1
-    path: Assets/Scenes/FinishedScreen.unity
-    guid: 2d962bd8f2d8c4542a20e9323d85c890
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

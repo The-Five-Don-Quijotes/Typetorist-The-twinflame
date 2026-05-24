@@ -21,6 +21,8 @@ public class BossCutsceneController : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip dialogueMusic;
+    [Tooltip("The normal background music to resume after the cutscene ends.")]
+    public AudioClip defaultSceneMusic;
 
     [Header("Settings")]
     public Vector2 teleportPos;
@@ -98,9 +100,9 @@ public class BossCutsceneController : MonoBehaviour
         if (typingText != null) typingText.SetActive(true);
         if (playerMovementScript != null) playerMovementScript.enabled = true;
 
-        if (AudioManager.instance != null)
+        if (AudioManager.instance != null && defaultSceneMusic != null)
         {
-            AudioManager.instance.PlayMusic(AudioManager.instance.backgroundmusic);
+            AudioManager.instance.PlayMusic(defaultSceneMusic);
         }
 
         // Fire all assigned combat methods

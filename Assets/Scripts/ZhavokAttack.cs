@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ZhavokAttack : MonoBehaviour
@@ -22,11 +21,15 @@ public class ZhavokAttack : MonoBehaviour
     public float bulletSpeed = 10f;
     public float bulletAngleOffset = 30f; // Angle difference for top and bottom bullets
 
+    [Header("Audio Settings")]
+    public AudioClip melee1Sound;
+    public AudioClip melee2Sound;
+    public AudioClip shootSound;
+
     void Start()
     {
         animator = GetComponent<Animator>();
         player = GameObject.Find("Player").transform;
-        //StartCoroutine(AttackPlayer());
     }
 
     public void BeginAttackPhase()
@@ -48,7 +51,7 @@ public class ZhavokAttack : MonoBehaviour
                 DoAttack();
             }
 
-            //Attack again
+            // Attack again
             yield return new WaitForSeconds(cooldown);
             StartCoroutine(AttackPlayer());
         }
@@ -65,12 +68,22 @@ public class ZhavokAttack : MonoBehaviour
 
     public void ActivateFirstHitbox()
     {
+        if (AudioManager.instance != null && melee1Sound != null)
+        {
+            AudioManager.instance.PlaySFX(melee1Sound);
+        }
+
         StartCoroutine(EnableHitbox(melee1));
         FireBulletPattern(false);
     }
 
     public void ActivateSecondHitbox()
     {
+        if (AudioManager.instance != null && melee2Sound != null)
+        {
+            AudioManager.instance.PlaySFX(melee2Sound);
+        }
+
         StartCoroutine(EnableHitbox(melee2));
         FireBulletPattern(true);
     }
@@ -82,10 +95,16 @@ public class ZhavokAttack : MonoBehaviour
         hitbox.SetActive(false);
     }
 
-    private void FireBulletPattern(Boolean isDown)
+    private void FireBulletPattern(bool isDown)
     {
         if (GetComponent<EnemyReceiveDamage>().health < GetComponent<EnemyReceiveDamage>().maxHealth)
         {
+            // Play shoot sound once per pattern generation
+            if (AudioManager.instance != null && shootSound != null)
+            {
+                AudioManager.instance.PlaySFX(shootSound);
+            }
+
             float baseAngle = transform.rotation.y == 0 ? 0f : 180f;
 
             if (isDown)
@@ -103,7 +122,7 @@ public class ZhavokAttack : MonoBehaviour
 
     private void SpawnBullet(float angle)
     {
-        GameObject bullet = Instantiate(meleeBulletPrefab,new Vector3 (transform.position.x, transform.position.y + ZhavokOffset, transform.position.z), Quaternion.identity);
+        GameObject bullet = Instantiate(meleeBulletPrefab, new Vector3(transform.position.x, transform.position.y + ZhavokOffset, transform.position.z), Quaternion.identity);
 
         Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();

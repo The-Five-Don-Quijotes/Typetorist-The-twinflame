@@ -24,6 +24,9 @@ public class VorrakMovement : MonoBehaviour
     private bool isMoving = false;
     public float moveSpeed = 3f;
 
+    [Header("Audio Settings")]
+    public AudioClip teleSound;
+
     // --- NEW: Combat state ---
     private bool isCombatActive = false;
 
@@ -81,6 +84,11 @@ public class VorrakMovement : MonoBehaviour
     {
         if (isMoving || !isCombatActive) return;
 
+        // Trigger teleport sound
+        if (AudioManager.instance != null && teleSound != null)
+        {
+            AudioManager.instance.PlaySFX(teleSound);
+        }
         int randomIndex = Random.Range(0, teleportPositions.Length);
         transform.position = teleportPositions[randomIndex];
         LookAtPlayer();

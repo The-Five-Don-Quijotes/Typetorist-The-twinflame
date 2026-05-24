@@ -114,7 +114,6 @@ public class UyiaBossController : MonoBehaviour
     public BulletFirePattern bulletFirePattern = BulletFirePattern.Star;
 
 
-    // --- NEW: Summon Minion Settings ---
     [Header("Summon Minion Settings")]
     [Tooltip("The Vorrak boss prefab to summon.")]
     public GameObject vorrakPrefab;
@@ -126,6 +125,17 @@ public class UyiaBossController : MonoBehaviour
     public float minionActiveTime = 5.0f; // E.g., Vorrak performs one attack then disappears
     [Tooltip("The tag of the GameObject to destroy if a boss is summoned. E.g., 'Player'.")]
     public string playerTagForMinions = "Player"; // Vorrak needs player reference, Baeloris needs player reference
+
+
+    [Header("Audio Settings")]
+    [Tooltip("Sound played when firing a burst of bullets.")]
+    public AudioClip shootSound;
+    [Tooltip("Sound played when summoning a minion.")]
+    public AudioClip summonSound;
+    [Tooltip("Sound played when leaping up for Moon Leap.")]
+    public AudioClip moonLeapJumpSound;
+    [Tooltip("Sound played when crashing down for Moon Leap.")]
+    public AudioClip moonLeapImpactSound;
 
 
     // Internal state variables
@@ -184,7 +194,7 @@ public class UyiaBossController : MonoBehaviour
                 case MovementPattern.MoonLeap:
                     yield return StartCoroutine(MoonLeapRoutine());
                     break;
-                case MovementPattern.SummonMinion: // --- NEW CASE ---
+                case MovementPattern.SummonMinion:
                     yield return StartCoroutine(SummonMinionRoutine());
                     break;
                 default: // Handles Cross, Diamond, CustomPatrol, LungeTowardsPlayer
@@ -303,6 +313,12 @@ public class UyiaBossController : MonoBehaviour
 
         yield return new WaitForSeconds(telegraphTime);
 
+        // Play jump sound
+        if (AudioManager.instance != null && moonLeapJumpSound != null)
+        {
+            AudioManager.instance.PlaySFX(moonLeapJumpSound);
+        }
+
         float timer = 0f;
         currentLeapVelocity = Vector3.zero;
         while (timer < leapUpDuration)
@@ -324,6 +340,12 @@ public class UyiaBossController : MonoBehaviour
             yield return null;
         }
         transform.position = impactPosition;
+
+        // Play impact sound
+        if (AudioManager.instance != null && moonLeapImpactSound != null)
+        {
+            AudioManager.instance.PlaySFX(moonLeapImpactSound);
+        }
 
         if (shockwavePrefab != null)
         {
@@ -355,6 +377,12 @@ public class UyiaBossController : MonoBehaviour
 
         while (true)
         {
+            // Trigger shoot sound once per pattern burst
+            if (AudioManager.instance != null && shootSound != null)
+            {
+                AudioManager.instance.PlaySFX(shootSound);
+            }
+
             FireBulletsInPattern(bulletFirePattern);
             yield return new WaitForSeconds(fireRate);
         }
@@ -428,6 +456,12 @@ public class UyiaBossController : MonoBehaviour
     {
         yield return new WaitForSeconds(telegraphTime); // Uyia pauses to "cast" summon
 
+        // Play summon sound
+        if (AudioManager.instance != null && summonSound != null)
+        {
+            AudioManager.instance.PlaySFX(summonSound);
+        }
+
         GameObject summonedBoss = null;
         VorrakMovement vorrakScript = null;
         BaelorisMovement baelorisScript = null;
@@ -480,8 +514,6 @@ public class UyiaBossController : MonoBehaviour
         // --- Trigger the summoned boss's attack ---
         if (vorrakScript != null)
         {
-            // Vorrak can do MoveNearPlayerWithDuration, TeleportToRandomPosition, or MoveToFurthestY
-            // Let's make him do a quick melee attack
             Debug.Log("Vorrak activated melee attack!");
             vorrakScript.MoveNearPlayerWithDuration(vorrakScript.cooldown + vorrakScript.hitboxDuration + 0.5f); // Move, then attack
             yield return new WaitForSeconds(vorrakScript.cooldown); // Give him time to move before attack
@@ -489,11 +521,7 @@ public class UyiaBossController : MonoBehaviour
         }
         else if (baelorisScript != null)
         {
-            // Baeloris mostly has movement. Its attack logic is in its Update.
-            // We just need to ensure its Update runs for a bit.
             Debug.Log("Baeloris activated movement attack!");
-            // For Baeloris, we just let it run its normal Update behavior for its active time.
-            // Ensure its `timeBetweenMoves` and `speed` are set reasonably for a short summon.
             baelorisScript.PickNewTargetPosition(); // Make it pick a target immediately
             baelorisScript.enabled = true; // Make sure its script is active
         }
