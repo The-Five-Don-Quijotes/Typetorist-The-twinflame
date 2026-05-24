@@ -1,79 +1,82 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class ZhavokPhase2Summon : MonoBehaviour
 {
     private Animator animator;
-    private float currentHealth;
+    private EnemyReceiveDamage healthComponent;
     public GameObject summon;
-    public Tilemap tilemap; // Reference to the tilemap
+
+    [Header("Summon Formation Settings")]
+    [Tooltip("The distance from Zhavok to spawn the minions on the X and Y axis.")]
+    public float spawnOffsetRadius = 6f;
 
     [Header("Audio Settings")]
     public AudioClip summonSound;
 
-    void Start()
+    private void Start()
     {
         animator = GetComponent<Animator>();
-        currentHealth = gameObject.GetComponent<EnemyReceiveDamage>().health;
+        healthComponent = GetComponent<EnemyReceiveDamage>();
     }
 
-    void Update()
+    private void Update()
     {
-        currentHealth = gameObject.GetComponent<EnemyReceiveDamage>().health;
-        if (currentHealth < 75)
+        if (healthComponent == null) return;
+
+        // Execute summon logic if health is below threshold
+        if (healthComponent.health < 75)
         {
-            GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Summon");
-            if (gameObjects.Length < 4)
+            GameObject[] activeSummons = GameObject.FindGameObjectsWithTag("Summon");
+
+            if (activeSummons.Length < 4)
             {
-                DoSummon(gameObjects.Length);
+                DoSummon(activeSummons.Length);
             }
         }
     }
 
-    private void DoSummon(int number)
+    private void DoSummon(int sequenceIndex)
     {
         if (AudioManager.instance != null && summonSound != null)
         {
             AudioManager.instance.PlaySFX(summonSound);
         }
 
-        animator.SetTrigger("isSummoning");
-
-        // Get tilemap bounds
-        BoundsInt bounds = tilemap.cellBounds;
-
-        // Calculate world positions for corners
-        Vector3 bottomLeft = tilemap.GetCellCenterWorld(bounds.min);
-        Vector3 topLeft = tilemap.GetCellCenterWorld(new Vector3Int(bounds.xMin, bounds.yMax, 0));
-        Vector3 bottomRight = tilemap.GetCellCenterWorld(new Vector3Int(bounds.xMax, bounds.yMin, 0));
-        Vector3 topRight = tilemap.GetCellCenterWorld(bounds.max);
-
-        // Calculate offset amount (adjustable)
-        float offsetX = (bounds.size.x * 0.1f); // 10% inward
-        float offsetY = (bounds.size.y * 0.1f); // 10% inward
-
-        // Apply inward offset
-        bottomLeft += new Vector3(offsetX, offsetY, 0);
-        topLeft += new Vector3(offsetX, -offsetY, 0);
-        bottomRight += new Vector3(-offsetX, offsetY, 0);
-        topRight += new Vector3(-offsetX, -offsetY, 0);
-
-        // Spawn summons at adjusted positions
-        if (number == 0)
+        if (animator != null)
         {
-            Instantiate(summon, bottomLeft, Quaternion.identity);
+            animator.SetTrigger("isSummoning");
         }
-        else if (number == 1)
+
+        if (summon == null)
         {
-            Instantiate(summon, topLeft, Quaternion.identity);
+            Debug.LogError("Summon prefab is missing from ZhavokPhase2Summon!", this);
+            return;
         }
-        else if (number == 2)
+
+        Vector3 spawnPosition = CalculateSafeSpawnPosition(sequenceIndex);
+        Instantiate(summon, spawnPosition, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// Calculates a localized spawn coordinate relative to Zhavok's position
+    /// to guarantee the minion does not spawn inside environment walls.
+    /// </summary>
+    private Vector3 CalculateSafeSpawnPosition(int index)
+    {
+        Vector3 anchorPos = transform.position;
+
+        switch (index)
         {
-            Instantiate(summon, bottomRight, Quaternion.identity);
-        }
-        else if (number == 3)
-        {
-            Instantiate(summon, topRight, Quaternion.identity);
+            case 0: // Bottom Left
+                return anchorPos + new Vector3(-spawnOffsetRadius, -spawnOffsetRadius, 0);
+            case 1: // Top Left
+                return anchorPos + new Vector3(-spawnOffsetRadius, spawnOffsetRadius, 0);
+            case 2: // Bottom Right
+                return anchorPos + new Vector3(spawnOffsetRadius, -spawnOffsetRadius, 0);
+            case 3: // Top Right
+                return anchorPos + new Vector3(spawnOffsetRadius, spawnOffsetRadius, 0);
+            default:
+                return anchorPos;
         }
     }
 }

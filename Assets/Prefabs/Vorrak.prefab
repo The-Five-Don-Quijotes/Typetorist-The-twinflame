@@ -196,12 +196,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 6818715187796159940, guid: 61f12ccb57cebf94fa86915ffd14c3e6, type: 3}
+  m_Sprite: {fileID: -5688739654425014672, guid: 69ee897b18cf83a4b8a5c54cfdc046c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.48, y: 0.46}
+  m_Size: {x: 0.5, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -252,7 +252,19 @@ MonoBehaviour:
   phase2ShootingDuration: 0
   OnHealthZero:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6272572564899745408}
+        m_TargetAssemblyTypeName: VorrakController, Assembly-CSharp
+        m_MethodName: ExecuteFinalGateSequence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4464840087493545576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +282,7 @@ MonoBehaviour:
   cooldown: 0.1
   hitboxDuration: 0.2
   moveSpeed: 3
+  teleSound: {fileID: 8300000, guid: 971acc37419a6274f86c8c9917f0a665, type: 3}
 --- !u!114 &8131177474226930703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 7732626568303778429, guid: c69ab34faecd3f64498d15a882364a9c, type: 3}
   laserOffset: {x: 2.6, y: 1.7}
+  laserSound: {fileID: 8300000, guid: 9f5a679e97b777e4da9b2b543924ba39, type: 3}
 --- !u!114 &8317790630421357513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossShield: {fileID: 0}
+  shieldSound: {fileID: 8300000, guid: 69828dfc452eddb4291dd1934b91b227, type: 3}
 --- !u!114 &6272572564899745408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +333,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6882282720388747764}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc8330dff2513b949a30a72bc6f708c9, type: 3}
   m_Name: 
@@ -326,10 +341,11 @@ MonoBehaviour:
   attackCooldown: 3
   followDuration: 5
   mainCutsceneController: {fileID: 0}
-  armPrefab: {fileID: 0}
-  explosionVFX: {fileID: 0}
-  explosionSound: {fileID: 0}
+  armPrefab: {fileID: 7848801328647335247, guid: 79b135f7489fcd547b1c4d81e31a510b, type: 3}
+  explosionVFX: {fileID: 7316955199024470230, guid: b5c7584cc862efb4fb9f8016793f9130, type: 3}
+  explosionSound: {fileID: 8300000, guid: d4231cf5871915b478ed9ba8df6faca5, type: 3}
   portal1: {fileID: 0}
+  shootingSound: {fileID: 8300000, guid: 52acad0a74dab2249a5430d9d4d7e4ae, type: 3}
 --- !u!82 &8930882168494250037
 AudioSource:
   m_ObjectHideFlags: 0

@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 15804807}
   - component: {fileID: 15804808}
+  - component: {fileID: 15804809}
   m_Layer: 5
   m_Name: HeartsContainer
   m_TagString: Untagged
@@ -184,6 +185,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &15804809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15804806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b449306ddc607f441895853589b4da09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &33856230
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +660,7 @@ GameObject:
   - component: {fileID: 228019066}
   - component: {fileID: 228019069}
   - component: {fileID: 228019068}
+  - component: {fileID: 228019070}
   m_Layer: 5
   m_Name: TypingLine
   m_TagString: Untagged
@@ -772,6 +786,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228019065}
   m_CullTransparentMesh: 1
+--- !u!114 &228019070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228019065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b5654bcedb5ed48881fe406ab53a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &263948346
 GameObject:
   m_ObjectHideFlags: 0
@@ -39907,6 +39933,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1038343328928601738, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
   m_PrefabInstance: {fileID: 841215362383593742}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1045868003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045868002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b5654bcedb5ed48881fe406ab53a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1047071516
 GameObject:
   m_ObjectHideFlags: 0
@@ -40794,6 +40832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1073092677}
   - component: {fileID: 1073092678}
+  - component: {fileID: 1073092679}
   m_Layer: 5
   m_Name: BossHealthBar
   m_TagString: Untagged
@@ -40875,6 +40914,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1073092679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073092676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b449306ddc607f441895853589b4da09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1092998298
 GameObject:
   m_ObjectHideFlags: 0
@@ -42886,7 +42937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behavior: 1
   fixedPattern: 6
-  dynamicSequence: 040000000600000005000000
+  dynamicSequence: 06000000
   movesPerPattern: 4
   moveSpeed: 15
   smoothTime: 0.25
@@ -42922,6 +42973,7 @@ MonoBehaviour:
   bulletFirePattern: 2
   vorrakPrefab: {fileID: 6882282720388747764, guid: a9c95d5f79def544c9200b45a72228e3, type: 3}
   baelorisPrefab: {fileID: 8984303050656862795, guid: 2a01e254ca80a0d4a84e37ef95aef525, type: 3}
+  zhavokPrefab: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
   summonOffset: {x: 0, y: 2, z: 0}
   minionActiveTime: 5
   playerTagForMinions: Player
@@ -94061,7 +94113,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1038343328928601738, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1045868003}
   m_SourcePrefab: {fileID: 100100000, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
 --- !u!1001 &1920549732968493303
 PrefabInstance:

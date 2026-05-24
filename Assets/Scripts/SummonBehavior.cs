@@ -19,41 +19,11 @@ public class SummonBehavior : MonoBehaviour
         GameObject textObject2 = GameObject.Find("TypingLine");
         GameObject healthBar = GameObject.Find("BossHealthBar");
         GameObject playerHealth = GameObject.Find("HeartsContainer");
-        if (textObject != null)
-        {
-            typingText = textObject.GetComponent<TextMeshProUGUI>();
-        }
-        else
-        {
-            Debug.LogWarning("TypingText object not found in the scene.");
-        }
 
-        if (textObject2 != null)
-        {
-            typingLine = textObject2.GetComponent<TextMeshProUGUI>();
-        }
-        else
-        {
-            Debug.LogWarning("TypingLine object not found in the scene.");
-        }
-
-        if (healthBar != null)
-        {
-            bossHealthCanvas = healthBar.GetComponent<CanvasGroup>();
-        }
-        else
-        {
-            Debug.LogWarning("Boss health bar object not found in the scene.");
-        }
-
-        if (playerHealth != null)
-        {
-            playerHealthCanvas = playerHealth.GetComponent<CanvasGroup>();
-        }
-        else
-        {
-            Debug.LogWarning("Player health object not found in the scene.");
-        }
+        if (textObject != null) typingText = textObject.GetComponent<TextMeshProUGUI>();
+        if (textObject2 != null) typingLine = textObject2.GetComponent<TextMeshProUGUI>();
+        if (healthBar != null) bossHealthCanvas = healthBar.GetComponent<CanvasGroup>();
+        if (playerHealth != null) playerHealthCanvas = playerHealth.GetComponent<CanvasGroup>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -61,7 +31,7 @@ public class SummonBehavior : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             SetTextAlpha(0f); // Make text fully transparent
-            animator.SetTrigger("isDeath");
+            if (animator != null) animator.SetTrigger("isDeath");
             Destroy(gameObject);
         }
         if (collision.CompareTag("Wall"))
@@ -77,25 +47,34 @@ public class SummonBehavior : MonoBehaviour
             Color color = typingText.color;
             color.a = alpha;
             typingText.color = color;
-            typingText.GetComponent<MakeTextAppear>().ShowText(disappearDuration);
-        } else if (typingLine != null && typingLine.color.a != 0)
+
+            MakeTextAppear script = typingText.GetComponent<MakeTextAppear>();
+            if (script != null) script.ShowText(disappearDuration);
+        }
+        else if (typingLine != null && typingLine.color.a != 0)
         {
             Color color = typingLine.color;
             color.a = alpha;
             typingLine.color = color;
-            typingLine.GetComponent<MakeTextAppear>().ShowText(disappearDuration);
-        } else if (playerHealthCanvas != null && playerHealthCanvas.alpha != 0) 
+
+            MakeTextAppear script = typingLine.GetComponent<MakeTextAppear>();
+            if (script != null) script.ShowText(disappearDuration);
+        }
+        else if (playerHealthCanvas != null && playerHealthCanvas.alpha != 0)
         {
             playerHealthCanvas.alpha = alpha;
-            playerHealthCanvas.GetComponent<MakeCanvasAppear>().ShowCanvas(disappearDuration);
-        } else if (bossHealthCanvas != null)
+
+            // Safe check to prevent crash if MakeCanvasAppear is missing
+            MakeCanvasAppear script = playerHealthCanvas.GetComponent<MakeCanvasAppear>();
+            if (script != null) script.ShowCanvas(disappearDuration);
+        }
+        else if (bossHealthCanvas != null && bossHealthCanvas.alpha != 0)
         {
             bossHealthCanvas.alpha = alpha;
-            bossHealthCanvas.GetComponent<MakeCanvasAppear>().ShowCanvas(disappearDuration);
-        }
-        else
-        {
-            Debug.LogWarning("TypingText reference is null. Make sure the object exists.");
+
+            // Safe check to prevent crash if MakeCanvasAppear is missing
+            MakeCanvasAppear script = bossHealthCanvas.GetComponent<MakeCanvasAppear>();
+            if (script != null) script.ShowCanvas(disappearDuration);
         }
     }
 }

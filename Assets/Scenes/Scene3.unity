@@ -6843,7 +6843,7 @@ MonoBehaviour:
   safeDistanceFromBoss: 4
   wallLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   mapCollider: {fileID: 589365015}
   health: 3
   maxHealth: 3
@@ -54534,10 +54534,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7848801328647335247, guid: 79b135f7489fcd547b1c4d81e31a510b, type: 3}
     - target: {fileID: 6272572564899745408, guid: a9c95d5f79def544c9200b45a72228e3, type: 3}
-      propertyPath: gateToOpen
-      value: 
-      objectReference: {fileID: 1374467949}
-    - target: {fileID: 6272572564899745408, guid: a9c95d5f79def544c9200b45a72228e3, type: 3}
       propertyPath: explosionVFX
       value: 
       objectReference: {fileID: 7316955199024470230, guid: b5c7584cc862efb4fb9f8016793f9130, type: 3}
@@ -54617,10 +54613,6 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -5688739654425014672, guid: 69ee897b18cf83a4b8a5c54cfdc046c1, type: 3}
-    - target: {fileID: 9129863874019127233, guid: a9c95d5f79def544c9200b45a72228e3, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -54637,7 +54629,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 3610916906961943804}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995745187}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc8330dff2513b949a30a72bc6f708c9, type: 3}
   m_Name: 

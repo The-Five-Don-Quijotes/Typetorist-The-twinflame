@@ -23,6 +23,10 @@ public class ZhavokSummonMovement : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player")?.transform;
         boss = GameObject.Find("Zhavok");
+        if(boss == null)
+        {
+            boss = GameObject.Find("Uiiiiiiia");
+        }
         tilemap = GameObject.Find("Wall")?.GetComponent<Tilemap>();
     }
 

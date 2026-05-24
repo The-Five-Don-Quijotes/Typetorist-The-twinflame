@@ -1421,11 +1421,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a0cf6df4ac008a4988d7706ba097d4f, type: 3}
---- !u!1 &459350501 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-  m_PrefabInstance: {fileID: 5290079147774253263}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &468854255 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8480293956725687899, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
@@ -58291,7 +58286,7 @@ MonoBehaviour:
   wordBank: {fileID: 1951922210}
   wordOutput: {fileID: 716984811}
   outputLine: {fileID: 228019068}
-  Enemy: {fileID: 459350501}
+  Enemy: {fileID: 577048452096774300}
   damage: 13
   dotPrefab: {fileID: 2177327532916581973, guid: f00ac3c923d45d6479d0d051b4f2241f, type: 3}
   player: {fileID: 639294681}
@@ -60919,8 +60914,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 187489523}
-  bossObject: {fileID: 459350501}
-  bossSpawnPos: {fileID: 5290079147774253264}
+  bossObject: {fileID: 577048452096774300}
+  bossSpawnPos: {fileID: 2354287376135373641}
   mainCamera: {fileID: 2061552614}
   playerMovementScript: {fileID: 841215362383593743}
   worldGUI: {fileID: 497129725}
@@ -60944,7 +60939,7 @@ MonoBehaviour:
   OnCombatStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5290079147774253269}
+      - m_Target: {fileID: 6143521446349653750}
         m_TargetAssemblyTypeName: ZhavokAttack, Assembly-CSharp
         m_MethodName: BeginAttackPhase
         m_Mode: 1
@@ -60956,7 +60951,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5290079147774253268}
+      - m_Target: {fileID: 4699298818688459535}
         m_TargetAssemblyTypeName: ZhavokMovement, Assembly-CSharp
         m_MethodName: BeginMovementPhase
         m_Mode: 1
@@ -61451,7 +61446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnedBook: {fileID: 0}
   Player: {fileID: 639294681}
-  Boss: {fileID: 459350501}
+  Boss: {fileID: 577048452096774300}
   Book: {fileID: 3610254563372908901, guid: 879b485624040ff4090ccbf03b8b0b51, type: 3}
   minRadius: 2
   maxRadius: 3
@@ -61485,7 +61480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2d2ed4acd623e4db0f79068eb2e3e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boss: {fileID: 459350501}
+  boss: {fileID: 577048452096774300}
   portal: {fileID: 468854255}
 --- !u!114 &1413736955
 MonoBehaviour:
@@ -74408,6 +74403,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138964467}
   m_CullTransparentMesh: 1
+--- !u!1 &577048452096774300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
+  m_PrefabInstance: {fileID: 5255135252036848479}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &841215362383593742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74535,7 +74535,7 @@ PrefabInstance:
     - target: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: Enemy
       value: 
-      objectReference: {fileID: 459350501}
+      objectReference: {fileID: 577048452096774300}
     - target: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: wordBank
       value: 
@@ -74555,7 +74555,7 @@ PrefabInstance:
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: Enemy
       value: 
-      objectReference: {fileID: 459350501}
+      objectReference: {fileID: 577048452096774300}
     - target: {fileID: 7919494613333571557, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: wordBank
       value: 
@@ -74822,7 +74822,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2100cb9991da85f4c82281a63abaeb84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &5290079147774253263
+--- !u!4 &2354287376135373641 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7621842168129608582, guid: 283d2daee5fa110459e82227360c8301, type: 3}
+  m_PrefabInstance: {fileID: 5255135252036848479}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4699298818688459535 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 602745214924209088, guid: 283d2daee5fa110459e82227360c8301, type: 3}
+  m_PrefabInstance: {fileID: 5255135252036848479}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577048452096774300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1726aca3e40556943b0b068569f29c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &5255135252036848479
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -74830,22 +74846,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 602745214924209088, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: teleportSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 30751906d1711d147a7ee3013d371332, type: 3}
-    - target: {fileID: 2028887851325939257, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: shootSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 98294fd5690c7b248a67169e925e5e19, type: 3}
-    - target: {fileID: 2028887851325939257, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: melee1Sound
-      value: 
-      objectReference: {fileID: 8300000, guid: 84d36ab74e9d25942803d02ed93d317e, type: 3}
-    - target: {fileID: 2028887851325939257, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: melee2Sound
-      value: 
-      objectReference: {fileID: 8300000, guid: b37dd594b70cb8f438f3d1ebb865b7b8, type: 3}
     - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: wordBank
       value: 
@@ -74859,53 +74859,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1073092676}
     - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1311560694}
-    - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TriggerDeathSequence
-      objectReference: {fileID: 0}
-    - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BossCutsceneController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: OnHealthZero.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: m_Name
       value: Zhavok
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: m_TagString
-      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 7054755973381718111, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 589365011}
-    - target: {fileID: 7054755973381718111, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: summonSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 181e315207192ca49bb1ef514cec0a5c, type: 3}
     - target: {fileID: 7621842168129608582, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -74951,28 +74915,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 283d2daee5fa110459e82227360c8301, type: 3}
---- !u!4 &5290079147774253264 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7621842168129608582, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-  m_PrefabInstance: {fileID: 5290079147774253263}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5290079147774253268 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 602745214924209088, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-  m_PrefabInstance: {fileID: 5290079147774253263}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 459350501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1726aca3e40556943b0b068569f29c3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5290079147774253269 stripped
+--- !u!114 &6143521446349653750 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2028887851325939257, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-  m_PrefabInstance: {fileID: 5290079147774253263}
+  m_PrefabInstance: {fileID: 5255135252036848479}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 459350501}
+  m_GameObject: {fileID: 577048452096774300}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6980db1b880e27d459089135ed916701, type: 3}
@@ -74991,7 +74939,7 @@ SceneRoots:
   - {fileID: 1920549732968493303}
   - {fileID: 689152680}
   - {fileID: 1413736950}
-  - {fileID: 5290079147774253263}
+  - {fileID: 5255135252036848479}
   - {fileID: 1517819240829006381}
   - {fileID: 655136128}
   - {fileID: 400405747}
