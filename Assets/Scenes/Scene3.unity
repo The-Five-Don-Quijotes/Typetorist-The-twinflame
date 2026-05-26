@@ -598,8 +598,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4294046976
+  m_fontColor: {r: 0, g: 0.9622642, b: 0.9453863, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -622,7 +622,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1805,6 +1805,10 @@ PrefabInstance:
       propertyPath: portal
       value: 
       objectReference: {fileID: 523731065}
+    - target: {fileID: 3707549943155304723, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
+      propertyPath: MinDistance
+      value: 0.5890423
+      objectReference: {fileID: 0}
     - target: {fileID: 5414326767528324833, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
       propertyPath: sceneName
       value: Scene5B
@@ -1848,6 +1852,18 @@ PrefabInstance:
     - target: {fileID: 5862479973047891534, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6218298396241697795, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
+      propertyPath: m_Radius
+      value: 0.16177706
+      objectReference: {fileID: 0}
+    - target: {fileID: 6218298396241697795, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6218298396241697795, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.00062663556
       objectReference: {fileID: 0}
     - target: {fileID: 8480293956725687899, guid: 6e141e10d8a10c74b875ba48cff81ac1, type: 3}
       propertyPath: m_Name
@@ -6232,24 +6248,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1277917705 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
-  m_PrefabInstance: {fileID: 1920549732968493303}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1277917708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277917705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e33cfa53e7688f4594c893d16a2b1cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentLineIndex: -1
 --- !u!1001 &1318170897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6866,6 +6864,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf592b9b8bf0dd1458133accdef95c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletSpawners: []
+  bossHealthComponent: {fileID: 0}
 --- !u!114 &1413736956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6955,6 +6955,14 @@ MonoBehaviour:
   typedColor: {r: 0, g: 0.78039217, b: 0.06155069, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   mainMenuSceneName: MainMenu
+  pauseSupportedScenes:
+  - Scene0
+  - Scene1
+  - Scene2
+  - Scene3
+  - Scene4
+  - Scene5
+  - Scene5B
   secretGodModeCode: baoaxid
   godModeUIContainer: {fileID: 26611494}
   godModeToggle: {fileID: 895964943}
@@ -53104,6 +53112,7 @@ GameObject:
   - component: {fileID: 1887867446}
   - component: {fileID: 1887867448}
   - component: {fileID: 1887867447}
+  - component: {fileID: 1887867449}
   m_Layer: 5
   m_Name: BossShield
   m_TagString: Untagged
@@ -53196,6 +53205,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1887867449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887867445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f816d04a62402c243b5239c843ea63fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vorrakTransform: {fileID: 3610916906961943805}
 --- !u!1 &1941671047
 GameObject:
   m_ObjectHideFlags: 0
@@ -53230,6 +53252,7 @@ MonoBehaviour:
   bossSpawnPos: {fileID: 3610916906961943805}
   mainCamera: {fileID: 2061552614}
   playerMovementScript: {fileID: 841215362383593744}
+  playerStats: {fileID: 1413736951}
   worldGUI: {fileID: 497129725}
   typingText: {fileID: 841215362383593743}
   initialDialogue:
@@ -53246,11 +53269,23 @@ MonoBehaviour:
     - The path you are treading leads not to salvation, but to destruction.
     - I am the last line of defense. I will not fall!
   dialogueMusic: {fileID: 8300000, guid: d80eb7a77cbff6c49a9faae6c414b539, type: 3}
-  defaultSceneMusic: {fileID: 8300000, guid: 29783040da37d914cb30f3519c7cbc6c, type: 3}
+  defaultSceneMusic: {fileID: 8300000, guid: 9e7b90381c101e94fa0dba4555105182, type: 3}
   teleportPos: {x: 0, y: -11}
   OnCombatStart:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 523731065}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 3610916906961943806}
         m_TargetAssemblyTypeName: VorrakController, Assembly-CSharp
         m_MethodName: BeginCombatPhase
@@ -54437,25 +54472,61 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: isLooping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'phase2Lines.Array.data[0]'
-      value: behold the ancient enemy and murderer strongly raises his head fight
-        the lord battles
+      value: thou art weighed in the balances and art found wanting
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'phase2Lines.Array.data[1]'
+      value: the lord is my rock and my fortress and my deliverer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'phase2Lines.Array.data[2]'
+      value: thy blazing beams of wrath shall be swallowed by holy light
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'phase2Lines.Array.data[3]'
+      value: crumble unto dust ye ancient guardian of the broken seal
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'phase2Lines.Array.data[4]'
+      value: every mountain and hill shall be made low before his glory
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'originalLines.Array.data[0]'
+      value: tremble thou earth at the presence of the almighty lord
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'originalLines.Array.data[1]'
+      value: the stone which the builders refused is become the head stone
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'originalLines.Array.data[2]'
+      value: shatter the false idols of rock and the pillars of arrogance
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'originalLines.Array.data[3]'
+      value: though thy shield be as the mountains my faith shall move it
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: 'originalLines.Array.data[4]'
+      value: let the heavens rain down fury upon the beast of the quarry
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -300783868191688617, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1277917708}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
 --- !u!114 &1920549732968493304 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
   m_PrefabInstance: {fileID: 1920549732968493303}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277917705}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2100cb9991da85f4c82281a63abaeb84, type: 3}

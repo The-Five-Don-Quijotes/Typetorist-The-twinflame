@@ -24,8 +24,13 @@ public class BaelorisWordBank : MonoBehaviour
     private Queue<(string word, bool isFirstWord)> wordQueue = new Queue<(string, bool)>();
     public int currentLineIndex = -1;
 
+    // Add boolean lock for Phase state
+    public bool isPhase2 = false;
+    public bool isLooping = false;
+
     private void Awake()
     {
+        isPhase2 = false; // Reset on start
         PopulateWordQueue();
     }
 
@@ -34,10 +39,10 @@ public class BaelorisWordBank : MonoBehaviour
         wordQueue.Clear();
         foreach (string line in originalLines)
         {
-            string[] words = line.Split(' '); // Split the line into words
+            // Trim to prevent trailing spaces from creating empty string artifacts
+            string[] words = line.Trim().Split(' ');
             for (int i = 0; i < words.Length; i++)
             {
-                // Add each word to the queue and mark the first word of each line
                 wordQueue.Enqueue((words[i].ToLower(), i == 0));
             }
         }
@@ -47,34 +52,45 @@ public class BaelorisWordBank : MonoBehaviour
     {
         originalLines = newLines;
         currentLineIndex = -1;
+        isPhase2 = true; // Lock the state
         PopulateWordQueue();
     }
 
-
     public string GetWord()
     {
-        if (wordQueue.Count > 0)
+        // Loop back to the beginning if the queue is empty
+        if (wordQueue.Count == 0)
         {
-            var (nextWord, isFirstWord) = wordQueue.Dequeue();
-
-            // Increment the line index only if this is the first word of the next line
-            if (isFirstWord)
+            // Halt execution and return empty if looping is restricted
+            if (!isLooping)
             {
-                currentLineIndex++;
+                return string.Empty;
             }
 
-            return nextWord;
+            currentLineIndex = -1;
+            PopulateWordQueue();
+
+            // Failsafe in case the list is completely empty
+            if (wordQueue.Count == 0)
+            {
+                Debug.LogWarning("Original lines list is empty. Cannot fetch words.");
+                return string.Empty;
+            }
         }
-        else
+
+        var (nextWord, isFirstWord) = wordQueue.Dequeue();
+
+        if (isFirstWord)
         {
-            Debug.LogWarning("No more words available.");
-            return string.Empty;
+            currentLineIndex++;
         }
+
+        return nextWord;
     }
 
     public string GetLine()
     {
-        if (currentLineIndex < originalLines.Count)
+        if (currentLineIndex >= 0 && currentLineIndex < originalLines.Count)
         {
             string line = originalLines[currentLineIndex];
             return line;
@@ -91,10 +107,12 @@ public class BaelorisWordBank : MonoBehaviour
             Queue<(string word, bool isFirstWord)> newQueue = new Queue<(string, bool)>();
             string currentLine = originalLines[currentLineIndex];
             string[] words = currentLine.Split(' ');
+
             for (int i = 0; i < words.Length; i++)
             {
                 newQueue.Enqueue((words[i].ToLower(), false));
             }
+
             for (int i = currentLineIndex + 1; i < originalLines.Count; i++)
             {
                 string[] lineWords = originalLines[i].Split(' ');
@@ -103,6 +121,7 @@ public class BaelorisWordBank : MonoBehaviour
                     newQueue.Enqueue((lineWords[j].ToLower(), j == 0));
                 }
             }
+
             wordQueue = newQueue;
             Debug.Log("Reset to first word of current line: " + currentLine);
         }
@@ -111,5 +130,4 @@ public class BaelorisWordBank : MonoBehaviour
             Debug.LogWarning("Cannot reset: currentLineIndex is invalid.");
         }
     }
-
 }

@@ -1,7 +1,8 @@
-using UnityEngine;
+using System.Collections.Generic;
 using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public enum PauseMenuActionType { ResumeGame, LoadScene, QuitApplication, OpenOptions, CloseOptions }
 
@@ -31,6 +32,11 @@ public class TypingPauseController : MonoBehaviour
     [Header("Scene Management")]
     [SerializeField] private string mainMenuSceneName = "MainMenu";
 
+    [Header("Pause Support")]
+    [SerializeField] private List<string> pauseSupportedScenes = new List<string>();
+
+    private bool _currentSceneSupported = false;
+
     [Header("Secret God Mode Integration")]
     [SerializeField] private string secretGodModeCode = "baoaxid";
     [SerializeField] private GameObject godModeUIContainer;
@@ -54,13 +60,27 @@ public class TypingPauseController : MonoBehaviour
 
     void Start()
     {
+        _currentSceneSupported = IsPauseSupportedInScene(SceneManager.GetActiveScene().name);
+        if (!_currentSceneSupported)
+        {
+            pauseMenuAnimator.gameObject.SetActive(false);
+            return;
+        }
         InitializeAllDisplays();
         pauseMenuAnimator.gameObject.SetActive(false);
+
 
         if (godModeUIContainer != null)
         {
             godModeUIContainer.SetActive(false);
         }
+    }
+
+    private bool IsPauseSupportedInScene(string sceneName)
+    {
+        if (sceneName == mainMenuSceneName) return false;
+        if (pauseSupportedScenes.Count == 0) return true;
+        return pauseSupportedScenes.Contains(sceneName);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -69,11 +89,24 @@ public class TypingPauseController : MonoBehaviour
         {
             Time.timeScale = 1f;
             Destroy(gameObject);
+            return;
         }
+
+        _currentSceneSupported = IsPauseSupportedInScene(scene.name);
+
+        if (isPaused && !_currentSceneSupported)
+        {
+            isPaused = false;
+            Time.timeScale = 1f;
+        }
+
+        secretCodeProgress = 0;
+        isInOptionsView = false;
     }
 
     void Update()
     {
+        if (!_currentSceneSupported) return;
         if (_actionIsQueued)
         {
             _actionIsQueued = false;
@@ -218,7 +251,7 @@ public class TypingPauseController : MonoBehaviour
             if (option.currentProgress > 0)
             {
                 option.currentProgress--;
-                UpdateTextDisplay(option);
+                UpdateTextDisplay(option); 
             }
         }
 

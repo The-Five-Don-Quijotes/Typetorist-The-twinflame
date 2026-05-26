@@ -19,6 +19,18 @@ public class CreditsController : MonoBehaviour
     private SceneTransition sceneTransition;
     private bool isTransitioning = false;
 
+    //private void Awake()
+    //{
+    //    // Locate the TypingPauseController instance, including those in the DontDestroyOnLoad context.
+    //    TypingPauseController typingPauseController = FindFirstObjectByType<TypingPauseController>();
+
+    //    if (typingPauseController != null)
+    //    {
+    //        // Destroy the GameObject hosting the TypingPauseController component.
+    //        Destroy(typingPauseController.gameObject);
+    //    }
+    //}
+
     private void Start()
     {
         sceneTransition = FindFirstObjectByType<SceneTransition>();

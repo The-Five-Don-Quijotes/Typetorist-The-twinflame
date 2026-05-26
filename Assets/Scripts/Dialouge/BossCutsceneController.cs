@@ -10,6 +10,7 @@ public class BossCutsceneController : MonoBehaviour
     public Transform bossSpawnPos;
     public CameraFollowPlayer mainCamera;
     public MonoBehaviour playerMovementScript;
+    public MonoBehaviour playerStats;
 
     [Header("UI Control")]
     public GameObject worldGUI;
@@ -113,6 +114,7 @@ public class BossCutsceneController : MonoBehaviour
 
     public void TriggerDeathSequence()
     {
+        if (playerStats != null) playerStats.enabled = false;
         StartCoroutine(ExecuteDeathSequence());
     }
 
@@ -146,6 +148,7 @@ public class BossCutsceneController : MonoBehaviour
 
         // Lock player movement during death sequence
         if (playerMovementScript != null) playerMovementScript.enabled = false;
+        if (worldGUI != null) worldGUI.SetActive(false);
         yield return new WaitForSeconds(1.5f);
 
         // Show boss death dialogue (if any)

@@ -145,6 +145,10 @@ public class TutorialSequenceController : MonoBehaviour
                 sr.sortingOrder = 11;
             }
         }
+        else
+        {
+            Debug.LogError(">>> [Error] existingPortal is null. Cannot open portal. ");
+        }
 
         // Spawn magic circle if prefab exists
         if (magicCirclePrefab != null)

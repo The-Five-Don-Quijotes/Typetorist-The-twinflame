@@ -11,6 +11,17 @@ public class PortalController : MonoBehaviour
             portal.SetActive(false);
     }
 
+    void Update()
+    {
+        if (boss == null)
+        {
+            OpenPortal();
+        } else
+        {
+            portal.SetActive(false);
+        }
+    }
+
     public void OpenPortal()
     {
         if (portal != null && !portal.activeSelf)

@@ -1,10 +1,5 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
-using static UnityEngine.InputManagerEntry;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class OptionUI : MonoBehaviour
 {
@@ -54,5 +49,3 @@ public class OptionUI : MonoBehaviour
         sfxSlider.onValueChanged.RemoveListener(SetSFXVolume);
     }
 }
-
-

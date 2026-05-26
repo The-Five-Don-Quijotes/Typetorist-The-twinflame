@@ -673,7 +673,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -42908,24 +42908,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1277917705 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
-  m_PrefabInstance: {fileID: 1920549732968493303}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1277917708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277917705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e33cfa53e7688f4594c893d16a2b1cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentLineIndex: -1
 --- !u!1001 &1379427179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43493,7 +43475,7 @@ MonoBehaviour:
   safeDistanceFromBoss: 4
   wallLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   mapCollider: {fileID: 589365015}
   health: 3
   maxHealth: 3
@@ -43613,6 +43595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf592b9b8bf0dd1458133accdef95c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletSpawners: []
+  bossHealthComponent: {fileID: 0}
 --- !u!114 &1413736955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43716,6 +43700,8 @@ MonoBehaviour:
   typedColor: {r: 0, g: 0.78039217, b: 0.07219519, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   mainMenuSceneName: MainMenu
+  pauseSupportedScenes:
+  - Scene4
   secretGodModeCode: baoaxid
   godModeUIContainer: {fileID: 1952067374}
   godModeToggle: {fileID: 1135633998}
@@ -94549,59 +94535,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'phase2Lines.Array.data[0]'
-      value: this mortal flesh is now the final offering
+      value: this mortal flesh doth now become the ultimate offering
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'phase2Lines.Array.data[1]'
-      value: my soul becomes the key that will lock you away
+      value: my wretched soul becometh the key to seal thy tomb
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'phase2Lines.Array.data[2]'
-      value: i forsake the sun to become your eternal warden
+      value: i forsake the warmth of the sun to be thine eternal warden
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'phase2Lines.Array.data[3]'
-      value: you sought freedom but found your cage within me
+      value: thou soughtest deliverance but found thy cage within me
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'phase2Lines.Array.data[4]'
-      value: i am the lock i am the silence i am the end
+      value: i am the lock i am the grand silence i am the bitter end
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'originalLines.Array.data[0]'
-      value: behold the chaos that wore a friendly face
+      value: behold the primordial chaos that doth wear a friendly visage
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'originalLines.Array.data[1]'
-      value: the chains i mistakenly broke are now reforged
+      value: the holy fetters i hath broken in folly be now reforged
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'originalLines.Array.data[2]'
-      value: by the power of this book i invoke the ancient law
+      value: by the might of this sacred tome i invoke the ancient law
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'originalLines.Array.data[3]'
-      value: my terrible error has now become your final sentence
+      value: mine awful transgression hath now become thy final doom
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: 'originalLines.Array.data[4]'
-      value: i cast you back into the story forever
+      value: i cast thee back into the abyss from whence thou camest
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -300783868191688617, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1557947345378815248, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1277917708}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
 --- !u!114 &1920549732968493304 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
   m_PrefabInstance: {fileID: 1920549732968493303}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277917705}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2100cb9991da85f4c82281a63abaeb84, type: 3}

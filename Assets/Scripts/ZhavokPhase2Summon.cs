@@ -10,6 +10,11 @@ public class ZhavokPhase2Summon : MonoBehaviour
     [Tooltip("The distance from Zhavok to spawn the minions on the X and Y axis.")]
     public float spawnOffsetRadius = 6f;
 
+    [Header("Cooldown Settings")]
+    [Tooltip("Time in seconds before the boss can summon another minion.")]
+    public float summonCooldown = 3f;
+    private float nextSummonTime = 0f;
+
     [Header("Audio Settings")]
     public AudioClip summonSound;
 
@@ -23,14 +28,18 @@ public class ZhavokPhase2Summon : MonoBehaviour
     {
         if (healthComponent == null) return;
 
-        // Execute summon logic if health is below threshold
-        if (healthComponent.health < 75)
+        // Execute summon logic only if health is below threshold and the cooldown has expired
+        if (healthComponent.health < 75 && Time.time >= nextSummonTime)
         {
+            // Placed inside the time check to prevent expensive tag searches every frame
             GameObject[] activeSummons = GameObject.FindGameObjectsWithTag("Summon");
 
             if (activeSummons.Length < 4)
             {
                 DoSummon(activeSummons.Length);
+
+                // Set the timestamp for when the next summon is permitted
+                nextSummonTime = Time.time + summonCooldown;
             }
         }
     }

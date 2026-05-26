@@ -120757,9 +120757,10 @@ MonoBehaviour:
     originalText: 
     commandWithoutSpaces: 
     currentProgress: 0
-  typedColor: {r: 0.78039217, g: 0, b: 0, a: 1}
+  typedColor: {r: 0, g: 0.78039217, b: 0, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   mainMenuSceneName: HomeScreen
+  pauseSupportedScenes: []
   secretGodModeCode: baoaxid
   godModeUIContainer: {fileID: 0}
   godModeToggle: {fileID: 0}
@@ -120996,6 +120997,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1683109334212036689, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}
+      propertyPath: isLooping
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6437873047448707922, guid: ff532e18338ea654ba8f71d1aec4cfa0, type: 3}

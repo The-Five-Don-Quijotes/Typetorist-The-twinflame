@@ -107,6 +107,7 @@ public class PlayerStats : MonoBehaviour
     public void DealDamage(int damage)
     {
         if (!canBeDamaged) return;
+        if (Boss != null && Boss.GetComponent<EnemyReceiveDamage>().health <= 0) return;
 
         StartCoroutine(DamageCooldown(0.5f));
 

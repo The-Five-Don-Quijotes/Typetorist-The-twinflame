@@ -41,8 +41,6 @@ public class BadEndingController : MonoBehaviour
 
     private void Start()
     {
-        if (cameraFollowScript != null) cameraFollowScript.enabled = false;
-
         if (catSmileImage != null) catSmileImage.gameObject.SetActive(false);
         if (badEndingText != null) badEndingText.gameObject.SetActive(false);
 

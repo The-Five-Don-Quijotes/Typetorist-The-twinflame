@@ -1,9 +1,10 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
-// 1. Added "Continue" to the list of possible actions.
-public enum MenuActionType { LoadScene, QuitApplication, Continue }
+// Added TransitionPanel to handle in-scene UI switching
+public enum MenuActionType { LoadScene, QuitApplication, Continue, TransitionPanel }
 
 [System.Serializable]
 public class MenuOption
@@ -17,8 +18,18 @@ public class MenuOption
     [Tooltip("The action to perform when the command is completed")]
     public MenuActionType actionType;
 
-    [Tooltip("The name of the scene to load (ignored if action is Quit or Continue)")]
+    [Tooltip("The name of the scene to load (ignored if action is Quit, Continue, or TransitionPanel)")]
     public string sceneToLoad;
+
+    [Header("Panel Transition Settings")]
+    [Tooltip("The CanvasGroup to fade IN when this command is typed")]
+    public CanvasGroup panelToFadeIn;
+
+    [Tooltip("The CanvasGroup to fade OUT when this command is typed")]
+    public CanvasGroup panelToFadeOut;
+
+    [Tooltip("Duration of the fade transition in seconds")]
+    public float fadeDuration = 0.5f;
 
     [HideInInspector]
     public string originalText;
@@ -38,41 +49,33 @@ public class TypingMenuController : MonoBehaviour
     [Tooltip("The color for text that is yet to be typed")]
     public Color defaultColor = Color.white;
 
-    // A reference to the SceneTransition component to avoid finding it repeatedly.
     private SceneTransition sceneTransition;
 
     void Start()
     {
-        // Find the SceneTransition component once and store it.
         sceneTransition = FindFirstObjectByType<SceneTransition>();
         if (sceneTransition == null)
         {
-            Debug.LogError("SceneTransition component not found in the scene! Fading will not work.");
+            Debug.LogError("SceneTransition component not found in the scene! Scene fading will not work.");
         }
 
-        // Initialize all text displays when the game starts
         InitializeAllDisplays();
     }
 
     void Update()
     {
-        // Check for keyboard input every frame
         if (Input.anyKeyDown)
         {
-            // Specifically handle backspace to undo progress
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 HandleBackspace();
                 return;
             }
 
-            // Get all characters typed this frame (handles different keyboard layouts)
             string typedChars = Input.inputString;
 
-            // Process each character that was typed
             foreach (char c in typedChars)
             {
-                // We check for letters, digits, or spaces to allow multi-word commands.
                 if (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c))
                 {
                     HandleCharacterInput(char.ToLower(c));
@@ -83,22 +86,16 @@ public class TypingMenuController : MonoBehaviour
 
     void HandleCharacterInput(char typedChar)
     {
-        // Check the typed character against every menu option
         foreach (var option in menuOptions)
         {
-            // Is the player still typing this command?
             if (option.currentProgress < option.command.Length)
             {
-                // Does the typed character match the *next* expected character?
                 if (typedChar == option.command[option.currentProgress])
                 {
-                    // Correct character! Advance the progress.
                     option.currentProgress++;
                 }
                 else
                 {
-                    // Wrong character! Reset progress for this option.
-                    // But check if the typed char is the START of the command again.
                     if (typedChar == option.command[0])
                     {
                         option.currentProgress = 1;
@@ -109,7 +106,6 @@ public class TypingMenuController : MonoBehaviour
                     }
                 }
             }
-            // Update the visual display for this option
             UpdateTextDisplay(option);
         }
     }
@@ -128,85 +124,123 @@ public class TypingMenuController : MonoBehaviour
 
     void UpdateTextDisplay(MenuOption option)
     {
-        // Use the display text (e.g., "START GAME") as the base for coloring
         string commandToShow = option.originalText;
-
-        // Safety check to prevent errors if progress exceeds text length
         int progress = Mathf.Min(option.currentProgress, commandToShow.Length);
 
         string typedPart = commandToShow.Substring(0, progress);
         string untypedPart = commandToShow.Substring(progress);
 
-        // Convert colors to hex codes for TextMeshPro rich text
         string typedHexColor = ColorUtility.ToHtmlStringRGB(typedColor);
         string defaultHexColor = ColorUtility.ToHtmlStringRGB(defaultColor);
 
-        // Build the rich text string 
         option.displayText.text = $"<color=#{typedHexColor}>{typedPart}</color><color=#{defaultHexColor}>{untypedPart}</color>";
 
-        // Check if the command is complete
         if (option.currentProgress == option.command.Length)
         {
-            // 2. We disabled this component to prevent further typing after a command is completed.
+            // Disable input while executing action
             this.enabled = false;
-
-            // Perform the action defined for this option
             PerformMenuAction(option);
         }
     }
 
-    // 3. Moved the action logic into its own method for clarity.
     void PerformMenuAction(MenuOption option)
     {
-        if (sceneTransition == null && option.actionType != MenuActionType.QuitApplication)
-        {
-            Debug.LogError("Cannot perform scene transition because the SceneTransition component is missing!");
-            return;
-        }
-
         switch (option.actionType)
         {
             case MenuActionType.LoadScene:
-                Debug.Log($"Command '{option.command}' complete! Loading scene: {option.sceneToLoad}");
-                // Use the SceneTransition component for a consistent fade effect
-                sceneTransition.LoadSceneWithFade(option.sceneToLoad);
+                if (sceneTransition != null) sceneTransition.LoadSceneWithFade(option.sceneToLoad);
                 break;
 
             case MenuActionType.QuitApplication:
-                Debug.Log("Command 'quit' complete! Closing application.");
                 Application.Quit();
                 break;
 
-            // 4. Added the logic for the new "Continue" action.
             case MenuActionType.Continue:
-                Debug.Log($"Command '{option.command}' complete! Loading previous scene.");
                 string previousScene = SceneTransition.GetPreviousScene();
-
-                if (!string.IsNullOrEmpty(previousScene))
+                if (!string.IsNullOrEmpty(previousScene) && sceneTransition != null)
                 {
                     sceneTransition.LoadSceneWithFade(previousScene);
                 }
                 else
                 {
-                    Debug.LogWarning("No previous scene found to continue from!");
-                    // Re-enable the script if we can't continue, so the player isn't stuck.
+                    Debug.LogWarning("No previous scene found!");
                     this.enabled = true;
                 }
                 break;
+
+            case MenuActionType.TransitionPanel:
+                // Start the coroutine to fade panels smoothly
+                StartCoroutine(FadePanelsCoroutine(option));
+                break;
         }
+    }
+
+    private IEnumerator FadePanelsCoroutine(MenuOption option)
+    {
+        float elapsedTime = 0f;
+
+        // Pre-setup: ensure the incoming panel is active but transparent
+        if (option.panelToFadeIn != null)
+        {
+            option.panelToFadeIn.gameObject.SetActive(true);
+            option.panelToFadeIn.alpha = 0f;
+            option.panelToFadeIn.blocksRaycasts = true;
+            option.panelToFadeIn.interactable = true;
+        }
+
+        // Pre-setup: disable interactions on the outgoing panel immediately
+        if (option.panelToFadeOut != null)
+        {
+            option.panelToFadeOut.blocksRaycasts = false;
+            option.panelToFadeOut.interactable = false;
+        }
+
+        // Execute crossfade
+        while (elapsedTime < option.fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / option.fadeDuration;
+
+            if (option.panelToFadeIn != null)
+                option.panelToFadeIn.alpha = Mathf.Lerp(0f, 1f, t);
+
+            if (option.panelToFadeOut != null)
+                option.panelToFadeOut.alpha = Mathf.Lerp(1f, 0f, t);
+
+            yield return null;
+        }
+
+        // Post-setup: finalize states
+        if (option.panelToFadeIn != null)
+            option.panelToFadeIn.alpha = 1f;
+
+        if (option.panelToFadeOut != null)
+        {
+            option.panelToFadeOut.alpha = 0f;
+            option.panelToFadeOut.gameObject.SetActive(false);
+        }
+
+        // Reset all typing variables so incomplete commands do not persist between menus
+        ResetAllProgress();
+
+        // Restore input
+        this.enabled = true;
     }
 
     void InitializeAllDisplays()
     {
         foreach (var option in menuOptions)
         {
-            // Store the original text (e.g., "NEW GAME") so we can always refer to it.
             option.originalText = option.displayText.text;
-
-            // Make the command lowercase for reliable comparison.
             option.command = option.command.ToLower();
+        }
+        ResetAllProgress();
+    }
 
-            // Reset progress and update display to default color
+    void ResetAllProgress()
+    {
+        foreach (var option in menuOptions)
+        {
             option.currentProgress = 0;
             string defaultHexColor = ColorUtility.ToHtmlStringRGB(defaultColor);
             option.displayText.text = $"<color=#{defaultHexColor}>{option.originalText}</color>";

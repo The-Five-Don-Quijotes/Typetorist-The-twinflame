@@ -21,14 +21,19 @@ public class EnemyReceiveDamage : MonoBehaviour
     public UnityEvent OnHealthZero;
     private bool isDead = false;
 
+    // Lock variable to prevent multiple phase 2 triggers
+    private bool hasEnteredPhase2 = false;
+
     void Start()
     {
         animator = GetComponent<Animator>();
-        if(bossHealthBar != null)
+        if (bossHealthBar != null)
             bossHealthBar.SetActive(true);
         else Debug.LogWarning("Boss Health Bar is not assigned in the inspector.");
+
         health = maxHealth;
-        if(healthSlider != null)
+
+        if (healthSlider != null)
             healthSlider.value = CalculateHealthPercentage();
         else Debug.LogWarning("Health Slider is not assigned in the inspector.");
     }
@@ -51,19 +56,22 @@ public class EnemyReceiveDamage : MonoBehaviour
         if (bossShield != null)
         {
             var shieldScript = GetComponent<VorrakShieldCast>();
-            if(shieldScript.isShieldOn())
+            if (shieldScript.isShieldOn())
             {
                 shieldScript.HideShield();
                 return;
             }
         }
+
         if (animator != null && HasParameter(animator, "isHurt"))
         {
             animator.SetTrigger("isHurt");
         }
+
         AudioManager.instance.PlaySFX(hurtSound);
         health -= damage;
         CheckDeath();
+
         if (animator != null && HasParameter(animator, "isShooting"))
         {
             if (!animator.GetBool("isShooting"))
@@ -76,6 +84,7 @@ public class EnemyReceiveDamage : MonoBehaviour
             // If the parameter doesn't exist, just run the function
             CheckHalfHealth();
         }
+
         healthSlider.value = CalculateHealthPercentage();
     }
 
@@ -122,10 +131,28 @@ public class EnemyReceiveDamage : MonoBehaviour
 
     private void CheckHalfHealth()
     {
-        if (health <= maxHealth / 2)
+        if (health <= maxHealth / 2 && !hasEnteredPhase2)
         {
-            wordBank.SetNewLines(wordBank.phase2Lines);
-            wordBank.ResetToFirstWordOfCurrentLine();
+            hasEnteredPhase2 = true; // Lock the state
+
+            if (!wordBank.isPhase2)
+            {
+                // Inject Phase 2 data
+                wordBank.SetNewLines(wordBank.phase2Lines);
+
+                // Locate the Typer script in the scene and force it to update the UI
+                BaelorisTyper typer = FindFirstObjectByType<BaelorisTyper>();
+                if (typer != null)
+                {
+                    typer.SetCurrentWord();
+                    typer.SetCurrentLine();
+                }
+                else
+                {
+                    Debug.LogWarning("BaelorisTyper not found in scene.");
+                }
+            }
+
             StartShooting();
         }
     }
