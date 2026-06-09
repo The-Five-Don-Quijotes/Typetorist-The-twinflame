@@ -229,9 +229,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 15804807}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 83.33333, y: -12.5}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &33856232
@@ -1144,7 +1144,7 @@ RectTransform:
   m_Father: {fileID: 358873564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1338,7 +1338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &497129726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,9 +1480,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 15804807}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 16.666666, y: -12.5}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &504637414
@@ -40005,9 +40005,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 15804807}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -12.5}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1002511086
@@ -43194,7 +43194,7 @@ MonoBehaviour:
   bulletFirePattern: 2
   vorrakPrefab: {fileID: 6882282720388747764, guid: a9c95d5f79def544c9200b45a72228e3, type: 3}
   baelorisPrefab: {fileID: 8984303050656862795, guid: 2a01e254ca80a0d4a84e37ef95aef525, type: 3}
-  zhavokPrefab: {fileID: 0}
+  zhavokPrefab: {fileID: 4713074693360568403, guid: 283d2daee5fa110459e82227360c8301, type: 3}
   summonOffset: {x: 0, y: 2, z: 0}
   minionActiveTime: 5
   playerTagForMinions: Player
@@ -43640,6 +43640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuAnimator: {fileID: 2095132798}
+  baelorisTyper: {fileID: 639294686}
   menuOptions:
   - displayText: {fileID: 1780276221}
     command: resume
@@ -45031,7 +45032,7 @@ GameObject:
   - component: {fileID: 1492298832}
   - component: {fileID: 1492298839}
   - component: {fileID: 1492298838}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gate
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -46407,7 +46408,7 @@ RectTransform:
   m_Father: {fileID: 263948347}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -94357,6 +94358,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1038343328928601738, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1081382429987439186, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: m_fontSize
       value: 30
@@ -94469,6 +94474,14 @@ PrefabInstance:
       propertyPath: outputLine
       value: 
       objectReference: {fileID: 228019068}
+    - target: {fileID: 8324403828535808953, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: flashDuration
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: dashIconCooldown
       value: 

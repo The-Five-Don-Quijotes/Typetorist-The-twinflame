@@ -96,14 +96,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private void DebugInput()
-    {
-        if (Input.GetKeyUp(KeyCode.Alpha2))
-        {
-            DealDamage(1);
-        }
-    }
-
     public void DealDamage(int damage)
     {
         if (!canBeDamaged) return;
@@ -122,19 +114,14 @@ public class PlayerStats : MonoBehaviour
             TypingText.gameObject.SetActive(false);
             bookDropTime = Time.time;
             spawnedBook = Instantiate(Book, spawnPosition, Quaternion.identity);
-            Collider2D bookCollider = spawnedBook.GetComponent<Collider2D>();
 
-            if (bookCollider != null)
-            {
-                bookCollider.enabled = false;
-                StartCoroutine(EnableBookColliderAfterDelay(bookCollider, 2.9f));
-            }
+            // Execute the visual cooldown effect on the newly spawned book
+            StartCoroutine(VisualBookCooldown(spawnedBook, 2.9f));
 
             BookMovement bookScript = spawnedBook.GetComponent<BookMovement>();
 
             if (bookScript != null)
             {
-                // Pass the wall layer mask to the spawned book so it can avoid walls on landing
                 bookScript.wallLayerMask = wallLayerMask;
                 bookScript.StartBookMovement(GetRandomPositionAroundPlayer());
             }
@@ -195,64 +182,94 @@ public class PlayerStats : MonoBehaviour
     {
         Player.gameObject.SetActive(true);
         StartCoroutine(TemporaryInvulnerability(5f));
-        StartCoroutine(EnableBookColliderAfterDelay(3f));
+
+        // Find the active book in the scene to apply the cooldown effect
+        GameObject activeBook = GameObject.FindWithTag("Book");
+        if (activeBook != null)
+        {
+            StartCoroutine(VisualBookCooldown(activeBook, 3f));
+        }
     }
 
     private IEnumerator TemporaryInvulnerability(float duration)
     {
-        if (Player != null)
+        if (Player == null) yield break;
+
+        PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
+        if (playerMovement != null) playerMovement.isInvincible = true;
+
+        int playerLayer = Player.layer;
+        int enemyLayer = LayerMask.NameToLayer("Default");
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
+
+        SpriteRenderer spriteRenderer = Player.GetComponent<SpriteRenderer>();
+        float elapsedTime = 0f;
+        float blinkInterval = 0.2f;
+
+        while (spriteRenderer != null && elapsedTime < duration)
         {
-            PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
-            if (playerMovement != null) playerMovement.isInvincible = true;
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(blinkInterval);
+            elapsedTime += blinkInterval;
+        }
 
-            Collider2D[] colliders = Player.GetComponents<Collider2D>();
-            foreach (Collider2D col in colliders) col.enabled = false;
+        if (spriteRenderer != null) spriteRenderer.enabled = true;
 
-            SpriteRenderer spriteRenderer = Player.GetComponent<SpriteRenderer>();
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
+        if (playerMovement != null) playerMovement.isInvincible = false;
+    }
+
+    // Consolidated method handling both visual feedback and collider state
+    private IEnumerator VisualBookCooldown(GameObject bookObj, float delay)
+    {
+        if (bookObj == null) yield break;
+
+        Collider2D bookCollider = bookObj.GetComponent<Collider2D>();
+        SpriteRenderer bookSprite = bookObj.GetComponent<SpriteRenderer>();
+
+        if (bookCollider != null) bookCollider.enabled = false;
+
+        if (bookSprite != null)
+        {
             float elapsedTime = 0f;
-            bool isVisible = true;
-            float blinkInterval = 0.2f;
+            float blinkInterval = 0.15f;
+            bool isDimmed = true;
 
-            while (spriteRenderer != null && elapsedTime < duration)
+            // Blinking effect loop
+            while (elapsedTime < delay)
             {
-                isVisible = !isVisible;
-                spriteRenderer.enabled = isVisible;
+                if (bookObj == null) yield break;
+
+                Color currentColor = bookSprite.color;
+                currentColor.a = isDimmed ? 0.3f : 0.8f;
+                bookSprite.color = currentColor;
+
+                isDimmed = !isDimmed;
                 yield return new WaitForSeconds(blinkInterval);
                 elapsedTime += blinkInterval;
             }
 
-            if (spriteRenderer == null) yield break;
-
-            spriteRenderer.enabled = true;
-            foreach (Collider2D col in colliders) col.enabled = true;
-            if (playerMovement != null) playerMovement.isInvincible = false;
-        }
-    }
-
-    private IEnumerator EnableBookColliderAfterDelay(float delay)
-    {
-        if (Book != null)
-        {
-            Collider2D bookCollider = Book.GetComponent<Collider2D>();
-            if (bookCollider != null)
+            // Restore solid color when ready
+            if (bookObj != null)
             {
-                bookCollider.enabled = false;
-                yield return new WaitForSeconds(delay);
-                bookCollider.enabled = true;
+                Color finalColor = bookSprite.color;
+                finalColor.a = 1f;
+                bookSprite.color = finalColor;
             }
         }
-    }
+        else
+        {
+            // Fallback if the object lacks a SpriteRenderer
+            yield return new WaitForSeconds(delay);
+        }
 
-    private IEnumerator EnableBookColliderAfterDelay(Collider2D bookCollider, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (bookCollider != null) bookCollider.enabled = true;
+        if (bookCollider != null && bookObj != null) bookCollider.enabled = true;
     }
 
     private Vector3 GetRandomPositionAroundPlayer()
     {
         Vector3 spawnPosition;
-        int maxAttempts = 20; // Increased attempts to find a valid position
+        int maxAttempts = 20;
 
         for (int i = 0; i < maxAttempts; i++)
         {
@@ -265,7 +282,6 @@ public class PlayerStats : MonoBehaviour
                 Player.transform.position.y + randomOffset.y,
                 0);
 
-            // Check both position validity AND that the path from player to book is clear
             if (IsPositionValid(spawnPosition, minDistanceFromPlayer, safeDistanceFromBoss)
                 && IsPathClear(Player.transform.position, spawnPosition))
             {
@@ -286,14 +302,12 @@ public class PlayerStats : MonoBehaviour
         if (Boss != null && Vector3.Distance(position, Boss.transform.position) < minBossDist)
             return false;
 
-        // Check if the landing spot itself overlaps a wall
         Collider2D hit = Physics2D.OverlapCircle(position, 1f, wallLayerMask);
         if (hit != null) return false;
 
         return true;
     }
 
-    // Raycast from player to target to make sure no wall is blocking the path
     private bool IsPathClear(Vector3 from, Vector3 to)
     {
         Vector2 direction = (to - from).normalized;
@@ -336,7 +350,6 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        DebugInput();
         if (typer == null) return;
 
         if (GameObject.FindWithTag("Book") != null
@@ -346,5 +359,11 @@ public class PlayerStats : MonoBehaviour
             typer.ResetLine();
             bookDropTime = -1f;
         }
+    }
+
+    // Public method to trigger I-frames from external sources like the Ghost Hand
+    public void TriggerExternalInvincibility(float duration)
+    {
+        StartCoroutine(TemporaryInvulnerability(duration));
     }
 }

@@ -3,8 +3,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-// Added TransitionPanel to handle in-scene UI switching
-public enum MenuActionType { LoadScene, QuitApplication, Continue, TransitionPanel }
+// Added LoadSavedGame to handle reading from PlayerPrefs
+public enum MenuActionType { LoadScene, QuitApplication, Continue, TransitionPanel, LoadSavedGame }
 
 [System.Serializable]
 public class MenuOption
@@ -18,7 +18,7 @@ public class MenuOption
     [Tooltip("The action to perform when the command is completed")]
     public MenuActionType actionType;
 
-    [Tooltip("The name of the scene to load (ignored if action is Quit, Continue, or TransitionPanel)")]
+    [Tooltip("The name of the scene to load (ignored if action is Quit, Continue, LoadSavedGame, or TransitionPanel)")]
     public string sceneToLoad;
 
     [Header("Panel Transition Settings")]
@@ -165,6 +165,19 @@ public class TypingMenuController : MonoBehaviour
                 {
                     Debug.LogWarning("No previous scene found!");
                     this.enabled = true;
+                }
+                break;
+
+            case MenuActionType.LoadSavedGame:
+                // Changed default fallback to Scene0
+                string savedScene = PlayerPrefs.GetString("MaxSceneName", "Scene0");
+                if (sceneTransition != null)
+                {
+                    sceneTransition.LoadSceneWithFade(savedScene);
+                }
+                else
+                {
+                    SceneManager.LoadScene(savedScene);
                 }
                 break;
 

@@ -1,9 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Tilemaps;
-using static UnityEngine.GraphicsBuffer;
-using System.ComponentModel;
-using Unity.VisualScripting;
 
 public class ZhavokSummonMovement : MonoBehaviour
 {
@@ -17,17 +14,18 @@ public class ZhavokSummonMovement : MonoBehaviour
     public float stoppingDistance = 0.5f; // Minimum distance before stopping
     public float bookDetectionRange = 5f; // How far the summon can see a book
     public float bookMoveRadius = 2f; // How far the book is moved when picked
-    private Tilemap tilemap; // Reference to the tilemap
+
+    [Header("Collision Settings")]
+    public LayerMask obstacleLayer; // Assign the "Wall" layer in the Unity Inspector
 
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
         boss = GameObject.Find("Zhavok");
-        if(boss == null)
+        if (boss == null)
         {
             boss = GameObject.Find("Uiiiiiiia");
         }
-        tilemap = GameObject.Find("Wall")?.GetComponent<Tilemap>();
     }
 
     void Update()
@@ -57,17 +55,19 @@ public class ZhavokSummonMovement : MonoBehaviour
 
             if (gameObject.GetComponent<SummonPhase2Behavior>() == null)
                 Debug.LogError("SummonPhase2Behavior is missing!");
-            if (bossHealth > bossMaxHealth / 4) //50% boss
+
+            if (bossHealth > bossMaxHealth / 4) // 50% boss
             {
                 gameObject.GetComponent<SummonPhase2Behavior>().enabled = false;
                 gameObject.GetComponent<SummonBehavior>().enabled = true;
             }
-            else //25% boss
+            else // 25% boss
             {
                 gameObject.GetComponent<SummonBehavior>().enabled = false;
                 gameObject.GetComponent<SummonPhase2Behavior>().enabled = true;
             }
-        }else
+        }
+        else
         {
             Destroy(gameObject);
         }
@@ -107,35 +107,33 @@ public class ZhavokSummonMovement : MonoBehaviour
             if (targetBook == null)
             {
                 isInteractingWithBook = false;
+                yield break; // Prevent execution if book is destroyed during movement
             }
 
-            // Move book to a random nearby position
+            // Move book to a valid nearby position
+            Vector2 newPos = FindValidBookPosition();
+
+            if (newPos != (Vector2)targetBook.position)
+            {
+                while (targetBook != null && Vector2.Distance(targetBook.position, newPos) > 0.1f)
+                {
+                    MoveTowards(newPos, true);
+                    targetBook.position = Vector2.MoveTowards(targetBook.position, newPos, moveSpeed * Time.deltaTime);
+                    yield return null;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No valid position found for book relocation.");
+            }
+
+            // Reset book target and resume normal behavior
             if (targetBook != null)
             {
-                // Try to find a valid position for the book
-                Vector2 newPos = FindValidBookPosition();
-                if (newPos != Vector2.zero)
-                {
-                    while (targetBook != null && Vector2.Distance(targetBook.position, newPos) > 0.1f)
-                    {
-                        MoveTowards(newPos, true);
-                        targetBook.position = Vector2.MoveTowards(targetBook.position, newPos, moveSpeed * Time.deltaTime);
-                        yield return null;
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("No valid position found for book relocation.");
-                }
-
-                // Reset book target and resume normal behavior
-                if (targetBook != null)
-                {
-                    targetBook.GetComponent<BookRecollect>().isTaken = false;
-                    targetBook = null;
-                }
-                isInteractingWithBook = false;
+                targetBook.GetComponent<BookRecollect>().isTaken = false;
+                targetBook = null;
             }
+            isInteractingWithBook = false;
         }
     }
 
@@ -160,31 +158,28 @@ public class ZhavokSummonMovement : MonoBehaviour
     private Vector2 FindValidBookPosition()
     {
         int maxAttempts = 10; // Avoid infinite loops
+        Vector2 startPos = targetBook.position;
+
         while (maxAttempts > 0)
         {
             maxAttempts--;
 
             // Generate a random offset within bookMoveRadius
             Vector2 randomOffset = Random.insideUnitCircle * bookMoveRadius;
-            Vector3Int targetCell = tilemap.WorldToCell((Vector2)targetBook.position + randomOffset);
+            Vector2 proposedPos = startPos + randomOffset;
 
-            // Ensure target cell is inside tilemap bounds
-            targetCell.x = Mathf.Clamp(targetCell.x, tilemap.cellBounds.xMin, tilemap.cellBounds.xMax - 1);
-            targetCell.y = Mathf.Clamp(targetCell.y, tilemap.cellBounds.yMin, tilemap.cellBounds.yMax - 1);
+            // Prevent line-of-sight crossover through walls or gates
+            RaycastHit2D hit = Physics2D.Linecast(startPos, proposedPos, obstacleLayer);
 
-            // Check if the tile is empty AND within bounds
-            if (IsValidTile(targetCell))
-            { 
-                return tilemap.GetCellCenterWorld(targetCell);
+            // Prevent placing the book directly inside a wall or outside defined collision boundaries
+            Collider2D overlap = Physics2D.OverlapCircle(proposedPos, 0.2f, obstacleLayer);
+
+            if (hit.collider == null && overlap == null)
+            {
+                return proposedPos;
             }
         }
 
-        return targetBook.position; // Default to the book's original position if no valid position is found
-    }
-
-    // Ensure the tile is within valid bounds and walkable
-    private bool IsValidTile(Vector3Int cell)
-    {
-        return tilemap != null && tilemap.cellBounds.Contains(cell) && !tilemap.HasTile(cell);
+        return startPos; // Default to the book's original position if no valid position is found
     }
 }

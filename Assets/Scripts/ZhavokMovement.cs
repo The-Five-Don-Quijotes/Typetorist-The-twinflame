@@ -5,7 +5,6 @@ public class ZhavokMovement : MonoBehaviour
 {
     private Transform player;
     private Animator animator;
-    private GateController gateController;
 
     [Header("Movement Settings")]
     public float teleportDistanceThreshold = 10f; // Distance at which boss teleports
@@ -14,6 +13,12 @@ public class ZhavokMovement : MonoBehaviour
     public float teleportCooldown = 5f;
     public float movementPauseDuration = 1.5f; // Pause between moves
     public float stoppingDistance = 0.5f; // How close is "close enough" when moving
+
+    [Header("Teleport Safety Zone")]
+    [Tooltip("Minimum distance from the player the boss will appear after teleporting.")]
+    public float minTeleportRadius = 3f;
+    [Tooltip("Maximum distance from the player the boss will appear after teleporting.")]
+    public float maxTeleportRadius = 5f;
 
     [Header("Audio Settings")]
     public AudioClip teleportSound;
@@ -63,6 +68,14 @@ public class ZhavokMovement : MonoBehaviour
     IEnumerator TeleportToPlayer()
     {
         canTeleport = false;
+
+        // Play the telegraph sound immediately to warn the player
+        if (AudioManager.instance != null && teleportSound != null)
+        {
+            AudioManager.instance.PlaySFX(teleportSound);
+        }
+
+        // Trigger the animation. The actual position change should be handled by an Animation Event calling Teleport()
         animator.SetTrigger("isUsingSkill");
 
         yield return new WaitForSeconds(teleportCooldown);
@@ -71,14 +84,15 @@ public class ZhavokMovement : MonoBehaviour
 
     public void Teleport()
     {
-        transform.position = player.position + (Vector3)Random.insideUnitCircle * 2f; // Slight offset
+        if (player == null) return;
 
-        if (AudioManager.instance != null && teleportSound != null)
-        {
-            AudioManager.instance.PlaySFX(teleportSound);
-        }
+        // Calculate a safe distance using normalized direction multiplied by a clamped random range
+        Vector2 randomDirection = Random.insideUnitCircle.normalized;
+        float randomDistance = Random.Range(minTeleportRadius, maxTeleportRadius);
 
-        Debug.Log("Boss teleported to player!");
+        transform.position = (Vector2)player.position + (randomDirection * randomDistance);
+
+        Debug.Log($"Boss teleported near player at distance: {randomDistance}");
     }
 
     IEnumerator MoveToRandomPositionNearPlayer()

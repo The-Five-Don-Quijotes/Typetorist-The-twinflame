@@ -417,7 +417,9 @@ MonoBehaviour:
   teleportCooldown: 5
   movementPauseDuration: 1.5
   stoppingDistance: 0.5
-  teleportSound: {fileID: 8300000, guid: 30751906d1711d147a7ee3013d371332, type: 3}
+  minTeleportRadius: 3
+  maxTeleportRadius: 5
+  teleportSound: {fileID: 8300000, guid: 971acc37419a6274f86c8c9917f0a665, type: 3}
 --- !u!61 &368697300547466289
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -504,7 +506,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   summon: {fileID: 5952387582114696370, guid: 8a446391723753f4299513558bb5656c, type: 3}
-  tilemap: {fileID: 0}
+  spawnOffsetRadius: 6
+  summonCooldown: 5
   summonSound: {fileID: 8300000, guid: 181e315207192ca49bb1ef514cec0a5c, type: 3}
 --- !u!1 &7263435446796140242
 GameObject:

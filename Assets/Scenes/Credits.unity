@@ -829,7 +829,7 @@ MonoBehaviour:
   creditsContent: {fileID: 1775911150}
   normalScrollSpeed: 75
   fastScrollSpeed: 250
-  targetYPosition: 4000
+  targetYPosition: 5000
   targetSceneName: HomeScreen
 --- !u!4 &1136650329
 Transform:
@@ -1044,10 +1044,12 @@ MonoBehaviour:
     <color=#FFD700><size=120%><b>SPECIAL
     THANKS & SUPPORT</b></size></color>
 
+    YukinaDev
 
 
-    <color=#A9A9A9><size=80%>Code Optimization
-    & Additional Assets Generation</size></color>
+
+    <color=#A9A9A9><size=80%>Code
+    Optimization & Additional Assets Generation</size></color>
 
     Google Gemini
 

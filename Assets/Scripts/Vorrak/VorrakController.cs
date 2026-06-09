@@ -5,10 +5,18 @@ public class VorrakController : MonoBehaviour
 {
     private Animator animator;
     private EnemyReceiveDamage healthSystem;
+    private VorrakMovement movementScript;
 
     [Header("Combat Settings")]
-    public float attackCooldown = 3f;
-    public float followDuration = 5f;
+    public float baseAttackCooldown = 3.5f;
+    public float minAttackCooldown = 1.5f;
+
+    [Header("Melee Settings")]
+    public float followDuration = 4f;
+    public float meleeStrikeRange = 2.5f;
+
+    [Header("Shield Settings")]
+    public float shieldCooldown = 12f;
 
     [Header("Cutscene Integration")]
     public BossCutsceneController mainCutsceneController;
@@ -19,6 +27,9 @@ public class VorrakController : MonoBehaviour
     public AudioClip shootingSound;
 
     private float nextAttackTime;
+    private float currentAttackCooldown;
+    private float nextShieldTime;
+
     private bool isFirst50 = true;
     private bool isFirst25 = true;
     private bool isCombatActive = false;
@@ -27,6 +38,7 @@ public class VorrakController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         healthSystem = GetComponent<EnemyReceiveDamage>();
+        movementScript = GetComponent<VorrakMovement>();
         if (portal1 != null) portal1.SetActive(false);
     }
 
@@ -37,21 +49,21 @@ public class VorrakController : MonoBehaviour
         if (Time.time >= nextAttackTime)
         {
             ChooseAttack();
-            nextAttackTime = Time.time + attackCooldown;
         }
     }
 
     public void BeginCombatPhase()
     {
         isCombatActive = true;
-        nextAttackTime = Time.time + attackCooldown;
+        currentAttackCooldown = baseAttackCooldown;
+        nextAttackTime = Time.time + 1f;
+        nextShieldTime = Time.time + shieldCooldown;
     }
 
     public void StopCombatPhase()
     {
         isCombatActive = false;
 
-        // Disable all modular combat components to prevent execution during cutscene
         GetComponent<VorrakMovement>()?.StopMovementPhase();
         if (GetComponent<VorrakShooting>() != null) GetComponent<VorrakShooting>().enabled = false;
         if (GetComponent<VorrakShootingArm>() != null) GetComponent<VorrakShootingArm>().enabled = false;
@@ -60,7 +72,6 @@ public class VorrakController : MonoBehaviour
 
     public void ExecuteFinalGateSequence()
     {
-        // Lock player movement immediately
         if (mainCutsceneController != null && mainCutsceneController.playerMovementScript != null)
         {
             mainCutsceneController.playerMovementScript.enabled = false;
@@ -69,9 +80,8 @@ public class VorrakController : MonoBehaviour
         StopCombatPhase();
         StopAllCoroutines();
 
-        // Resolve Animator Conflict: Cancel the generic death trigger set by EnemyReceiveDamage
         animator.ResetTrigger("isDeath");
-        animator.Play("Idle", -1, 0f); // Force idle state before shooting
+        animator.Play("Idle", -1, 0f);
 
         StartCoroutine(FinalSequenceCoroutine());
     }
@@ -84,7 +94,6 @@ public class VorrakController : MonoBehaviour
         Vector3 spawnPosition = transform.position + new Vector3(0, 2f, 0);
         GameObject cutsceneArm = Instantiate(armPrefab, spawnPosition, Quaternion.identity);
 
-        // Strip combat components from the cutscene arm to prevent physics interference
         if (cutsceneArm.GetComponent<TestEnemyProjectile>() != null) Destroy(cutsceneArm.GetComponent<TestEnemyProjectile>());
         if (cutsceneArm.GetComponent<ArmFollowPlayer>() != null) Destroy(cutsceneArm.GetComponent<ArmFollowPlayer>());
 
@@ -101,7 +110,6 @@ public class VorrakController : MonoBehaviour
             mainCutsceneController.mainCamera.SetTarget(cutsceneArm.transform);
         }
 
-        // Manually translate the arm to ensure strict progression without orbiting or hanging
         float armSpeed = 15f;
         while (cutsceneArm != null && Vector3.Distance(cutsceneArm.transform.position, explosionTargetPos) > 0.1f)
         {
@@ -116,7 +124,6 @@ public class VorrakController : MonoBehaviour
 
         if (cutsceneArm != null) Destroy(cutsceneArm);
 
-        // Anchor camera at explosion site
         GameObject tempCamTarget = new GameObject("TempCamTarget");
         tempCamTarget.transform.position = explosionTargetPos;
         if (mainCutsceneController != null && mainCutsceneController.mainCamera != null)
@@ -124,7 +131,6 @@ public class VorrakController : MonoBehaviour
             mainCutsceneController.mainCamera.SetTarget(tempCamTarget.transform);
         }
 
-        // Execute visual/audio effects
         if (explosionVFX != null)
         {
             GameObject vfx = Instantiate(explosionVFX, explosionTargetPos, Quaternion.identity);
@@ -136,7 +142,6 @@ public class VorrakController : MonoBehaviour
             AudioManager.instance.PlaySFX(explosionSound);
         }
 
-        // Activate assigned portal
         if (portal1 != null)
         {
             portal1.SetActive(true);
@@ -144,7 +149,6 @@ public class VorrakController : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        // Restore camera to player focus
         if (mainCutsceneController != null && mainCutsceneController.mainCamera != null && mainCutsceneController.player != null)
         {
             mainCutsceneController.mainCamera.SetTarget(mainCutsceneController.player);
@@ -152,61 +156,162 @@ public class VorrakController : MonoBehaviour
 
         Destroy(tempCamTarget);
 
-        // Re-apply the death trigger for the final sequence
         animator.SetTrigger("isDeath");
 
-        // Handshake to main sequence
         if (mainCutsceneController != null)
         {
             mainCutsceneController.TriggerDeathSequence();
         }
     }
 
-    // Standard combat logic mapping
     private void ChooseAttack()
     {
         if (healthSystem == null) return;
+
         float healthPercentage = healthSystem.health / healthSystem.maxHealth;
         int attackChoice = Random.Range(0, 100);
 
+        // Dynamically scale cooldown based on health
+        currentAttackCooldown = Mathf.Lerp(minAttackCooldown, baseAttackCooldown, healthPercentage);
+
+        // Ensure standard attacks are halted if a shield cast takes priority
+        if (healthPercentage <= 0.5f && Time.time >= nextShieldTime)
+        {
+            TriggerShield();
+            nextShieldTime = Time.time + shieldCooldown;
+            nextAttackTime = Time.time + currentAttackCooldown;
+            return;
+        }
+
         if (healthPercentage > 0.75f)
         {
-            if (attackChoice < 75) { GetComponent<VorrakMovement>()?.MoveNearPlayerWithDuration(followDuration); TriggerMeleeAttack(); }
+            if (attackChoice < 60) ExecuteChaseAndMelee();
             else TriggerShootingArm(3);
         }
         else if (healthPercentage > 0.5f)
         {
-            if (attackChoice < 50) { GetComponent<VorrakMovement>().MoveNearPlayerWithDuration(followDuration); TriggerMeleeAttack(); }
-            else TriggerShootingArm(5);
+            if (attackChoice < 40) ExecuteChaseAndMelee();
+            else if (attackChoice < 80)
+            {
+                // Align to player's Y-axis before firing to deny safe zones
+                movementScript?.TeleportToPlayerYLane();
+                TriggerShootingArm(4);
+            }
+            else TriggerLaserSequence();
         }
         else if (healthPercentage > 0.25f)
         {
-            if (isFirst50) { isFirst50 = false; TriggerShield(); }
-            if (attackChoice < 50) TriggerShootingArm(7); else TriggerLaser();
-            if (attackChoice < 5) TriggerShield();
+            if (isFirst50)
+            {
+                isFirst50 = false;
+                TriggerShield();
+                nextShieldTime = Time.time + shieldCooldown;
+                nextAttackTime = Time.time + currentAttackCooldown;
+                return;
+            }
+
+            if (attackChoice < 40)
+            {
+                // Track player vertically to eliminate bottom corner camping
+                movementScript?.TeleportToPlayerYLane();
+                TriggerShootingArm(5);
+            }
+            else if (attackChoice < 70)
+            {
+                TriggerLaserSequence();
+            }
+            else
+            {
+                // Retain random teleports to maintain unpredictability
+                movementScript?.TeleportToRandomPosition();
+                TriggerShootingArm(3);
+            }
         }
         else
         {
-            if (isFirst25) { isFirst25 = false; TriggerShield(); }
-            if (attackChoice < 50) TriggerShootingArm(9); else TriggerLaser();
-            if (attackChoice < 10) TriggerShield();
+            if (isFirst25)
+            {
+                isFirst25 = false;
+                TriggerShield();
+                nextShieldTime = Time.time + shieldCooldown;
+                nextAttackTime = Time.time + currentAttackCooldown;
+                return;
+            }
+
+            if (attackChoice < 30)
+            {
+                movementScript?.TeleportToPlayerYLane();
+                TriggerShootingArm(7);
+            }
+            else if (attackChoice < 60)
+            {
+                TriggerLaserSequence();
+            }
+            else
+            {
+                ExecuteChaseAndMelee();
+            }
         }
+
+        // Apply default cooldown
+        nextAttackTime = Time.time + currentAttackCooldown;
     }
 
-    private void TriggerMeleeAttack() { animator.SetTrigger("isAttacking"); }
-    private void TriggerShootingArm(int count) {
-        //if (shootingSound != null && AudioManager.instance != null)
-        //{
-        //    AudioManager.instance.PlaySFX(shootingSound);
-        //}
-        StartCoroutine(ShootArms(count)); 
+    private void ExecuteChaseAndMelee()
+    {
+        nextAttackTime = Time.time + followDuration + currentAttackCooldown;
+        StartCoroutine(movementScript.ChasePlayerForMelee(followDuration, meleeStrikeRange, TriggerMeleeAttack));
     }
-    private IEnumerator ShootArms(int count) { for (int i = 0; i < count; i++) {
+
+    private void TriggerMeleeAttack()
+    {
+        animator.SetTrigger("isAttacking");
+        nextAttackTime = Time.time + currentAttackCooldown;
+    }
+
+    private void TriggerShootingArm(int count)
+    {
+        StartCoroutine(ShootArms(count));
+    }
+
+    private IEnumerator ShootArms(int count)
+    {
+        // Suspend attack logic while shooting arms
+        nextAttackTime = Time.time + (count * 0.8f) + currentAttackCooldown;
+
+        for (int i = 0; i < count; i++)
+        {
             if (shootingSound != null && AudioManager.instance != null)
             {
                 AudioManager.instance.PlaySFX(shootingSound);
             }
-            animator.SetTrigger("isShootingArm"); yield return new WaitForSeconds(0.8f); } }
-    private void TriggerLaser() { animator.SetTrigger("isShootingLaser"); }
-    private void TriggerShield() { animator.SetTrigger("ShieldCast"); }
+            animator.SetTrigger("isShootingArm");
+            yield return new WaitForSeconds(0.8f);
+        }
+    }
+
+    private void TriggerLaserSequence()
+    {
+        // Calculates total sweep time: Distance 18 (from Y=7 to Y=-11) / moveSpeed + Telegraph delay
+        float estimatedLaserDuration = (18f / movementScript.moveSpeed) + 0.6f;
+
+        // Locks the state machine until the sweep completes
+        nextAttackTime = Time.time + estimatedLaserDuration + currentAttackCooldown;
+
+        StartCoroutine(LaserAlignmentCoroutine());
+    }
+
+    private IEnumerator LaserAlignmentCoroutine()
+    {
+        movementScript?.TeleportForLaserSweep();
+
+        yield return new WaitForSeconds(0.6f);
+
+        animator.SetTrigger("isShootingLaser");
+    }
+
+    private void TriggerShield()
+    {
+        animator.SetTrigger("ShieldCast");
+    }
 }

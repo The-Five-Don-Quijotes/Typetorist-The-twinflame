@@ -61390,6 +61390,7 @@ GameObject:
   - component: {fileID: 1413736954}
   - component: {fileID: 1413736955}
   - component: {fileID: 1413736956}
+  - component: {fileID: 1413736957}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -61491,6 +61492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuAnimator: {fileID: 2095132798}
+  baelorisTyper: {fileID: 841215362383593744}
   menuOptions:
   - displayText: {fileID: 1780276221}
     command: resume
@@ -61556,6 +61558,19 @@ MonoBehaviour:
   secretGodModeCode: baoaxid
   godModeUIContainer: {fileID: 2039988247}
   godModeToggle: {fileID: 1560391809}
+--- !u!114 &1413736957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413736948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6e10ad414f9294bad22e21fb9e2a3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelHierarchyValue: 3
 --- !u!1 &1413870080
 GameObject:
   m_ObjectHideFlags: 0
@@ -73744,6 +73759,7 @@ GameObject:
   - component: {fileID: 2061552610}
   - component: {fileID: 2061552613}
   - component: {fileID: 2061552614}
+  - component: {fileID: 2061552615}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -73884,6 +73900,18 @@ MonoBehaviour:
   target: {fileID: 187489523}
   smoothing: 3
   offset: {x: 0, y: 0, z: -1}
+--- !u!114 &2061552615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061552609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe4f5d0fb314ed46b7e15d961567ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2095132796
 GameObject:
   m_ObjectHideFlags: 0
@@ -74513,6 +74541,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 228019068}
     - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+      propertyPath: flashDuration
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715319608622402906, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
       propertyPath: dashIconCooldown
       value: 
       objectReference: {fileID: 1399087640}
@@ -74533,6 +74565,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc3b7e9021b32bc40b60cee8c672c28e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &841215362383593744 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6214316778244422354, guid: 563d698facf46cc4dbe61ae88d57941a, type: 3}
+  m_PrefabInstance: {fileID: 841215362383593742}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639294681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6e51480a8c54a4fa48ded9e67e0b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1517819240829006381
@@ -74780,6 +74823,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 602745214924209088, guid: 283d2daee5fa110459e82227360c8301, type: 3}
+      propertyPath: teleportSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 971acc37419a6274f86c8c9917f0a665, type: 3}
     - target: {fileID: 4097526459822317499, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: wordBank
       value: 
@@ -74800,10 +74847,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zhavok
       objectReference: {fileID: 0}
-    - target: {fileID: 7054755973381718111, guid: 283d2daee5fa110459e82227360c8301, type: 3}
-      propertyPath: tilemap
-      value: 
-      objectReference: {fileID: 589365011}
     - target: {fileID: 7054755973381718111, guid: 283d2daee5fa110459e82227360c8301, type: 3}
       propertyPath: summonCooldown
       value: 5

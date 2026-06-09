@@ -491,12 +491,14 @@ public class UyiaBossController : MonoBehaviour
                 if (attackChoice == 0)
                 {
                     float followTime = 1.5f;
-                    vorrakScript.MoveNearPlayerWithDuration(followTime);
+                    float meleeRange = 2.5f;
 
-                    yield return new WaitForSeconds(followTime);
-
-                    if (vorrakAnim != null) vorrakAnim.SetTrigger("isAttacking");
-                    vorrakScript.ActivateMeleeHitbox();
+                    // Replaced deprecated method with the dynamic ChasePlayerForMelee coroutine
+                    yield return StartCoroutine(vorrakScript.ChasePlayerForMelee(followTime, meleeRange, () =>
+                    {
+                        if (vorrakAnim != null) vorrakAnim.SetTrigger("isAttacking");
+                        vorrakScript.ActivateMeleeHitbox();
+                    }));
                 }
                 else if (attackChoice == 1)
                 {

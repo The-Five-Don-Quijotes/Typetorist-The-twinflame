@@ -9,16 +9,20 @@ public class VorrakMovement : MonoBehaviour
     public GameObject melee;
 
     [Header("Attack Settings")]
-    public float cooldown = 0.1f;
     public float hitboxDuration = 0.2f;
 
     [Header("Teleport Positions")]
     private Vector2[] teleportPositions = new Vector2[]
     {
-        new Vector2(-16, 7), new Vector2(-16, 4), new Vector2(-16, 1), new Vector2(-16, -2),
-        new Vector2(-16, -5), new Vector2(-16, -8), new Vector2(-16, -11),
-        new Vector2(16, 7), new Vector2(16, 4), new Vector2(16, 1), new Vector2(16, -2),
-        new Vector2(16, -5), new Vector2(16, -8), new Vector2(16, -11)
+        // Left boundary positions (X = -16)
+        new Vector2(-16, 13), new Vector2(-16, 10), new Vector2(-16, 7), new Vector2(-16, 4),
+        new Vector2(-16, 1), new Vector2(-16, -2), new Vector2(-16, -5), new Vector2(-16, -8),
+        new Vector2(-16, -11), new Vector2(-16, -13),
+
+        // Right boundary positions (X = 16)
+        new Vector2(16, 13), new Vector2(16, 10), new Vector2(16, 7), new Vector2(16, 4),
+        new Vector2(16, 1), new Vector2(16, -2), new Vector2(16, -5), new Vector2(16, -8),
+        new Vector2(16, -11), new Vector2(16, -13)
     };
 
     private bool isMoving = false;
@@ -27,7 +31,6 @@ public class VorrakMovement : MonoBehaviour
     [Header("Audio Settings")]
     public AudioClip teleSound;
 
-    // --- NEW: Combat state ---
     private bool isCombatActive = false;
 
     private void Start()
@@ -42,7 +45,6 @@ public class VorrakMovement : MonoBehaviour
         LookAtPlayer();
     }
 
-    // --- NEW: Execution Control ---
     public void BeginMovementPhase()
     {
         isCombatActive = true;
@@ -84,13 +86,32 @@ public class VorrakMovement : MonoBehaviour
     {
         if (isMoving || !isCombatActive) return;
 
-        // Trigger teleport sound
         if (AudioManager.instance != null && teleSound != null)
         {
             AudioManager.instance.PlaySFX(teleSound);
         }
         int randomIndex = Random.Range(0, teleportPositions.Length);
         transform.position = teleportPositions[randomIndex];
+        LookAtPlayer();
+    }
+
+    // Teleports the boss to the optimal corner to ensure a full-screen laser sweep
+    public void TeleportForLaserSweep()
+    {
+        if (player == null || isMoving || !isCombatActive) return;
+
+        if (AudioManager.instance != null && teleSound != null)
+        {
+            AudioManager.instance.PlaySFX(teleSound);
+        }
+
+        // Opposite X side
+        float targetX = (player.position.x > 0) ? -16f : 16f;
+
+        // Opposite Y half: If player is at the bottom, spawn at the top (and vice versa)
+        float targetY = (player.position.y > 0) ? -11f : 7f;
+
+        transform.position = new Vector2(targetX, targetY);
         LookAtPlayer();
     }
 
@@ -101,27 +122,35 @@ public class VorrakMovement : MonoBehaviour
         StartCoroutine(MoveTowardsTarget(targetPosition));
     }
 
+    // Accurately calculates the furthest Y point along the current X axis lane
     private Vector2 GetFurthestYPosition()
     {
         float currentX = transform.position.x;
-        float minY = float.MaxValue;
+        float currentY = transform.position.y;
+        float furthestY = currentY;
+        float maxDistance = 0f;
 
         foreach (Vector2 pos in teleportPositions)
         {
-            if (Mathf.Approximately(pos.x, currentX) && pos.y < minY)
+            if (Mathf.Approximately(pos.x, currentX))
             {
-                minY = pos.y;
+                float distance = Mathf.Abs(pos.y - currentY);
+                if (distance > maxDistance)
+                {
+                    maxDistance = distance;
+                    furthestY = pos.y;
+                }
             }
         }
-        return new Vector2(currentX, minY);
+        return new Vector2(currentX, furthestY);
     }
 
     private IEnumerator MoveTowardsTarget(Vector2 targetPosition)
     {
+        isMoving = true;
         while (Vector2.Distance(transform.position, targetPosition) > 0.1f)
         {
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-            isMoving = true;
             yield return null;
         }
 
@@ -129,28 +158,48 @@ public class VorrakMovement : MonoBehaviour
         isMoving = false;
     }
 
-    public void MoveNearPlayerWithDuration(float duration)
+    public IEnumerator ChasePlayerForMelee(float maxDuration, float meleeRange, System.Action onReachTarget)
     {
-        if (player == null || isMoving || !isCombatActive) return;
+        if (player == null || isMoving || !isCombatActive) yield break;
 
         isMoving = true;
-        Vector2 randomDirection = Random.insideUnitCircle.normalized * 0.3f;
-        Vector2 targetPosition = (Vector2)player.position + randomDirection;
-
-        StartCoroutine(MoveAndStop(targetPosition, duration));
-    }
-
-    private IEnumerator MoveAndStop(Vector2 targetPosition, float duration)
-    {
         float elapsedTime = 0f;
 
-        while (elapsedTime < duration)
+        while (elapsedTime < maxDuration)
         {
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            if (player == null || !isCombatActive) break;
+
+            if (Vector2.Distance(transform.position, player.position) <= meleeRange)
+            {
+                break;
+            }
+
+            transform.position = Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
+
             yield return null;
         }
 
         isMoving = false;
+
+        if (isCombatActive)
+        {
+            onReachTarget?.Invoke();
+        }
+    }
+
+    public void TeleportToPlayerYLane()
+    {
+        if (player == null || isMoving || !isCombatActive) return;
+
+        if (AudioManager.instance != null && teleSound != null)
+        {
+            AudioManager.instance.PlaySFX(teleSound);
+        }
+
+        float targetX = (player.position.x > 0) ? -16f : 16f;
+        transform.position = new Vector2(targetX, player.position.y);
+
+        LookAtPlayer();
     }
 }

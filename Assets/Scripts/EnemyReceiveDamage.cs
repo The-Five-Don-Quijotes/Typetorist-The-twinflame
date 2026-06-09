@@ -38,6 +38,7 @@ public class EnemyReceiveDamage : MonoBehaviour
         else Debug.LogWarning("Health Slider is not assigned in the inspector.");
     }
 
+#if UNITY_EDITOR
     private void Update()
     {
         DebugInput();
@@ -50,6 +51,7 @@ public class EnemyReceiveDamage : MonoBehaviour
             DealDamage(25);
         }
     }
+#endif
 
     public void DealDamage(float damage)
     {

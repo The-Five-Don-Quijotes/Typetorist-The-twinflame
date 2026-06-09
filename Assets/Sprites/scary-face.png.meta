@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 99d1e0150eef2494e96e911570b394e8
+guid: 675f4140fa6e603468344852ca08892e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7656105663664160661
-    second: A swift fox_0
+      213: 3731823063456753905
+    second: scary-face_0
+  - first:
+      213: 6129859206420580624
+    second: scary-face_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +49,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: A swift fox_0
+      name: scary-face_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1024
-        height: 1024
+        x: 63
+        y: 143
+        width: 906
+        height: 362
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b600172767c00c590800000000000000
-      internalID: -7656105663664160661
+      spriteID: 1f823fddd491ac330800000000000000
+      internalID: 3731823063456753905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scary-face_1
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 15
+        width: 794
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0194bd98872a11550800000000000000
+      internalID: 6129859206420580624
       vertices: []
       indices: 
       edges: []
@@ -125,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      A swift fox_0: -7656105663664160661
+      scary-face_0: 3731823063456753905
+      scary-face_1: 6129859206420580624
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

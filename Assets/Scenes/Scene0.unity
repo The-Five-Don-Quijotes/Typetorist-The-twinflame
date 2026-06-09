@@ -119476,6 +119476,7 @@ GameObject:
   - component: {fileID: 1023198313}
   - component: {fileID: 1023198316}
   - component: {fileID: 1023198317}
+  - component: {fileID: 1023198318}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -119616,6 +119617,18 @@ MonoBehaviour:
   target: {fileID: 1872376679}
   smoothing: 2
   offset: {x: 0, y: 0, z: -2}
+--- !u!114 &1023198318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023198312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe4f5d0fb314ed46b7e15d961567ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1055053501
 GameObject:
   m_ObjectHideFlags: 0
@@ -120667,11 +120680,13 @@ MonoBehaviour:
     - The pact is sealed. Our souls are now bound as one. Heed my words, Librarian.
       Your power flows through these pages.
     - Only while holding me in your hands can you weave spells to cast down your
-      foes. (And press space to dash).
+      foes.
     - I am also your vanguard. Should a demon strike you, I will absorb the blow.
       But... the impact will knock me from your grasp.
     - If you suffer a blow flesh-to-flesh, you will bleed. Three mortal wounds...
       and your soul will be trapped here forever. Are you ready?
+    - Ah... I almost forgot. You can move by pressing the arrow keys in your keyboard,
+      and press space to be able to dash.
 --- !u!4 &1389586015
 Transform:
   m_ObjectHideFlags: 0
@@ -120700,6 +120715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuAnimator: {fileID: 1458156078}
+  baelorisTyper: {fileID: 0}
   menuOptions:
   - displayText: {fileID: 1924307789}
     command: resume

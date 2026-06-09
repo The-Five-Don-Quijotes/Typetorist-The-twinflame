@@ -25,6 +25,7 @@ public class TypingPauseController : MonoBehaviour
     public static bool isPaused = false;
 
     [SerializeField] private Animator pauseMenuAnimator;
+    [SerializeField] private BaelorisTyper baelorisTyper;
     [SerializeField] private PauseMenuOption[] menuOptions;
     [SerializeField] private Color typedColor = Color.green;
     [SerializeField] private Color defaultColor = Color.white;
@@ -156,6 +157,7 @@ public class TypingPauseController : MonoBehaviour
 
     public void PauseGame()
     {
+        baelorisTyper.enabled = false;
         isPaused = true;
         Time.timeScale = 0f;
 
@@ -178,6 +180,7 @@ public class TypingPauseController : MonoBehaviour
 
     public void ResumeGame()
     {
+        baelorisTyper.enabled = true;
         isPaused = false;
         Time.timeScale = 1f;
 

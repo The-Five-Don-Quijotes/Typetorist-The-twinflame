@@ -131,6 +131,9 @@ MonoBehaviour:
   stoppingDistance: 0.1
   bookDetectionRange: 5
   bookMoveRadius: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!50 &3835835036999067249
 Rigidbody2D:
   serializedVersion: 5
